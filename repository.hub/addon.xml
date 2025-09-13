@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<addon id="repository.hub" name="Hub Repository" version="1.0.2" provider_name="1X &amp;amp; Geamanu">
+<addon id="repository.hub" name="Hub Repository" version="1.0.3" provider_name="1X &amp;amp; Geamanu">
     <extension point="xbmc.addon.repository" name="Hub Repository">
         <dir>
             <info compressed="false">https://github.com/staycanuca/hub/raw/refs/heads/main/addons.xml</info>

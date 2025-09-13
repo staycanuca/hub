@@ -22,7 +22,7 @@ class RepoGenerator:
 
     REPO_ID = "repository.hub"
     REPO_NAME = "Hub Repository"
-    REPO_VERSION = "1.0.2"  # Fallback version if repo addon.xml doesn't exist
+    REPO_VERSION = "1.0.3"  # Fallback version if repo addon.xml doesn't exist
     PROVIDER_NAME = "1X & Geamanu"
     # --- END CONFIGURATION ---
 
