@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.program.unzip.service" name="Unzip Service" version="1.0.0" provider-name="1X & Geamanu">
+<addon id="plugin.program.unzip.service" name="Unzip Service" version="1.0.0" provider-name="Test">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
   </requires>
-  <extension point="xbmc.python.pluginsource" library="main.py">
-    <provides>executable</provides>
-  </extension>
+  <extension point="xbmc.program" library="default.py"/>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en_GB">A service to download and unzip a file.</summary>
-    <description lang="en_GB">This addon downloads a zip file from a remote server and extracts it to a specified location in Kodi.</description>
-    <disclaimer lang="en_GB"></disclaimer>
-    <language></language>
+    <summary lang="en_GB">A simple unzip service.</summary>
+    <description lang="en_GB">This is a test unzip service.</description>
     <platform>all</platform>
-    <license></license>
-    <forum></forum>
-    <website></website>
-    <email></email>
-    <source></source>
   </extension>
 </addon>
