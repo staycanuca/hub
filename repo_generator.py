@@ -82,9 +82,9 @@ class RepoGenerator:
             os.makedirs(repo_dir, exist_ok=True)
             root = ET.Element('addon', id=self.REPO_ID, name=self.REPO_NAME, version=self.REPO_VERSION, provider_name=self.PROVIDER_NAME.replace('&', '&amp;'))
             ext_repo = ET.SubElement(root, 'extension', point='xbmc.addon.repository', name=self.REPO_NAME)
-            ET.SubElement(ext_repo, 'info', compressed="false").text = f"{self.raw_github_url}addons.xml"
+            ET.SubElement(ext_repo, 'dir', compressed="false").text = f"{self.raw_github_url}addons.xml"
+            ET.SubElement(ext_repo, 'dir', compressed="true").text = f"{self.raw_github_url}zip/"
             ET.SubElement(ext_repo, 'checksum').text = f"{self.raw_github_url}addons.xml.md5"
-            ET.SubElement(ext_repo, 'datadir', zip="true").text = self.raw_github_url
             
             ext_meta = ET.SubElement(root, 'extension', point='xbmc.addon.metadata')
             ET.SubElement(ext_meta, 'summary').text = f"The official repository for {self.REPO_NAME}."
