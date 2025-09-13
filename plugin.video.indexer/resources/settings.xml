@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="API Settings">
+        <setting label="TMDb API Key" type="text" id="tmdb_api_key" default=""/>
+        <setting label="Get a free API key from https://www.themoviedb.org/" type="lsep"/>
+    </category>
+    <category label="Performance">
+        <setting label="Max. Parallel Connections (for FTP/HTTP scans)" type="slider" id="parallel_connections" default="5" range="1,1,20"/>
+    </category>
+    <category label="Appearance">
+        <setting label="View Type" type="enum" id="view_type" values="List|Big List|WideList|Thumbnails|Poster Wrap|Wall|Shift" default="0"/>
+        <setting label="Trailer Playback Method" type="enum" id="trailer_playback" values="YouTube Addon|TMDb Helper" default="0"/>
+        <setting label="Note: Not all views are supported by every skin." type="lsep"/>
+    </category>
+</settings>

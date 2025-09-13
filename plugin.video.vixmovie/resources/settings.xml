@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings>
+    <setting id="tmdb_api_key" type="text" label="TMDb API Key" default=""/>
+</settings>
