@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.program.unzipdata" name="Unzip Service" version="1.0.0" provider-name="Test">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.program" library="default.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">A simple unzip service.</summary>
+    <description lang="en_GB">This is a test unzip service.</description>
+    <platform>all</platform>
+  </extension>
+</addon>

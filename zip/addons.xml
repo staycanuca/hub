@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+<addon id="plugin.program.unzipdata" name="Unzip Service" version="1.0.0" provider-name="Test">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.program" library="default.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">A simple unzip service.</summary>
+    <description lang="en_GB">This is a test unzip service.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.dlvro" name="DaddyLive RO" version="0.1.7" provider-name="1 X">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.beautifulsoup4" />
+    <import addon="script.module.routing" />
+    <import addon="script.module.pytz" />
+    <import addon="script.module.tzlocal" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.jpg</fanart>
+    </assets>
+    <summary lang="en_GB"></summary>
+	<description lang="en_GB">This is not a fork. Written by The X</description>
+    <platform>all</platform>
+    <language>en</language>
+    <license>GPL-2.0-or-later</license>
+  </extension>
+</addon>
+
+<addon id="plugin.video.hub" name="HUB" version="1.0.0" provider-name="1X-Geamanu">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">HUB Plugin</summary>
+    <description lang="en_GB">A central hub for multiple video and audio plugins.</description>
+    <disclaimer lang="en_GB"></disclaimer>
+    <platform>all</platform>
+    <license></license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="plugin.video.indexer" name="Media Indexer" version="1.2.0" provider-name="1X &amp; Geamanu">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests"/>
+    <import addon="script.module.beautifulsoup4"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Indexer for FTP/HTTP sources</summary>
+    <description lang="en_GB">A plugin to scan FTP or HTTP sources, build a unified library, and browse media.</description>
+    <disclaimer lang="en_GB"></disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license></license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+    <news></news>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="plugin.video.vixmovie" name="VixMovies" version="1.1" provider-name="1x &amp; Geamanu">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests" version="2.25.1"/>
+    <import addon="plugin.video.themoviedb.helper" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">VixMovie Video Plugin</summary>
+    <description lang="en_GB">Watch movies from VixMovie source.</description>
+    <disclaimer lang="en_GB"></disclaimer>
+    <platform>all</platform>
+    <license>MIT</license>
+    <assets>
+      <icon>icon.png</icon>
+	  <fanart>resources/fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="repository.hub" name="Hub Repository" version="1.0.5" provider_name="1X &amp;amp; Geamanu">
+    <extension point="xbmc.addon.repository" name="Hub Repository">
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/staycanuca/hub/main/zip/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/staycanuca/hub/main/zip/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/staycanuca/hub/main/zip/</datadir>
+        </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>The official repository for Hub Repository.</summary>
+        <description>Install this to get the latest updates from Hub Repository.</description>
+        <platform>all</platform>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+    </extension>
+</addon>
+</addons>
