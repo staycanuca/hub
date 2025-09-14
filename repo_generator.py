@@ -45,8 +45,8 @@ class RepoGenerator:
 
         user = path_parts[0]
         repo = path_parts[1].replace('.git', '')
-        
-        raw_url = f"https://github.com/{user}/{repo}/raw/refs/heads/{self.DEFAULT_BRANCH}/"
+        raw_url =  f"https://raw.githubusercontent.com/{user}/{repo}/{self.DEFAULT_BRANCH}/"
+        #raw_url = f"https://github.com/{user}/{repo}/raw/refs/heads/{self.DEFAULT_BRANCH}/"
         print(f"Translated GitHub URL to raw content URL: {raw_url}")
         return raw_url
 

@@ -2,9 +2,9 @@
 <addon id="repository.hub" name="Hub Repository" version="1.0.4" provider_name="1X &amp;amp; Geamanu">
     <extension point="xbmc.addon.repository" name="Hub Repository">
         <dir>
-            <info compressed="false">https://github.com/staycanuca/hub/raw/refs/heads/main/addons.xml</info>
-            <checksum>https://github.com/staycanuca/hub/raw/refs/heads/main/addons.xml.md5</checksum>
-            <datadir zip="true">https://github.com/staycanuca/hub/raw/refs/heads/main/zip/</datadir>
+            <info compressed="false">https://raw.githubusercontent.com/staycanuca/hub/main/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/staycanuca/hub/main/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/staycanuca/hub/main/zip/</datadir>
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
