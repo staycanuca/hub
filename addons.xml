@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <addons>
-    <addon id="plugin.program.unzip.service" name="Unzip Service" version="1.0.0" provider-name="Test">
+    <addon id="plugin.program.unzipdata" name="Unzip Service" version="1.0.0" provider-name="Test">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
         </requires>
@@ -9,6 +9,30 @@
             <summary lang="en_GB">A simple unzip service.</summary>
             <description lang="en_GB">This is a test unzip service.</description>
             <platform>all</platform>
+        </extension>
+    </addon>
+    <addon id="plugin.video.dlvro" name="DaddyLive RO" version="0.1.7" provider-name="1 X">
+        <requires>
+            <import addon="xbmc.python" version="3.0.0" />
+            <import addon="script.module.requests" />
+            <import addon="script.module.beautifulsoup4" />
+            <import addon="script.module.routing" />
+            <import addon="script.module.pytz" />
+            <import addon="script.module.tzlocal" />
+        </requires>
+        <extension point="xbmc.python.pluginsource" library="default.py">
+            <provides>video</provides>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <assets>
+                <icon>icon.png</icon>
+                <fanart>fanart.jpg</fanart>
+            </assets>
+            <summary lang="en_GB" />
+            <description lang="en_GB">This is not a fork. Written by The X</description>
+            <platform>all</platform>
+            <language>en</language>
+            <license>GPL-2.0-or-later</license>
         </extension>
     </addon>
     <addon id="plugin.video.hub" name="HUB" version="1.0.0" provider-name="1X-Geamanu">

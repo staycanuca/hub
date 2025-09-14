@@ -1,4 +1,4 @@
-# Dummy default.py for plugin.program.unzip.service
+# Dummy default.py for plugin.program.unzipdata
 import xbmcaddon
 
 addon = xbmcaddon.Addon()
