@@ -247,17 +247,57 @@ class StalkerPortal:
             logger.error(f"Failed to get episodes for movie {movie_id} and season {season_id}: {e}")
             return []
 
-    def get_stream_link(self, cmd):
-        logger.debug(f"[STREAM] Comandă originală: {cmd}")
+    def search_itv(self, query):
+        self.ensure_valid_token()
+        url = f"{self.portal_url}/portal.php?type=itv&action=search&q={quote(query)}&JsHttpRequest=1-xml"
+        headers = self.get_headers()
+        cookies = self.get_cookies()
+        try:
+            response = self.session.get(url, headers=headers, cookies=cookies, timeout=15)
+            response.raise_for_status()
+            data = response.json()
+            return data.get('js', {}).get('data', [])
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to search ITV for '{query}': {e}")
+            return []
+
+    def search_vod(self, query):
+        self.ensure_valid_token()
+        url = f"{self.portal_url}/portal.php?type=vod&action=search&q={quote(query)}&JsHttpRequest=1-xml"
+        headers = self.get_headers()
+        cookies = self.get_cookies()
+        try:
+            response = self.session.get(url, headers=headers, cookies=cookies, timeout=15)
+            response.raise_for_status()
+            data = response.json()
+            return data.get('js', {}).get('data', [])
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to search VOD for '{query}': {e}")
+            return []
+
+    def search_series(self, query):
+        self.ensure_valid_token()
+        url = f"{self.portal_url}/portal.php?type=series&action=search&q={quote(query)}&JsHttpRequest=1-xml"
+        headers = self.get_headers()
+        cookies = self.get_cookies()
+        try:
+            response = self.session.get(url, headers=headers, cookies=cookies, timeout=15)
+            response.raise_for_status()
+            data = response.json()
+            return data.get('js', {}).get('data', [])
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to search Series for '{query}': {e}")
+            return []
+
+    def get_stream_link(self, cmd, stream_id):
+        logger.debug(f"[STREAM] Comandă originală: {cmd}, ID Stream: {stream_id}")
 
         stream_cmd = cmd.strip()
 
-        # Curățarea comenzii ffmpeg
         if re.match(r'(?i)^ffmpeg\s*(.*)', stream_cmd):
             logger.debug(f"[STREAM] Înlătur prefixul 'ffmpeg': {stream_cmd}")
             stream_cmd = re.sub(r'(?i)^ffmpeg\s*', '', stream_cmd).strip()
 
-        # Construiește URL-ul create_link cu comanda originală (care poate conține localhost)
         create_link_url = f"{self.portal_url}/portal.php?type=itv&action=create_link&cmd={quote(stream_cmd)}&JsHttpRequest=1-xml"
         headers = self.get_headers()
         cookies = self.get_cookies()
@@ -268,17 +308,22 @@ class StalkerPortal:
             response.raise_for_status()
             data = response.json()
             
-            returned_url = data.get('js', {}).get('cmd') or data.get('js', {}).get('url')
+            returned_cmd = data.get('js', {}).get('cmd')
 
-            if returned_url:
-                # Uneori răspunsul tot are 'ffmpeg '
-                if re.match(r'(?i)^ffmpeg\s*(.*)', returned_url):
-                    returned_url = re.sub(r'(?i)^ffmpeg\s*', '', returned_url).strip()
-                
-                logger.debug(f"[STREAM] URL stream obținut de la portal: {returned_url}")
-                return returned_url
+            if returned_cmd:
+                logger.debug(f"[STREAM] Comandă returnată de la create_link: {returned_cmd}")
+                try:
+                    play_token = returned_cmd.split('play_token=')[1].split('&')[0]
+                    # Construiește URL-ul final folosind stream_id și play_token
+                    final_stream_url = f"{self.portal_url}/play/live.php?mac={self.mac}&stream={stream_id}&extension=ts&play_token={play_token}"
+                    logger.debug(f"[STREAM] URL stream final generat: {final_stream_url}")
+                    return final_stream_url
+                except IndexError:
+                    logger.error(f"[STREAM] Nu am putut extrage play_token din: {returned_cmd}")
+                    # Fallback la comportamentul vechi dacă extragerea token-ului eșuează
+                    return returned_cmd
             else:
-                logger.warning(f"[STREAM] Portalul nu a returnat un URL valid în răspunsul create_link: {data}")
+                logger.warning(f"[STREAM] Portalul nu a returnat o comandă validă în răspunsul create_link: {data}")
                 return None
 
         except requests.exceptions.RequestException as e:

@@ -318,7 +318,7 @@ def list_channels(genre_id):
             for channel in channels:
                 list_item = xbmcgui.ListItem(label=channel['name'])
                 list_item.setProperty('IsPlayable', 'true')
-                url = get_url(mode='play', cmd=channel['cmd'])
+                url = get_url(mode='play', cmd=channel['cmd'], stream_id=channel['id'])
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, isFolder=False)
     except Exception as e:
         logger.error(f"Error listing channels: {e}", exc_info=True)
@@ -477,14 +477,14 @@ def list_episodes(movie_id, season_id):
         xbmcgui.Dialog().ok('Stalker Player', f'Error listing episodes: {e}')
     xbmcplugin.endOfDirectory(_HANDLE)
 
-def play(cmd):
+def play(cmd, stream_id):
     """ Play a video """
-    logger.debug(f"Playing cmd: {cmd}")
+    logger.debug(f"Playing cmd: {cmd}, stream_id: {stream_id}")
     portal_url = get_setting('stalker_portal_url')
     mac_address = get_setting('stalker_mac_address')
     try:
         with StalkerPortal(portal_url, mac_address) as portal:
-            stream_url = portal.get_stream_link(cmd)
+            stream_url = portal.get_stream_link(cmd, stream_id)
             logger.debug(f"Got stream url: {stream_url}")
             if stream_url:
                 play_item = xbmcgui.ListItem(path=stream_url)
@@ -520,18 +520,13 @@ def search_movies(query):
     mac_address = get_setting('stalker_mac_address')
     try:
         with StalkerPortal(portal_url, mac_address) as portal:
-            results = []
-            categories = portal.get_vod_categories()
-            for category in categories:
-                items = portal.get_vod_in_category(category['id'])
-                for item in items:
-                    if query.lower() in item['name'].lower():
-                        results.append(item)
+            results = portal.search_vod(query)
             if not results:
                 xbmcgui.Dialog().ok('Stalker Player', 'No movies found.')
                 return
             for item in results:
                 list_item = xbmcgui.ListItem(label=item['name'])
+                list_item.setInfo('video', {'title': item['name'], 'plot': item.get('description'), 'year': item.get('year')})
                 list_item.setProperty('IsPlayable', 'true')
                 url = get_url(mode='play_vod', movie_id=item['id'])
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, isFolder=False)
@@ -546,18 +541,13 @@ def search_series(query):
     mac_address = get_setting('stalker_mac_address')
     try:
         with StalkerPortal(portal_url, mac_address) as portal:
-            results = []
-            categories = portal.get_series_categories()
-            for category in categories:
-                items = portal.get_series_in_category(category['id'])
-                for item in items:
-                    if query.lower() in item['name'].lower():
-                        results.append(item)
+            results = portal.search_series(query)
             if not results:
                 xbmcgui.Dialog().ok('Stalker Player', 'No series found.')
                 return
             for item in results:
                 list_item = xbmcgui.ListItem(label=item['name'])
+                list_item.setInfo('video', {'title': item['name'], 'plot': item.get('description'), 'year': item.get('year')})
                 movie_id = item['id'].split(':')[0]
                 url = get_url(mode='list_seasons', movie_id=movie_id)
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, isFolder=True)
@@ -572,20 +562,14 @@ def search_channels(query):
     mac_address = get_setting('stalker_mac_address')
     try:
         with StalkerPortal(portal_url, mac_address) as portal:
-            results = []
-            genres = portal.get_itv_categories()
-            for genre in genres:
-                items = portal.get_channels_in_category(genre['id'])
-                for item in items:
-                    if query.lower() in item['name'].lower():
-                        results.append(item)
+            results = portal.search_itv(query)
             if not results:
                 xbmcgui.Dialog().ok('Stalker Player', 'No channels found.')
                 return
             for item in results:
                 list_item = xbmcgui.ListItem(label=item['name'])
                 list_item.setProperty('IsPlayable', 'true')
-                url = get_url(mode='play', cmd=item['cmd'])
+                url = get_url(mode='play', cmd=item['cmd'], stream_id=item['id'])
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, isFolder=False)
     except Exception as e:
         logger.error(f"Error searching channels: {e}", exc_info=True)
@@ -677,7 +661,7 @@ def router(params):
     elif mode == 'list_episodes':
         list_episodes(params['movie_id'], params['season_id'])
     elif mode == 'play':
-        play(params['cmd'])
+        play(params['cmd'], params['stream_id'])
     elif mode == 'play_vod':
         play_vod(params['movie_id'])
     elif mode == 'play_series':
