@@ -1,0 +1,7 @@
+{
+    "name": "Dailymotion (Listare Rezultate)",
+    "plugin": "plugin.video.dailymotion_ro",
+    "priority": 101,
+    "play_movie": "plugin://plugin.video.dailymotion_com/?mode=tmdb_search&query={title_url}%20{year}",
+    "play_episode": "plugin://plugin.video.dailymotion_com/?mode=tmdb_search&query={showname_url}%20-%20{title_url}%20-%20s{season}e{episode}"
+}

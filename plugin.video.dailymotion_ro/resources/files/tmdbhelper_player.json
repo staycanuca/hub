@@ -1,0 +1,7 @@
+{
+    "name": "Dailymotion (Căutare Automată)",
+    "plugin": "plugin.video.dailymotion_ro",
+    "priority": 100,
+    "play_movie": "plugin://plugin.video.dailymotion_com/?mode=tmdb_play&query={title_url}%20{year}",
+    "play_episode": "plugin://plugin.video.dailymotion_com/?mode=tmdb_play&query={showname_url}%20-%20{title_url}%20-%20s{season}e{episode}"
+}
