@@ -1,0 +1,29 @@
+<settings> 
+  <category label="TV">
+    <setting default="0" id="auto" label="IPTV Autoplay" type="enum" values="Auto|Countdown|Manual" />
+    <setting default="5" id="count" label="Countdown Time" type="number" option="int" visible="eq(-1,1))" />
+    <setting default="false" id="stream_count" type="bool" label="Show number of streams in title"/>
+    <setting default="1" id="hlsinputstream" label="HLS Inputstream Addon" type="enum" visible="System.HasAddon(inputstream.ffmpegdirect)" values="ffmpeg|adaptive" />
+    <setting default="2" id="openmode" label="ffmpeg Open Mode" type="enum" visible="System.HasAddon(inputstream.ffmpegdirect)" values="default|ffmpeg|curl" />
+    <setting default="true" id="filter" type="bool" label="Use channel filter"/>
+    <setting label="Create m3u" type="action" action="RunPlugin(plugin://plugin.video.vavooto/?action=makem3u)"/>
+    <setting label="Remove all favorites" type="action" action="RunPlugin(plugin://plugin.video.vavooto/?action=delallTvFavorit)"/>
+  </category>
+  <category label="VAVOO">
+    <setting default="true" id="vavoo" type="bool" label="Use VAVOO TV"/>
+    <setting default="1" id="streammode" label="VAVOO Stream mode" type="enum" visible="eq(-1,true)" values="ts|hls" />
+    <setting default="10" id="vav_cache" label="VAVOO TV Cache" type="number" option="int" visible="eq(-2,true))" />
+    <setting label="VAVOO Channel Group Selection" type="action" visible="eq(-3,true)" action="RunPlugin(plugin://plugin.video.vavooto/?action=choose)"/>
+  </category>
+  <category label="VIDEO">
+    <setting default="1" id="stream_select" label="Stream Selection" type="enum" values="Hoster|Automatic" />
+    <setting default="true" id="auto_try_next_stream" type="bool" visible="eq(-1,0)" label="Automatically try next similar stream"/>
+    <setting default="0" id="stream_quali" label="Max Stream Quality" type="enum" values="1080p|720p|480p" />
+    <setting default="true" id="stream_check" type="bool" label="Test Streams"/>
+    <setting label="Clear search history" type="action" action="RunPlugin(plugin://plugin.video.vavooto/?action=delete_search&id=all)"/>
+  </category>
+  <category label="DEBUG">
+    <setting default="false" id="debug" type="bool" label="Debug Logging"/>
+    <setting label="Clear cache" type="action" action="RunPlugin(plugin://plugin.video.vavooto/?action=clear)"/>
+  </category>
+</settings>
