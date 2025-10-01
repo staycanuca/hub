@@ -1,10 +1,9 @@
-import sys
 import json
 import re
 import traceback
 import time
 import base64
-from urllib.parse import quote_plus, urlparse, urljoin
+from urllib.parse import quote_plus, urlparse, parse_qsl
 from datetime import datetime, date
 from typing import Union
 import requests
@@ -33,14 +32,14 @@ datetime = proxydt
 def log(message: str):
     return xbmc.log(str(message), xbmc.LOGINFO)
 
-def get(url: str, referer: str='') -> Response:
+def get(url: str, referer: str='', timeout:int=10) -> Response:
         headers = var.headers.copy()
         if referer:
             headers['Referer'] = headers['Origin'] = referer
         try:
-            return requests.get(url, headers=headers, timeout=10)
+            return requests.get(url, headers=headers, timeout=timeout)
         except:
-            return requests.get(url, headers=headers, timeout=10, verify=False)
+            return requests.get(url, headers=headers, timeout=timeout, verify=False)
 
 def get_soup(response: str) -> BeautifulSoup:
     return BeautifulSoup(response, 'html.parser')
@@ -83,19 +82,19 @@ def create_listitem(item: Union[Item, dict]):
     thumbnail = item.thumbnail
     fanart = item.fanart
     description = item.summary or title
+    contextmenu = item.contextmenu
     list_item = xbmcgui.ListItem(label=title)
     list_item.setArt({'thumb': thumbnail, 'icon': thumbnail, 'poster': thumbnail, 'fanart': fanart})
-    
-    infolabels = item.infolabels or {
+    infolabels = {
         'mediatype': 'video',
         'title': title,
         'plot': description,
     }
-    cast = item.cast or []
-    set_info(list_item, infolabels, cast=cast)
+    set_info(list_item, infolabels)
     if is_folder is False:
         list_item.setProperty('IsPlayable', 'true')
-    plugin_url = f'{sys.argv[0]}?{item.url_encode()}'
+    list_item.addContextMenuItems(contextmenu)
+    plugin_url = f'{var.plugin_url}?{item.url_encode()}'
     xbmcplugin.addDirectoryItem(var.handle, plugin_url, list_item, is_folder)
 
 def ok_dialog(text: str):
@@ -145,19 +144,91 @@ def read_file(file_path):
 def write_schedule():
     if not xbmcvfs.exists(var.profile_path):
         xbmcvfs.mkdirs(var.profile_path)
-    response = get(var.schedule_url)
+    response = get(var.schedule_url2)
     write_file(var.schedule_path, response.text)
 
 def read_schedule() -> dict:
+    schedule = []
     if not xbmcvfs.exists(var.schedule_path):
         write_schedule()
-    return json.loads(read_file(var.schedule_path))
+    try:
+        schedule = json.loads(read_file(var.schedule_path))
+    except:
+        schedule = []
+    return schedule
 
 def write_cat_schedule(string):
     write_file(var.cat_schedule_path, string)
 
 def read_cat_schedule() -> list:
     return json.loads(read_file(var.cat_schedule_path))
+
+def read_favourites() -> list:
+    if not xbmcvfs.exists(var.fav_path):
+        write_file(var.fav_path, json.dumps([]))
+    favourites = json.loads(read_file(var.fav_path))
+    if not favourites:
+        if xbmcvfs.exists(var.fav_old_path):
+            old_favs = json.loads(read_file(var.fav_old_path))
+            if old_favs:
+                write_file(var.fav_path, json.dumps(old_favs))
+                return old_favs
+    return favourites
+
+def write_favourite(title, link):
+    items = read_favourites()
+    if link not in str(items):
+        items.append([title, link])
+    write_file(var.fav_path, json.dumps(items))
+
+def write_channels():
+    items = fetch_channels()
+    write_file(var.ch_path, json.dumps(items))
+
+def read_channels():
+    if not xbmcvfs.exists(var.ch_path):
+        write_channels()
+    return json.loads(read_file(var.ch_path))
+
+def fetch_channels():
+    item_list = []
+    try:
+        response = requests.get(var.channels_url, headers=var.skip_headers, timeout=10).json()
+        for item in response:
+            title = item['channel_name']
+            ch_id = item['channel_id']
+            link = f'/stream/stream-{ch_id}.php'
+            item_list.append(
+                {
+                    'title': title,
+                    'link': link
+                }
+            )
+            
+    except Exception as e:
+        log(f'Error fetching channels json: {e}')
+        try:
+            response = get(var.channels_url_old)
+            soup = get_soup(response.text)
+            channels = []
+            for a in soup.find_all('a')[8:]:
+                title = a.text
+                link = a['href']
+                if link in channels:
+                    continue
+                channels.append(link)
+                
+                item_list.append(
+                    {
+                        'title': title,
+                        'link': link
+                    }
+                )
+                
+        except Exception as e:
+            log(f'Error fetch old format channels: {e}')
+            return json.loads(read_file(var.ch_bak_path))
+    return item_list
 
 def convert_utc_time_to_local(utc_time_str):
         today = date.today()
@@ -182,7 +253,7 @@ def get_match_links(match):
             links.append(
                 [
                     channel.get('channel_name'),
-                    f"https://dlhd.dad/stream/stream-{channel.get('channel_id')}.php"
+                    f"/stream/stream-{channel.get('channel_id')}.php"
                 ]
             )
     channels2 = item.get('channels2')
@@ -191,10 +262,101 @@ def get_match_links(match):
             links.append(
                 [
                     channel.get('channel_name'),
-                    f"{var.base_url2}/stream/bet.php?id=bet{channel.get('channel_id')}"
+                    f"/stream/bet.php?id=bet{channel.get('channel_id')}"
                 ]
             )
     return links
+
+def gather_streams(url):
+    php = url.split('/')[-1]
+    allowed = ['stream', 'cast', 'watch', 'plus', 'casting', 'player']
+    players = [[a_type.capitalize(), f'{var.base_url2}/{a_type}/{php}'] for a_type in allowed]
+    if var.get_setting_bool('autoplay') is True:
+        return players[0][1]
+    link = get_multilink(players)
+    if not link:
+        var.system_exit()
+    return link
+
+def resolve_link(url):
+    m3u8 = None
+    try:
+        url = gather_streams(url)
+        response = get(url)
+        soup = get_soup(response.text)
+        iframe = soup.select_one("iframe#thatframe, iframe.video")
+        
+        url2 = iframe['src']
+        
+        if 'wikisport' in url2 or 'lovecdn' in url2:
+            response = get(url2, url, timeout=60)
+            soup = get_soup(response.text)
+            url2 = soup.find('iframe')['src']
+        
+        if 'lovecdn' in url2:
+            m3u8 = url2.replace('embed.html', 'index.fmp4.m3u8')
+            referer = f'https://{urlparse(url2).netloc}'
+            m3u8 = f'{m3u8}|Referer={url2}&Connection=Keep-Alive&User-Agent={var.user_agent}'
+            return m3u8
+        
+        response = get(url2)
+        
+        if channel_key := re.search(r'const\s+CHANNEL_KEY\s*=\s*"([^"]+)"', response.text):
+            channel_key = channel_key.group(1)
+            bundle = re.search(r'const\s+XKZK\s*=\s*"([^"]+)"', response.text).group(1)
+            parts = json.loads(base64.b64decode(bundle).decode("utf-8"))
+            for k, v in parts.items():
+                parts[k] = base64.b64decode(v).decode("utf-8")
+            bx = [40, 60, 61, 33, 103, 57, 33, 57]
+            sc = ''.join(chr(b ^ 73) for b in bx)
+            host = "https://top2new.newkso.ru/"
+            auth_url = (
+                f'{host}{sc}'
+                f'?channel_id={quote_plus(channel_key)}&'
+                f'ts={quote_plus(parts["b_ts"])}&'
+                f'rnd={quote_plus(parts["b_rnd"]) }&'
+                f'sig={quote_plus(parts["b_sig"])}'
+            )
+            get(auth_url, referer=url2)
+                
+            server_lookup_url = f"https://{urlparse(url2).netloc}/server_lookup.php?channel_id={channel_key}"
+            response = get(server_lookup_url, referer=url2).json()
+            server_key = response['server_key']
+            if server_key == "top1/cdn":
+                m3u8 = f"https://top1.newkso.ru/top1/cdn/{channel_key}/mono.m3u8"
+            else:
+                m3u8 = f"https://{server_key}new.newkso.ru/{server_key}/{channel_key}/mono.m3u8"
+            
+            referer = f'https://{urlparse(url2).netloc}'
+            m3u8 = f'{m3u8}|Referer={referer}/&Origin={referer}&Connection=Keep-Alive&User-Agent={var.user_agent}'
+        
+        elif match := re.search(r"atob\('([^']+)'\)", response.text):
+            b64_str = match.group(1)
+            decoded = base64.b64decode(b64_str).decode('utf-8', errors='ignore')
+            init_url = re.search(r'initUrl\s*=\s*"([^"]+)"', decoded)
+            if init_url:
+                m3u8 = init_url.group(1)
+                r_m3u8 = get(m3u8)
+                m3u8 = base64.b64decode(r_m3u8.text).decode("utf-8")
+                referer = f'https://{urlparse(url2).netloc}'
+                m3u8 = f'{m3u8}|Referer={url2}&Connection=Keep-Alive&User-Agent={var.user_agent}'
+        
+        
+        elif 'blogspot.com' in url2:
+            channel_id = dict(parse_qsl(urlparse(url2).query)).get('id')
+            pattern = rf'"{re.escape(channel_id)}"\s*:\s*{{[^}}]*?url:\s*"([^"]+)"'
+            match = re.search(pattern, response.text, re.DOTALL)
+            if match:
+                m3u8 = match.group(1)
+                referer = f'https://{urlparse(url2).netloc}'
+                m3u8 = f'{m3u8}|Referer={referer}/&Origin={referer}&Connection=Keep-Alive&User-Agent={var.user_agent}'
+            
+    except Exception:
+        ok_dialog(f'Error loading stream:\n{traceback.format_exc()}')
+        log(f'Error loading stream:\n{traceback.format_exc()}')
+        var.system_exit()
+    log(f'm3u8= {m3u8}')
+    return m3u8
 
 def get_romanian_sports_events() -> list:
     """
@@ -211,7 +373,7 @@ def get_romanian_sports_events() -> list:
     processed_event_titles = set()
 
     try:
-        full_schedule_json = get(var.schedule_url).text
+        full_schedule_json = get(var.schedule_url2).text
         full_schedule = json.loads(full_schedule_json)
 
         for category_events in full_schedule.values():
@@ -275,63 +437,3 @@ def get_romanian_sports_events() -> list:
         return []
         
     return filtered_events
-
-def resolve_link(url):
-    try:
-        response = get(url)
-        soup = get_soup(response.text)
-        iframe = soup.find('iframe', attrs={'id': 'thatframe'})
-        if iframe is None:
-            url = url.replace('/cast/', '/stream/')
-            response = get(url)
-            soup = get_soup(response.text)
-            iframe = soup.find('iframe', attrs={'id': 'thatframe'})
-            
-        url2 = iframe['src']
-        
-        if 'wikisport.best' in url2:
-            match =  re.search(r'/.+?(\d+)\.php', url2)
-            url3 = f"https://stellarthread.com/wiki.php?player=mobile&live=t{match.group(1)}"
-            response = get(url3, referer=url2)
-            match = re.search(r'return\((\[.*?\])\.join', response.text, re.S)
-            raw_list = match.group(1)
-            elements = json.loads(raw_list)
-            m3u8 = ''.join(elements).replace('////', '//')
-            m3u8 = f'{m3u8}|Referer=https://stellarthread.com&Origin=https://stellarthread.com&User-Agent={var.user_agent}'
-            
-        else:
-            response = get(url2)
-            channel_key = re.search(r'const\s+CHANNEL_KEY\s*=\s*"([^"]+)"', response.text).group(1)
-            bundle = re.search(r'const\s+XJZ\s*=\s*"([^"]+)"', response.text).group(1)
-            parts = json.loads(base64.b64decode(bundle).decode("utf-8"))
-            for k, v in parts.items():
-                parts[k] = base64.b64decode(v).decode("utf-8")
-            bx = [40, 60, 61, 33, 103, 57, 33, 57]
-            sc = ''.join(chr(b ^ 73) for b in bx)
-            host = "https://top2new.newkso.ru/"
-            auth_url = (
-                f'{host}{sc}'
-                f'?channel_id={quote_plus(channel_key)}&'
-                f'ts={quote_plus(parts["b_ts"])}&'
-                f'rnd={quote_plus(parts["b_rnd"]) }&'
-                f'sig={quote_plus(parts["b_sig"])}'
-            )
-            get(auth_url, referer=url2)
-            
-            server_lookup_url = f"https://{urlparse(url2).netloc}/server_lookup.php?channel_id={channel_key}"
-            response = get(server_lookup_url, referer=url2).json()
-            server_key = response['server_key']
-            if server_key == "top1/cdn":
-                m3u8 = f"https://top1.newkso.ru/top1/cdn/{channel_key}/mono.m3u8"
-            else:
-                m3u8 = f"https://{server_key}new.newkso.ru/{server_key}/{channel_key}/mono.m3u8"
-            
-            referer = f'https://{urlparse(url2).netloc}'
-            m3u8 = f'{m3u8}|Referer={referer}/&Origin={referer}&Connection=Keep-Alive&User-Agent={var.user_agent}'
-            
-    except Exception:
-        ok_dialog(f'Error loading stream:\n{traceback.format_exc()}')
-        log(f'Error loading stream:\n{traceback.format_exc()}')
-        var.system_exit()
-        
-    return m3u8

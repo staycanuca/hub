@@ -53,12 +53,12 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.dlvro" name="DaddyLive RO" version="0.1.9" provider-name="un si X">
+<addon id="plugin.video.dlvro" name="DaddyLive RO" version="0.2.5" provider-name="un si X">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
     <import addon="script.module.requests" />
     <import addon="script.module.beautifulsoup4" />
-    <import addon="script.module.routing" />
+    <import addon="inputstream.ffmpegdirect" />
     <import addon="script.module.pytz" />
     <import addon="script.module.tzlocal" />
   </requires>
@@ -69,9 +69,12 @@
     <assets>
       <icon>icon.png</icon>
       <fanart>fanart.jpg</fanart>
+      <screenshot>screen1.jpg</screenshot>
+      <screenshot>screen2.jpg</screenshot>
+      <screenshot>screen3.jpg</screenshot>
     </assets>
-    <summary lang="en_GB"></summary>
-	<description lang="en_GB">This is not a fork. Written by The X</description>
+    <summary lang="en_GB">The X</summary>
+	<description lang="en_GB">v0.2.4 - Resolver fix. v0.2.3 - Updated to use new api. v0.2.2 - Changed favourites file path to prevent favourites deleting when addon updates. Added autoplay option in settings.  Added new api for channels from Daddylive which includes more channels! v0.2.1 - Fix some resolvers. Added extra players. v0.2.0 - Added favourite channels. Add/remove a channel via context menu. Added toggle timeshift on/off in settings. Timeshift enables pause and rewind but requires available storage. New code framework.</description>
     <platform>all</platform>
     <language>en</language>
     <license>GPL-2.0-or-later</license>
@@ -174,7 +177,7 @@
   </extension>
 </addon>
 
-<addon id="repository.hub" name="Hub Repo" version="1.0.7" provider-name="1x">
+<addon id="repository.hub" name="Hub Repo" version="1.0.8" provider-name="1x">
     <extension point="xbmc.addon.repository" name="Hub Repo">
 		<dir>
 			<info compressed="false">https://raw.githubusercontent.com/staycanuca/hub/main/zip/addons.xml</info>

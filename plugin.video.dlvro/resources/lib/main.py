@@ -1,7 +1,7 @@
 import json
 from html.parser import unescape
-import sys
-from urllib.parse import parse_qsl
+from urllib3.util import SKIP_HEADER
+import requests
 from . import variables as var
 from . import functions as func
 from .models import Item
@@ -20,6 +20,7 @@ def main_menu():
         )
     ]
     func.write_schedule()
+    func.write_channels()
     for key in func.read_schedule():
         items.append(
             Item(
@@ -31,31 +32,47 @@ def main_menu():
         )
     for item in items:
         func.create_listitem(item)
+    func.create_listitem(
+        Item(
+            'Favourite Channels',
+            type='dir',
+            mode='favourites'
+        )
+    )
 
 def get_channels():
-    item_list = []
     password = var.get_setting('adult_pw')
-    response = func.get(var.channels_url)
-    soup = func.get_soup(response.text)
-    channels = []
-    for a in soup.find_all('a')[8:]:
-        title = a.text
-        if title in channels:
-            continue
-        channels.append(title)
+    saved_favs = func.read_favourites()
+    items = func.read_channels()
+    for item in items:
+        title = item['title']
         if '18+' in title and password != 'xxXXxx':
             continue
-        link = json.dumps([[title, f"{var.base_url2}{a['href']}"]])
+        link = item['link']
+        if link not in str(saved_favs):
+            cm_label = 'Add to favourite channels'
+            cm_mode = 'add_fav'
+        else:
+            cm_label = 'Remove from favourite channels'
+            cm_mode = 'remove_fav'
+        cm_item = Item(
+            title=title,
+            mode=cm_mode,
+            link=link
+        )
+        cm_url = f'{var.plugin_url}?{cm_item.url_encode()}'
+        cm_url = f'RunPlugin({cm_url})'
+        link = json.dumps([[title, link]])
         
         func.create_listitem(
             Item(
                 title=title,
                 mode='play',
                 link=link,
-                summary=title
+                summary=title,
+                contextmenu=[(cm_label, cm_url)]
             )
         )
-    return item_list
 
 def get_romania_sports():
     events = func.get_romanian_sports_events()
@@ -101,6 +118,7 @@ def play_video(name: str, url: str, icon: str, description, match):
         url = url[0][1]
     if not url:
         var.system_exit()
+        
     url = func.resolve_link(url)
 
     list_item = var.list_item(name, path=url)
@@ -113,6 +131,41 @@ def play_video(name: str, url: str, icon: str, description, match):
         list_item.setProperty('inputstream.ffmpegdirect.stream_mode', 'timeshift')
     list_item.setProperty('inputstream.ffmpegdirect.manifest_type', 'hls')
     var.set_resolved_url(var.handle, True, listitem=list_item)
+
+def get_favourites():
+    items = func.read_favourites()
+    for title, link in items:
+        cm_label = 'Remove from favourite channels'
+        cm__mode = 'remove_fav'
+        cm_item = Item(
+            title=cm_label,
+            mode=cm_mode,
+            link=link
+        )
+        cm_url = f'{var.plugin_url}?{cm_item.url_encode()}'
+        cm_url = f'RunPlugin({cm_url})'
+        func.create_listitem(
+            Item(
+                title,
+                mode='play',
+                link=json.dumps([[title, link]]),
+                contextmenu=[(cm_label, cm_url)]
+            )
+        )
+
+def add_favourite(title, link):
+    func.write_favourite(title, link)
+    var.execute_builtin('Container.Refresh')
+    var.notify_dialog(var.addon_name, f'{title} added to favourites', icon=var.addon_icon)
+
+def remove_favourite(title, link):
+    items = func.read_favourites()
+    for item in items:
+        if link in item:
+            items.remove(item)
+    func.write_file(var.fav_path, json.dumps(items))
+    var.execute_builtin('Container.Refresh')
+    var.notify_dialog(var.addon_name, f'{title} removed from favourites', icon=var.addon_icon)
 
 
 def router(params: dict):
@@ -138,12 +191,18 @@ def router(params: dict):
     elif mode == 'matches':
         get_matches(title, title2)
     
+    elif mode == 'favourites':
+        get_favourites()
+    
+    elif mode == 'add_fav':
+        add_favourite(title, link)
+    
+    elif mode == 'remove_fav':
+        remove_favourite(title, link)
+    
     elif mode == 'play':
         play_video(title, link, thumbnail, summary, title2)
     
     var.set_content(var.handle, 'videos')
     var.set_category(var.handle, title)
     var.end_directory(var.handle)
-
-def main():
-    router(dict(parse_qsl(sys.argv[2].lstrip('?'))))

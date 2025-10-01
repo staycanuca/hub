@@ -1,5 +1,5 @@
-from dataclasses import dataclass, asdict
-from typing import Dict
+from dataclasses import dataclass, asdict, field
+from typing import Dict, List, Tuple
 from urllib.parse import urlencode
 from . import variables as var
 
@@ -14,6 +14,7 @@ class Item:
     summary: str = ''
     infolabels = None
     cast = None
+    contextmenu: List[Tuple[str]] = field(default_factory=list)
     title2: str = ''
     
     
