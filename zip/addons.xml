@@ -155,6 +155,31 @@
 	</extension>
 </addon>
 
+<addon id="plugin.video.veziaici.net"
+       name="VeziAici.net"
+       version="1.0.7"
+       provider-name="1 x Geamanu">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests"/>
+    <import addon="script.module.beautifulsoup4"/>
+    <import addon="script.module.resolveurl"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource"
+             library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Watch Romanian shows and series from VeziAici.net</summary>
+    <description lang="en">This addon allows you to browse and watch content from VeziAici.net, including Romanian shows and series.</description>
+    <platform>all</platform>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
 <addon id="plugin.video.vixmovie" name="VixMovies" version="1.1" provider-name="1x &amp; Geamanu">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -177,7 +202,7 @@
   </extension>
 </addon>
 
-<addon id="repository.hub" name="Hub Repo" version="1.0.8" provider-name="1x">
+<addon id="repository.hub" name="Hub Repo" version="1.0.9" provider-name="1x">
     <extension point="xbmc.addon.repository" name="Hub Repo">
 		<dir>
 			<info compressed="false">https://raw.githubusercontent.com/staycanuca/hub/main/zip/addons.xml</info>
