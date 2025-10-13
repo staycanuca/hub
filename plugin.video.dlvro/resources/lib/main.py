@@ -1,10 +1,8 @@
 import json
 from html.parser import unescape
-from urllib3.util import SKIP_HEADER
-import requests
 from . import variables as var
 from . import functions as func
-from .models import Item
+from .models import Item, Category, Channel
 
 def main_menu():
     items = [
@@ -65,11 +63,9 @@ def get_channels():
         link = json.dumps([[title, link]])
         
         func.create_listitem(
-            Item(
+            Channel(
                 title=title,
-                mode='play',
                 link=link,
-                summary=title,
                 contextmenu=[(cm_label, cm_url)]
             )
         )
@@ -82,11 +78,9 @@ def get_romania_sports():
 def get_categories(date):
     for key in func.read_schedule()[date].keys():
         func.create_listitem(
-            Item(
+            Category(
                 title=key,
                 title2=date,
-                type='dir',
-                mode='matches'
             )
         )
 
@@ -97,14 +91,15 @@ def get_matches(category, date):
         title = match['event']
         clean_title = unescape(title)
         start_time = match.get('time', '')
-        clean_title = f'{func.convert_utc_time_to_local(start_time)} - {clean_title}' if start_time else clean_title
+        try:
+            clean_title = f'{func.convert_utc_time_to_local(start_time)} - {clean_title}' if start_time else clean_title
+        except:
+            pass
         
         func.create_listitem(
-            Item(
+            Channel(
                 title=clean_title,
-                mode='play',
-                title2=title,
-                summary=clean_title
+                title2=title
             )
         )
 
@@ -136,7 +131,7 @@ def get_favourites():
     items = func.read_favourites()
     for title, link in items:
         cm_label = 'Remove from favourite channels'
-        cm__mode = 'remove_fav'
+        cm_mode = 'remove_fav'
         cm_item = Item(
             title=cm_label,
             mode=cm_mode,
@@ -145,9 +140,8 @@ def get_favourites():
         cm_url = f'{var.plugin_url}?{cm_item.url_encode()}'
         cm_url = f'RunPlugin({cm_url})'
         func.create_listitem(
-            Item(
+            Channel(
                 title,
-                mode='play',
                 link=json.dumps([[title, link]]),
                 contextmenu=[(cm_label, cm_url)]
             )

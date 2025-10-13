@@ -19,7 +19,7 @@ import threading
 
 # --- Settings ---
 PAGE_SIZE = 50
-VIDEO_EXTENSIONS = ['.mkv', '.mp4', '.avi', '.mov', '.flv', '.wmv']
+VIDEO_EXTENSIONS = ['.mkv', '.mp4', '.avi', '.mov', '.flv', '.wmv', '.ts', '.vob', '.mpg', '.mpeg', '.3gp', '.webm']
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 TMDB_IMG_URL = "https://image.tmdb.org/t/p/w500"
 # --- End Settings ---
@@ -499,23 +499,43 @@ def scan_http_parallel(profile, scan_mode, max_workers, cancel_event, progress_q
                     response.raise_for_status()
                     soup = BeautifulSoup(response.text, 'html.parser')
                     
-                    for a_tag in soup.find_all('a'):
-                        if cancel_event.is_set(): break
-                        href = a_tag.get('href')
-                        if not href or href.startswith('?') or '/../' in href or a_tag.get_text(strip=True) == 'Parent Directory': continue
-                        
-                        full_url = urllib.parse.urljoin(current_url, href)
-                        
-                        if any(full_url.lower().endswith(ext) for ext in VIDEO_EXTENSIONS):
-                            path = urllib.parse.urlparse(full_url).path
-                            with results_lock:
-                                if path not in results:
-                                    results.append(path)
-                        elif href.endswith('/'):
-                            with scanned_urls_lock:
-                                if full_url not in scanned_urls:
-                                    scanned_urls.add(full_url)
-                                    q.put(full_url)
+                    file_table = soup.find('table', {'id': 'fileTable'})
+                    if file_table:
+                        for a_tag in file_table.find_all('a'):
+                            if cancel_event.is_set(): break
+                            href = a_tag.get('href')
+                            if not href or href.startswith('?') or '/../' in href or a_tag.get_text(strip=True) == '../ (Parent Directory)': continue
+                            
+                            full_url = urllib.parse.urljoin(current_url, href)
+                            
+                            if any(full_url.lower().endswith(ext) for ext in VIDEO_EXTENSIONS):
+                                path = urllib.parse.urlparse(full_url).path
+                                with results_lock:
+                                    if path not in results:
+                                        results.append(path)
+                            elif href.endswith('/'):
+                                with scanned_urls_lock:
+                                    if full_url not in scanned_urls:
+                                        scanned_urls.add(full_url)
+                                        q.put(full_url)
+                    else:
+                        for a_tag in soup.find_all('a'):
+                            if cancel_event.is_set(): break
+                            href = a_tag.get('href')
+                            if not href or href.startswith('?') or '/../' in href or a_tag.get_text(strip=True) == 'Parent Directory': continue
+                            
+                            full_url = urllib.parse.urljoin(current_url, href)
+                            
+                            if any(full_url.lower().endswith(ext) for ext in VIDEO_EXTENSIONS):
+                                path = urllib.parse.urlparse(full_url).path
+                                with results_lock:
+                                    if path not in results:
+                                        results.append(path)
+                            elif href.endswith('/'):
+                                with scanned_urls_lock:
+                                    if full_url not in scanned_urls:
+                                        scanned_urls.add(full_url)
+                                        q.put(full_url)
                 except requests.RequestException as e:
                     xbmc.log(f"HTTP scan error in url {current_url}: {e}", level=xbmc.LOGWARNING)
                 finally:

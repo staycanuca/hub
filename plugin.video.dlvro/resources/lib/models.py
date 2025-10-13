@@ -1,7 +1,7 @@
 from dataclasses import dataclass, asdict, field
 from typing import Dict, List, Tuple
 from urllib.parse import urlencode
-from . import variables as var
+from .variables import addon_icon, addon_fanart
 
 @dataclass
 class Item:
@@ -9,11 +9,9 @@ class Item:
     type: str = 'item'
     mode: str = ''
     link: str = ''
-    thumbnail: str = var.addon_icon
-    fanart: str = var.addon_fanart
+    thumbnail: str = addon_icon
+    fanart: str = addon_fanart
     summary: str = ''
-    infolabels = None
-    cast = None
     contextmenu: List[Tuple[str]] = field(default_factory=list)
     title2: str = ''
     
@@ -26,3 +24,16 @@ class Item:
     
     def url_encode(self) -> str:
         return urlencode(self.to_dict())
+
+
+@dataclass
+class Channel(Item):
+    def __post_init__(self):
+        self.mode = 'play'
+
+
+@dataclass
+class Category(Item):
+    def __post_init__(self):
+        self.type = 'dir'
+        self.mode='matches'

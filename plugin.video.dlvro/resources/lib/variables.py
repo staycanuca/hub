@@ -8,18 +8,18 @@ import xbmcgui
 import xbmcvfs
 
 
-base_url = 'https://daddylivestream.com'
-base_url2 = 'https://dlhd.dad'
+base_url = 'https://dlhd.dad'
+base_url_old = 'https://daddylivestream.com'
 schedule_url = f'{base_url}/schedule/schedule-generated.php'
-schedule_url2 = f'{base_url2}/schedule/schedule-generated.php'
-channels_url_old = f'{base_url}/24-7-channels.php'
-channels_url = f'{base_url2}/daddy.json'
+schedule_url_old = f'{base_url_old}/schedule/schedule-generated.php'
+channels_url = f'{base_url}/daddy.json'
+channels_url_old = f'{base_url_old}/24-7-channels.php'
 
 user_agent = 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36'
 headers = {
     "User-Agent": user_agent,
-    "Referer": f'{base_url2}/',
-    "Origin": f'{base_url2}/'
+    "Referer": f'{base_url}/',
+    "Origin": f'{base_url}/'
 }
 skip_headers = {"Accept-Encoding": SKIP_HEADER}
 

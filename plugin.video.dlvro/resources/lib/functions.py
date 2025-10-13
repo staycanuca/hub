@@ -32,14 +32,15 @@ datetime = proxydt
 def log(message: str):
     return xbmc.log(str(message), xbmc.LOGINFO)
 
-def get(url: str, referer: str='', timeout:int=10) -> Response:
-        headers = var.headers.copy()
-        if referer:
-            headers['Referer'] = headers['Origin'] = referer
-        try:
-            return requests.get(url, headers=headers, timeout=timeout)
-        except:
-            return requests.get(url, headers=headers, timeout=timeout, verify=False)
+def get(url: str, referer: str='', headers=None, timeout:int=10) -> Response:
+    headers = var.headers if headers is None else headers
+    if referer:
+        headers['Referer'] = headers['Origin'] = referer
+    try:
+        return requests.get(url, headers=headers, timeout=timeout)
+        
+    except:
+        return requests.get(url.replace('https', 'http'), headers=headers, timeout=timeout, verify=False)
 
 def get_soup(response: str) -> BeautifulSoup:
     return BeautifulSoup(response, 'html.parser')
@@ -81,14 +82,13 @@ def create_listitem(item: Union[Item, dict]):
     title = item.title
     thumbnail = item.thumbnail
     fanart = item.fanart
-    description = item.summary or title
     contextmenu = item.contextmenu
     list_item = xbmcgui.ListItem(label=title)
     list_item.setArt({'thumb': thumbnail, 'icon': thumbnail, 'poster': thumbnail, 'fanart': fanart})
     infolabels = {
         'mediatype': 'video',
         'title': title,
-        'plot': description,
+        'plot': title,
     }
     set_info(list_item, infolabels)
     if is_folder is False:
@@ -101,37 +101,18 @@ def ok_dialog(text: str):
     xbmcgui.Dialog().ok(var.addon_name, text)
 
 def get_multilink(lists):
-        labels = []
-        links = []
-        counter = 1
-        for _list in lists:
-            if isinstance(_list, list) and len(_list) == 2:
-                if len(lists) == 1:
-                    return _list[1]
-                labels.append(_list[0])
-                links.append(_list[1])
-            elif isinstance(_list, str):
-                if len(lists) == 1:
-                    return _list
-                if _list.strip().endswith(')'):
-                    labels.append(_list.split('(')[-1].replace(')', ''))
-                    links.append(_list.rsplit('(')[0].strip())
-                else:
-                    labels.append('Link ' + str(counter))
-                    links.append(_list)
-            else:
-                return
-            counter += 1
-        dialog = xbmcgui.Dialog()
-        ret = dialog.select('Choose a Link', labels)
-        if ret == -1:
-            return
-        if isinstance(lists[ret], str) and lists[ret].endswith(')'):
-            link = lists[ret].split('(')[0].strip()
-            return link
-        elif isinstance(lists[ret], list):
-            return lists[ret][1]
-        return lists[ret]
+    if len(lists) == 1:
+        return lists[1]
+    elif not lists:
+        var.notify_dialog(var.addon_name, 'No links were found.')
+        var.system_exit()
+        
+    labels = [l[0] for l in lists]
+    links = [l[1] for l in lists]
+    ret = xbmcgui.Dialog().select('Choose a Link', labels)
+    if ret == -1:
+        var.system_exit()
+    return links[ret]
 
 def write_file(file_path, string):
     with open(file_path, 'w', encoding='utf-8', errors='ignore') as f:
@@ -141,59 +122,10 @@ def read_file(file_path):
     with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
         return f.read()
 
-def write_schedule():
-    if not xbmcvfs.exists(var.profile_path):
-        xbmcvfs.mkdirs(var.profile_path)
-    response = get(var.schedule_url2)
-    write_file(var.schedule_path, response.text)
-
-def read_schedule() -> dict:
-    schedule = []
-    if not xbmcvfs.exists(var.schedule_path):
-        write_schedule()
-    try:
-        schedule = json.loads(read_file(var.schedule_path))
-    except:
-        schedule = []
-    return schedule
-
-def write_cat_schedule(string):
-    write_file(var.cat_schedule_path, string)
-
-def read_cat_schedule() -> list:
-    return json.loads(read_file(var.cat_schedule_path))
-
-def read_favourites() -> list:
-    if not xbmcvfs.exists(var.fav_path):
-        write_file(var.fav_path, json.dumps([]))
-    favourites = json.loads(read_file(var.fav_path))
-    if not favourites:
-        if xbmcvfs.exists(var.fav_old_path):
-            old_favs = json.loads(read_file(var.fav_old_path))
-            if old_favs:
-                write_file(var.fav_path, json.dumps(old_favs))
-                return old_favs
-    return favourites
-
-def write_favourite(title, link):
-    items = read_favourites()
-    if link not in str(items):
-        items.append([title, link])
-    write_file(var.fav_path, json.dumps(items))
-
-def write_channels():
-    items = fetch_channels()
-    write_file(var.ch_path, json.dumps(items))
-
-def read_channels():
-    if not xbmcvfs.exists(var.ch_path):
-        write_channels()
-    return json.loads(read_file(var.ch_path))
-
 def fetch_channels():
     item_list = []
     try:
-        response = requests.get(var.channels_url, headers=var.skip_headers, timeout=10).json()
+        response = get(var.channels_url, headers=var.skip_headers).json()
         for item in response:
             title = item['channel_name']
             ch_id = item['channel_id']
@@ -229,6 +161,75 @@ def fetch_channels():
             log(f'Error fetch old format channels: {e}')
             return json.loads(read_file(var.ch_bak_path))
     return item_list
+
+def write_channels():
+    if not xbmcvfs.exists(var.profile_path):
+        xbmcvfs.mkdirs(var.profile_path)
+    items = fetch_channels()
+    write_file(var.ch_path, json.dumps(items))
+
+def read_channels():
+    if not xbmcvfs.exists(var.ch_path):
+        write_channels()
+    return json.loads(read_file(var.ch_path))
+
+def fetch_schedule():
+    try:
+        response = get(var.schedule_url)
+        if not response.text.startswith('{'):
+            raise Exception('Invalid json response.')
+    except Exception as e:
+        try:
+            log(f'Error fetching schedule: {e}. Attemping old url.')
+            response = get(var.schedule_url_old)
+            if not response.text.startswith('{'):
+                raise Exception('Invalid json response.')
+        except Exception as e:
+            log(f'Error fetching old schedule: {e}. Skipping schedule.')
+            return json.dumps({})
+    return response.text
+
+def write_schedule():
+    if not xbmcvfs.exists(var.profile_path):
+        xbmcvfs.mkdirs(var.profile_path)
+    schedule = fetch_schedule()
+    write_file(var.schedule_path, schedule)
+
+def read_schedule() -> dict:
+    schedule = {}
+    if not xbmcvfs.exists(var.schedule_path):
+        write_schedule()
+    try:
+        schedule = json.loads(read_file(var.schedule_path))
+    except:
+        schedule = {}
+    return schedule
+
+def write_cat_schedule(string):
+    write_file(var.cat_schedule_path, string)
+
+def read_cat_schedule() -> list:
+    return json.loads(read_file(var.cat_schedule_path))
+
+def read_favourites() -> list:
+    if not xbmcvfs.exists(var.fav_path):
+        write_file(var.fav_path, json.dumps([]))
+    favourites = json.loads(read_file(var.fav_path))
+    if not favourites:
+        if xbmcvfs.exists(var.fav_old_path):
+            old_favs = json.loads(read_file(var.fav_old_path))
+            if old_favs:
+                write_file(var.fav_path, json.dumps(old_favs))
+                return old_favs
+    return favourites
+
+def write_favourite(title, link):
+    if not xbmcvfs.exists(var.profile_path):
+        xbmcvfs.mkdirs(var.profile_path)
+    items = read_favourites()
+    if link not in str(items):
+        items.append([title, link])
+    write_file(var.fav_path, json.dumps(items))
 
 def convert_utc_time_to_local(utc_time_str):
         today = date.today()
@@ -270,7 +271,7 @@ def get_match_links(match):
 def gather_streams(url):
     php = url.split('/')[-1]
     allowed = ['stream', 'cast', 'watch', 'plus', 'casting', 'player']
-    players = [[a_type.capitalize(), f'{var.base_url2}/{a_type}/{php}'] for a_type in allowed]
+    players = [[f'Link {index+1}', f'{var.base_url}/{a_type}/{php}'] for index, a_type in enumerate(allowed)]
     if var.get_setting_bool('autoplay') is True:
         return players[0][1]
     link = get_multilink(players)
@@ -303,7 +304,7 @@ def resolve_link(url):
         
         if channel_key := re.search(r'const\s+CHANNEL_KEY\s*=\s*"([^"]+)"', response.text):
             channel_key = channel_key.group(1)
-            bundle = re.search(r'const\s+XKZK\s*=\s*"([^"]+)"', response.text).group(1)
+            bundle = re.search(r'const\s+[A-Z]{4}\s*=\s*"([^"]+)"', response.text).group(1)
             parts = json.loads(base64.b64decode(bundle).decode("utf-8"))
             for k, v in parts.items():
                 parts[k] = base64.b64decode(v).decode("utf-8")
@@ -314,7 +315,7 @@ def resolve_link(url):
                 f'{host}{sc}'
                 f'?channel_id={quote_plus(channel_key)}&'
                 f'ts={quote_plus(parts["b_ts"])}&'
-                f'rnd={quote_plus(parts["b_rnd"]) }&'
+                f'rnd={quote_plus(parts["b_rnd"])}&'
                 f'sig={quote_plus(parts["b_sig"])}'
             )
             get(auth_url, referer=url2)
@@ -344,7 +345,7 @@ def resolve_link(url):
         
         elif 'blogspot.com' in url2:
             channel_id = dict(parse_qsl(urlparse(url2).query)).get('id')
-            pattern = rf'"{re.escape(channel_id)}"\s*:\s*{{[^}}]*?url:\s*"([^"]+)"'
+            pattern = rf'"{re.escape(channel_id)}"\s*:\s*\{{[^}}]*?url:\s*"([^"]+)"'
             match = re.search(pattern, response.text, re.DOTALL)
             if match:
                 m3u8 = match.group(1)
@@ -355,7 +356,6 @@ def resolve_link(url):
         ok_dialog(f'Error loading stream:\n{traceback.format_exc()}')
         log(f'Error loading stream:\n{traceback.format_exc()}')
         var.system_exit()
-    log(f'm3u8= {m3u8}')
     return m3u8
 
 def get_romanian_sports_events() -> list:
@@ -373,7 +373,7 @@ def get_romanian_sports_events() -> list:
     processed_event_titles = set()
 
     try:
-        full_schedule_json = get(var.schedule_url2).text
+        full_schedule_json = get(var.schedule_url).text
         full_schedule = json.loads(full_schedule_json)
 
         for category_events in full_schedule.values():
@@ -414,13 +414,13 @@ def get_romanian_sports_events() -> list:
                              if isinstance(ch, dict):
                                 channel_id = ch.get('channel_id', '')
                                 ch_name = ch.get('channel_name')
-                                stream_links.append([ch_name, f"{var.base_url2}/stream/stream-{channel_id}.php"])
+                                stream_links.append([ch_name, f"{var.base_url}/stream/stream-{channel_id}.php"])
                         
                         for ch in channels2:
                             if isinstance(ch, dict):
                                 channel_id = ch.get('channel_id', '')
                                 ch_name = ch.get('channel_name')
-                                stream_links.append([ch_name, f"{var.base_url2}/stream/bet.php?id=bet{channel_id}"])
+                                stream_links.append([ch_name, f"{var.base_url}/stream/bet.php?id=bet{channel_id}"])
 
                         # Create an Item object directly
                         item = Item(
