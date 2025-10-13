@@ -353,7 +353,7 @@ def get_params():
 def list_channels():
     """List channel categories first, then channels if a category is selected."""
     addon_path = _ADDON.getAddonInfo('path')
-    m3u_file = os.path.join(addon_path, 'premium.m3u')
+    m3u_file = os.path.join(addon_path, 'premium.txt')
     
     # Check if we're viewing a specific category
     params = get_params()
@@ -363,7 +363,7 @@ def list_channels():
         with open(m3u_file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
     except Exception as e:
-        xbmcgui.Dialog().notification('Error', f'Could not read premium.m3u: {e}', xbmcgui.NOTIFICATION_ERROR)
+        xbmcgui.Dialog().notification('Error', f'Could not read premium.txt: {e}', xbmcgui.NOTIFICATION_ERROR)
         return
 
     # Extract channel information (EXTINF lines and corresponding URLs)
@@ -571,13 +571,13 @@ def get_full_epg():
 
     # Read all channels from M3U
     addon_path = _ADDON.getAddonInfo('path')
-    m3u_file = os.path.join(addon_path, 'premium.m3u')
+    m3u_file = os.path.join(addon_path, 'premium.txt')
 
     try:
         with open(m3u_file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
     except Exception as e:
-        xbmcgui.Dialog().notification('Error', f'Could not read premium.m3u: {e}', xbmcgui.NOTIFICATION_ERROR)
+        xbmcgui.Dialog().notification('Error', f'Could not read premium.txt: {e}', xbmcgui.NOTIFICATION_ERROR)
         return
 
     # Extract all channels
