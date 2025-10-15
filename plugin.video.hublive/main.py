@@ -124,6 +124,114 @@ def get_current_program(epg_items):
 
     return None
 
+
+def search_channels():
+    """Search for channels by name."""
+    # Get user input for search term
+    kb = xbmc.Keyboard('', 'Search Channels')
+    kb.doModal()
+    if not kb.isConfirmed():
+        return
+
+    search_term = kb.getText().strip()
+    if not search_term:
+        return
+
+    # Read all channels from M3U
+    addon_path = _ADDON.getAddonInfo('path')
+    m3u_file = os.path.join(addon_path, 'premium.txt')
+
+    try:
+        with open(m3u_file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+    except Exception as e:
+        xbmcgui.Dialog().notification('Error', f'Could not read premium.txt: {e}', xbmcgui.NOTIFICATION_ERROR)
+        return
+
+    # Extract all channels
+    channels = []
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if line.startswith('#EXTINF:') or '#EXTINF:' in line.upper():
+            # Extract group-title and tvg-logo using more flexible regex
+            group_title_match = re.search(r'group-title\s*=\s*"?([^"",]*)"?,?', line, re.IGNORECASE)
+            tvg_logo_match = re.search(r'tvg-logo\s*=\s*["\'"]([^"\'"]*)["\'"]', line, re.IGNORECASE)
+            
+            # Find the last comma in the line to separate attributes from the channel name
+            last_comma_pos = line.rfind(',')
+            if last_comma_pos != -1:
+                channel_name = line[last_comma_pos + 1:].strip()
+            else:
+                channel_name = 'Unknown Channel'
+            
+            group_title = group_title_match.group(1) if group_title_match else 'Uncategorized'
+            tvg_logo = tvg_logo_match.group(1) if tvg_logo_match else ''
+
+            # Map category name
+            group_title = map_category_name(group_title)
+
+            # Get the next line which should be the URL
+            if i + 1 < len(lines):
+                url_line = lines[i + 1].strip()
+                if url_line and not url_line.startswith('#'):
+                    # Extract stream ID from URL - look for stream= followed by digits
+                    stream_id_match = re.search(r'stream=(\d+)', url_line)
+                    if stream_id_match:
+                        stream_id = stream_id_match.group(1)
+                        channels.append({
+                            'name': channel_name,
+                            'group': group_title,
+                            'logo': tvg_logo,
+                            'stream_id': stream_id,
+                            'url': url_line
+                        })
+        i += 1
+
+    # Filter channels based on search term
+    search_term_lower = search_term.lower()
+    matching_channels = [ch for ch in channels if search_term_lower in ch['name'].lower()]
+
+    # Create list items for matching channels
+    for channel in matching_channels:
+        # Build channel label with current program
+        channel_label = channel['name']
+
+        # Add current program to label if EPG available and enabled
+        if is_epg_enabled() and channel['stream_id'] in epg_data:
+            epg_items = epg_data[channel['stream_id']]
+            current_prog = get_current_program(epg_items)
+            if current_prog:
+                channel_label = f"{channel['name']} - {current_prog}"
+
+        li = xbmcgui.ListItem(label=channel_label)
+
+        # Set thumbnail from tvg-logo if available
+        if channel['logo']:
+            li.setArt({'thumb': channel['logo'], 'icon': channel['logo']})
+
+        li.setProperty('IsPlayable', 'true')
+
+        # Set EPG data if available and enabled
+        if is_epg_enabled() and channel['stream_id'] in epg_data:
+            epg_items = epg_data[channel['stream_id']]
+            plot = format_epg_tooltip(epg_items)
+            li.setInfo('video', {'plot': plot})
+
+        # Create URL to play this specific channel
+        url = f"{_BASE_URL}?mode=play&stream_id={channel['stream_id']}&name={quote_plus(channel['name'])}"
+
+        xbmcplugin.addDirectoryItem(handle=_HANDLE, url=url, listitem=li, isFolder=False)
+
+    # Show a message if no results found
+    if not matching_channels:
+        li = xbmcgui.ListItem(label=f'[COLOR red]No channels found for "{search_term}"[/COLOR]')
+        li.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=_HANDLE, url='', listitem=li, isFolder=False)
+
+    xbmcplugin.endOfDirectory(_HANDLE)
+
+
 def epg_callback(channel_key, items):
     xbmc.log(f"[DEBUG] EPG callback for channel {channel_key} with {len(items)} items. Data: {items}", level=xbmc.LOGDEBUG)
     epg_data[channel_key] = items
@@ -336,14 +444,86 @@ if is_epg_enabled():
         base_url=_ADDON.getSetting('portal_url'),
         callback=epg_callback,
         token_provider=epg_token_provider,
-        connect_timeout=5.0,    # Increased timeout for connection
-        read_timeout=10.0,      # Increased timeout for reading
-        max_retries=2,          # Retry twice on failure
-        backoff_factor=0.5,     # Moderate backoff
+        connect_timeout=10.0,    # Increased timeout for connection
+        read_timeout=30.0,      # Increased timeout for reading
+        max_retries=3,          # Retry 3 times on failure
+        backoff_factor=1.0,     # More aggressive backoff
         cache_ttl=1800.0,       # 30 minutes cache
         max_items_default=10,
         num_workers=10          # Process 10 channels in parallel
     )
+
+
+# Favorites file
+FAVORITES_FILE = os.path.join(xbmcvfs.translatePath(_ADDON.getAddonInfo('profile')), 'favorites.json')
+
+def list_favorites():
+    """List favorite channels."""
+    # Add "Change MAC" button at the top
+    change_mac_button = xbmcgui.ListItem(label="[COLOR orange]Change MAC Address[/COLOR]")
+    change_mac_button.setArt({'icon': 'DefaultIconInfo.png', 'thumb': 'DefaultIconInfo.png'})
+    change_mac_url = f"{_BASE_URL}?mode=change_mac&category=favorites"
+    xbmcplugin.addDirectoryItem(handle=_HANDLE, url=change_mac_url, listitem=change_mac_button, isFolder=False)
+
+    try:
+        with open(FAVORITES_FILE, 'r', encoding='utf-8') as f:
+            favorites = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        favorites = []
+
+    if not favorites:
+        li = xbmcgui.ListItem(label="[COLOR yellow]No favorite channels.[/COLOR]")
+        li.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=_HANDLE, url='', listitem=li, isFolder=False)
+        xbmcplugin.endOfDirectory(_HANDLE)
+        return
+
+    for fav in favorites:
+        li = xbmcgui.ListItem(label=fav['name'])
+        li.setArt({'thumb': fav.get('logo', ''), 'icon': fav.get('logo', '')})
+        li.setProperty('IsPlayable', 'true')
+
+        url = f"{_BASE_URL}?mode=play&stream_id={fav['stream_id']}&name={quote_plus(fav['name'])}"
+
+        # Context menu to remove from favorites
+        li.addContextMenuItems([
+            ('Remove from Favorites', f'RunPlugin({_BASE_URL}?mode=remove_from_favorites&stream_id={fav["stream_id"]})')
+        ])
+
+        xbmcplugin.addDirectoryItem(handle=_HANDLE, url=url, listitem=li, isFolder=False)
+
+    xbmcplugin.endOfDirectory(_HANDLE)
+
+def add_to_favorites(stream_id, name, logo):
+    """Add a channel to favorites."""
+    try:
+        with open(FAVORITES_FILE, 'r', encoding='utf-8') as f:
+            favorites = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        favorites = []
+
+    if not any(fav['stream_id'] == stream_id for fav in favorites):
+        favorites.append({'stream_id': stream_id, 'name': name, 'logo': logo})
+        with open(FAVORITES_FILE, 'w', encoding='utf-8') as f:
+            json.dump(favorites, f)
+        xbmcgui.Dialog().notification('Favorites', f'{name} added to favorites', xbmcgui.NOTIFICATION_INFO, 2000)
+    else:
+        xbmcgui.Dialog().notification('Favorites', f'{name} is already in favorites', xbmcgui.NOTIFICATION_INFO, 2000)
+
+def remove_from_favorites(stream_id):
+    """Remove a channel from favorites."""
+    try:
+        with open(FAVORITES_FILE, 'r', encoding='utf-8') as f:
+            favorites = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return
+
+    favorites = [fav for fav in favorites if fav['stream_id'] != stream_id]
+
+    with open(FAVORITES_FILE, 'w', encoding='utf-8') as f:
+        json.dump(favorites, f)
+    xbmcgui.Dialog().notification('Favorites', 'Channel removed from favorites', xbmcgui.NOTIFICATION_INFO, 2000)
+    xbmc.executebuiltin('Container.Refresh')
 
 def get_params():
     """Get the plugin parameters"""
@@ -377,8 +557,8 @@ def list_channels():
         # Check if this line starts with #EXTINF (case insensitive check)
         if line.startswith('#EXTINF:') or '#EXTINF:' in line.upper():
             # Extract group-title and tvg-logo using more flexible regex
-            group_title_match = re.search(r'group-title\s*=\s*"?([^"\',]*)"?,?', line, re.IGNORECASE)
-            tvg_logo_match = re.search(r'tvg-logo\s*=\s*["\']([^"\']*)["\']', line, re.IGNORECASE)
+            group_title_match = re.search(r'group-title\s*=\s*"?([^"",]*)"?,?', line, re.IGNORECASE)
+            tvg_logo_match = re.search(r'tvg-logo\s*=\s*["\'"]([^"\'"]*)["\'"]', line, re.IGNORECASE)
             
             # Find the last comma in the line to separate attributes from the channel name
             last_comma_pos = line.rfind(',')
@@ -423,6 +603,18 @@ def list_channels():
 
 def list_categories(channels):
     """List all available channel categories with Get Full EPG button."""
+    # Add "Search" button at the top
+    search_button = xbmcgui.ListItem(label="[COLOR yellow]Cauta[/COLOR]")
+    search_button.setArt({'icon': 'DefaultAddonsSearch.png', 'thumb': 'DefaultAddonsSearch.png'})
+    search_button_url = f"{_BASE_URL}?mode=search"
+    xbmcplugin.addDirectoryItem(handle=_HANDLE, url=search_button_url, listitem=search_button, isFolder=True)
+
+    # Add "Favorites" button at the top
+    favorites_button = xbmcgui.ListItem(label="[COLOR gold]Favorite[/COLOR]")
+    favorites_button.setArt({'icon': 'DefaultFavourites.png', 'thumb': 'DefaultFavourites.png'})
+    favorites_button_url = f"{_BASE_URL}?mode=favorites"
+    xbmcplugin.addDirectoryItem(handle=_HANDLE, url=favorites_button_url, listitem=favorites_button, isFolder=True)
+    
     # Add "Get Full EPG" button at the top (only if EPG is enabled)
     if is_epg_enabled():
         epg_button = xbmcgui.ListItem(label="[COLOR yellow]Get Full EPG[/COLOR]")
@@ -460,6 +652,14 @@ def list_categories(channels):
 
 def list_channels_in_category(all_channels, selected_category):
     """List channels within a specific category."""
+    # Load favorites to check which channels are already favorited
+    try:
+        with open(FAVORITES_FILE, 'r', encoding='utf-8') as f:
+            favorites = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        favorites = []
+    favorite_stream_ids = [fav['stream_id'] for fav in favorites]
+
     # Filter channels by the selected category
     channels_in_category = [ch for ch in all_channels if ch['group'] == selected_category]
 
@@ -490,11 +690,11 @@ def list_channels_in_category(all_channels, selected_category):
 
         if cache_coverage >= 0.8:
             # Good cache, wait less
-            max_wait_time = min(5000, num_channels * 150)  # 150ms per channel, max 5s
+            max_wait_time = min(10000, num_channels * 200)  # 200ms per channel, max 10s
             xbmc.log(f"[EPG] Good cache coverage ({cache_coverage:.0%}), waiting {max_wait_time}ms", level=xbmc.LOGINFO)
         else:
-            # Need fresh EPG, estimate ~300ms per channel for network fetch
-            max_wait_time = min(20000, num_channels * 300)  # 300ms per channel, max 20s
+            # Need fresh EPG, estimate ~500ms per channel for network fetch
+            max_wait_time = min(45000, num_channels * 500)  # 500ms per channel, max 45s
             xbmc.log(f"[EPG] Fetching fresh EPG, waiting up to {max_wait_time}ms", level=xbmc.LOGINFO)
 
         wait_interval = 300   # Check every 300ms
@@ -555,6 +755,14 @@ def list_channels_in_category(all_channels, selected_category):
         # Create URL to play this specific channel
         url = f"{_BASE_URL}?mode=play&stream_id={channel['stream_id']}&name={quote_plus(channel['name'])}"
 
+        # Add context menu for favorites
+        context_menu = []
+        if channel['stream_id'] in favorite_stream_ids:
+            context_menu.append(('Remove from Favorites', f'RunPlugin({_BASE_URL}?mode=remove_from_favorites&stream_id={channel["stream_id"]})'))
+        else:
+            context_menu.append(('Add to Favorites', f'RunPlugin({_BASE_URL}?mode=add_to_favorites&stream_id={channel["stream_id"]}&name={quote_plus(channel["name"])}&logo={quote_plus(channel["logo"])})'))
+        li.addContextMenuItems(context_menu)
+
         xbmcplugin.addDirectoryItem(handle=_HANDLE, url=url, listitem=li, isFolder=False)
 
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -586,7 +794,7 @@ def get_full_epg():
     while i < len(lines):
         line = lines[i].strip()
         if line.startswith('#EXTINF:') or '#EXTINF:' in line.upper():
-            group_title_match = re.search(r'group-title\s*=\s*"?([^"\',]*)"?,?', line, re.IGNORECASE)
+            group_title_match = re.search(r'group-title\s*=\s*"?([^",]*)"?,?', line, re.IGNORECASE)
             last_comma_pos = line.rfind(',')
             if last_comma_pos != -1:
                 channel_name = line[last_comma_pos + 1:].strip()
@@ -637,8 +845,8 @@ def get_full_epg():
     progress.update(30, f'Waiting for EPG data from server...')
 
     # Calculate timeout based on total channels
-    # Estimate ~250ms per channel with optimizations
-    max_wait_time = min(120000, total_channels * 250)  # Max 120 seconds (2 minutes)
+    # Estimate ~400ms per channel with optimizations to allow more time for EPG download
+    max_wait_time = min(300000, total_channels * 400)  # Max 300 seconds (5 minutes)
     wait_interval = 500  # Check every 500ms
     waited = 0
     last_count = channels_with_cached_epg
@@ -783,14 +991,149 @@ def router(params):
         play_stream(params['stream_id'], params['name'])
     elif mode == 'get_full_epg':
         get_full_epg()
+    elif mode == 'search':
+        corrected_search_channels()
     elif mode == 'change_mac':
         change_mac(params.get('category'))
     elif mode == 'settings':
         _ADDON.openSettings()
+    elif mode == 'favorites':
+        list_favorites()
+    elif mode == 'add_to_favorites':
+        add_to_favorites(params['stream_id'], params['name'], params.get('logo', ''))
+    elif mode == 'remove_from_favorites':
+        remove_from_favorites(params['stream_id'])
 
     # Only stop epg_manager if it exists
     if epg_manager:
         epg_manager.stop()
+
+def corrected_search_channels():
+    """Search for channels by name."""
+    # Load favorites to check which channels are already favorited
+    try:
+        with open(FAVORITES_FILE, 'r', encoding='utf-8') as f:
+            favorites = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        favorites = []
+    favorite_stream_ids = [fav['stream_id'] for fav in favorites]
+
+    # Get user input for search term
+    kb = xbmc.Keyboard('', 'Search Channels')
+    kb.doModal()
+    if not kb.isConfirmed():
+        # User cancelled - show empty directory to allow back navigation
+        xbmcplugin.endOfDirectory(_HANDLE)
+        return
+
+    search_term = kb.getText().strip()
+    if not search_term:
+        # Empty search - show empty directory
+        xbmcplugin.endOfDirectory(_HANDLE)
+        return
+
+    # Read all channels from M3U
+    addon_path = _ADDON.getAddonInfo('path')
+    m3u_file = os.path.join(addon_path, 'premium.txt')
+
+    try:
+        with open(m3u_file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+    except Exception as e:
+        xbmcgui.Dialog().notification('Error', f'Could not read premium.txt: {e}', xbmcgui.NOTIFICATION_ERROR)
+        return
+
+    # Extract all channels
+    channels = []
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if line.startswith('#EXTINF:') or '#EXTINF:' in line.upper():
+            # Extract group-title and tvg-logo using more flexible regex
+            group_title_match = re.search(r'group-title\s*=\s*"?([^",]*)"?,?', line, re.IGNORECASE)
+            tvg_logo_match = re.search(r'tvg-logo\s*=\s*["\'"]([^"\'"]*)["\'"]', line, re.IGNORECASE)
+            
+            # Find the last comma in the line to separate attributes from the channel name
+            last_comma_pos = line.rfind(',')
+            if last_comma_pos != -1:
+                channel_name = line[last_comma_pos + 1:].strip()
+            else:
+                channel_name = 'Unknown Channel'
+            
+            group_title = group_title_match.group(1) if group_title_match else 'Uncategorized'
+            tvg_logo = tvg_logo_match.group(1) if tvg_logo_match else ''
+
+            # Map category name
+            group_title = map_category_name(group_title)
+
+            # Get the next line which should be the URL
+            if i + 1 < len(lines):
+                url_line = lines[i + 1].strip()
+                if url_line and not url_line.startswith('#'):
+                    # Extract stream ID from URL - look for stream= followed by digits
+                    stream_id_match = re.search(r'stream=(\d+)', url_line)
+                    if stream_id_match:
+                        stream_id = stream_id_match.group(1)
+                        channels.append({
+                            'name': channel_name,
+                            'group': group_title,
+                            'logo': tvg_logo,
+                            'stream_id': stream_id,
+                            'url': url_line
+                        })
+        i += 1
+
+    # Filter channels based on search term
+    search_term_lower = search_term.lower()
+    matching_channels = [ch for ch in channels if search_term_lower in ch['name'].lower()]
+
+    # Create list items for matching channels
+    for channel in matching_channels:
+        # Build channel label with current program
+        channel_label = channel['name']
+
+        # Add current program to label if EPG available and enabled
+        if is_epg_enabled() and channel['stream_id'] in epg_data:
+            epg_items = epg_data[channel['stream_id']]
+            current_prog = get_current_program(epg_items)
+            if current_prog:
+                channel_label = f"{channel['name']} - {current_prog}"
+
+        li = xbmcgui.ListItem(label=channel_label)
+
+        # Set thumbnail from tvg-logo if available
+        if channel['logo']:
+            li.setArt({'thumb': channel['logo'], 'icon': channel['logo']})
+
+        li.setProperty('IsPlayable', 'true')
+
+        # Set EPG data if available and enabled
+        if is_epg_enabled() and channel['stream_id'] in epg_data:
+            epg_items = epg_data[channel['stream_id']]
+            plot = format_epg_tooltip(epg_items)
+            li.setInfo('video', {'plot': plot})
+
+        # Create URL to play this specific channel
+        url = f"{_BASE_URL}?mode=play&stream_id={channel['stream_id']}&name={quote_plus(channel['name'])}"
+
+        # Add context menu for favorites
+        context_menu = []
+        if channel['stream_id'] in favorite_stream_ids:
+            context_menu.append(('Remove from Favorites', f'RunPlugin({_BASE_URL}?mode=remove_from_favorites&stream_id={channel["stream_id"]})'))
+        else:
+            context_menu.append(('Add to Favorites', f'RunPlugin({_BASE_URL}?mode=add_to_favorites&stream_id={channel["stream_id"]}&name={quote_plus(channel["name"])}&logo={quote_plus(channel["logo"])})'))
+        li.addContextMenuItems(context_menu)
+
+        xbmcplugin.addDirectoryItem(handle=_HANDLE, url=url, listitem=li, isFolder=False)
+
+    # Show a message if no results found
+    if not matching_channels:
+        li = xbmcgui.ListItem(label=f'[COLOR red]No channels found for "{search_term}"[/COLOR]')
+        li.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=_HANDLE, url='', listitem=li, isFolder=False)
+
+    xbmcplugin.endOfDirectory(_HANDLE)
+
 
 if __name__ == '__main__':
     router(get_params())
