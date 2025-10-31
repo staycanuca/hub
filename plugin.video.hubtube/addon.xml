@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.hubtube" name="HubTube" version="1.0.5" provider-name="1x">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests" version="2.25.1"/>
+    <import addon="plugin.video.youtube" version="6.8.26"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">YouTube Hub</summary>
+    <description lang="en">Browse and watch from YouTube</description>
+    <language>ro</language>
+    <platform>all</platform>
+    <license>MIT</license>
+    <source>https://github.com/your-repo</source>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>

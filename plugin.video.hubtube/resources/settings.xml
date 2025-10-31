@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="General">
+        <setting id="use_online_lists" type="bool" label="Use Online CaTube Lists" default="true" />
+        <setting id="show_favorites_first" type="bool" label="Show Favorites First" default="false" />
+        <setting id="max_duration_enabled" type="bool" label="Enable Maximum Duration Filter" default="false" />
+        <setting id="max_duration_minutes" type="slider" label="Maximum Duration (minutes)" default="180" range="10,10,300" enable="eq(-1,true)" />
+        <setting id="min_duration_enabled" type="bool" label="Enable Minimum Duration Filter" default="false" />
+        <setting id="min_duration_minutes" type="slider" label="Minimum Duration (minutes)" default="1" range="1,1,120" enable="eq(-1,true)" />
+    </category>
+    <category label="Cache">
+        <setting id="cache_duration" type="enum" label="Cache Duration" lvalues="5 Minutes|10 Minutes|15 Minutes|30 Minutes|1 Hour" default="0" />
+    </category>
+</settings>

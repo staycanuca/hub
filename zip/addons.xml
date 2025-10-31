@@ -131,7 +131,30 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.indexer" name="Media Indexer" version="1.2.1" provider-name="1X & Geamanu">
+<addon id="plugin.video.hubtube" name="HubTube" version="1.0.5" provider-name="1x">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests" version="2.25.1"/>
+    <import addon="plugin.video.youtube" version="6.8.26"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">YouTube Hub</summary>
+    <description lang="en">Browse and watch from YouTube</description>
+    <language>ro</language>
+    <platform>all</platform>
+    <license>MIT</license>
+    <source>https://github.com/your-repo</source>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="plugin.video.indexer" name="Media Indexer" version="1.2.1" provider-name="1X &amp; Geamanu">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -227,7 +250,7 @@
   </extension>
 </addon>
 
-<addon id="repository.hub" name="Hub Repo" version="1.1.2" provider-name="1x">
+<addon id="repository.hub" name="Hub Repo" version="1.1.3" provider-name="1x">
     <extension point="xbmc.addon.repository" name="Hub Repo">
 		<dir>
 			<info compressed="false">https://raw.githubusercontent.com/staycanuca/hub/main/zip/addons.xml</info>
@@ -243,6 +266,26 @@
         <assets>
             <icon>icon.png</icon>
 			<fanart>fanart.jpg</fanart>
+        </assets>
+    </extension>
+</addon>
+
+<addon id="script.module.resolveurl" name="ResolveURL" version="5.1.155" provider-name="gujal">
+    <requires>
+        <import addon="script.module.six" />
+        <import addon="script.module.kodi-six" />
+        <import addon="plugin.video.youtube" optional="true" />
+        <import addon="script.module.python.twitch" optional="true" />
+        <import addon="plugin.googledrive" optional="true" />
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.python.pluginsource" library="lib/default.py" />
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en_GB">Resolve common video host URL's to be playable in XBMC/Kodi.</summary>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
 </addon>
