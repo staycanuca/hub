@@ -1,0 +1,244 @@
+#EXTM3U
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tvr1_ro.png" group-title="RO - Romaine",(RO) TVR 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9162&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tvr2_ro.png" group-title="RO - Romaine",(RO) TVR 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9161&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tvr3_ro.png" group-title="RO - Romaine",(RO) TVR 3 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61888&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_tv_hd.png" group-title="RO - Romaine",(RO) Pro TV 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61874&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/kanal_d_ro.png" group-title="RO - Romaine",(RO) Kanal D 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9176&extension=ts
+#EXTINF:-1 tvg-logo="https://kanald2.ro/img/kanald2/kanald2-logo.svg" group-title="RO - Romaine",(RO) Kanal D 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=209944&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/romania/acasa_ro_tv.png" group-title="RO - Romaine",(RO) Acasa 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=97057&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/romania/etno_tv.png" group-title="RO - Romaine",(RO) Etno TV 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=97054&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/discovery%20id.png" group-title="RO - Documentar & Realitate",(RO) Discovery ID
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=97053&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_tv_international.png" group-title="RO - Romaine",(RO) Pro TV International 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=6278&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/prima_tv_ro.png" group-title="RO - Romaine",(RO) PrimaTV 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9167&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/own/ro/national_tv.jpg" group-title="RO - Film",(RO) National TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9169&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/happy_channel_ro.png" group-title="RO - Romaine",(RO) Happy Channel 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38438&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tv_paprika_ro.png" group-title="RO - Romaine",(RO) TV Paprika 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38436&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/antena_stars_ro.png" group-title="RO - Romaine",(RO) Antena Stars 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9185&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/look_tv_ro_plus.png" group-title="RO - Romaine",(RO) Look Plus 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9174&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/aa/agro-tv-ro.png" group-title="RO - Romaine",(RO) Agro Tv
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=62621&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/nerdeland/e_global_us.png" group-title="RO - Romaine",(RO) E! Entertainment 4K
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38428&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/antena1_ro.png" group-title="RO - Romaine",(RO) Antena 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9186&extension=ts
+#EXTINF:-1 tvg-logo="http://tv.iptvboss.net/ch_logo/Național_24_Plus.png" group-title="RO - Romaine",(RO) National 24 Plus
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102758&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/b1_tv.png" group-title="RO - Romaine",(RO) B1
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38434&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/pp/profit-tv-ro.png" group-title="RO - Romaine",(RO) Profit TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61889&extension=ts
+#EXTINF:-1 tvg-logo="http://tv.iptvboss.net/ch_logo/Comedy_Centralpng.png" group-title="RO - Romaine",(RO) Comedy Central
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102757&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/romania/duck_tv_sk_hd.png" group-title="RO - Romaine",(RO) Duck TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102756&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/nerdeland/mezzo.png" group-title="RO - Romaine",(RO) Mezzo
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102755&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/cnn_international_global.png" group-title="RO - Romaine",(RO) CNN
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102754&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nick_toons_us.png" group-title="RO - Romaine",(RO) Nicktoons
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102753&extension=ts
+#EXTINF:-1 tvg-logo="" group-title="RO - Romaine",(RO) Aleph News
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102751&extension=ts
+#EXTINF:-1 tvg-logo="https://i.postimg.cc/d3GnpphR/AXN_Black.jpg" group-title="RO - Romaine",(RO) AXN Black
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102750&extension=ts
+#EXTINF:-1 tvg-logo="" group-title="RO - Romaine",(RO) HGTV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102749&extension=ts
+#EXTINF:-1 tvg-logo="" group-title="RO - Romaine",(RO) NCN
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102747&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/kapital%20network.png" group-title="RO - Romaine",(RO) KapitalTV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102746&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/bb/bbc_earth_uk.png" group-title="RO - Romaine",(RO) BBC Earth 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102745&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/travel_channel_us.png" group-title="RO - Documentar & Realitate",(RO) Travel Channel 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61869&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/trinitas_tv.png" group-title="RO - Romaine",(RO) Trinitas
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61877&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/zu_tv_ro.png" group-title="RO - Romaine",(RO) Zu TV 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61871&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/bollywood_tv_ro_hd.png" group-title="RO - Film",(RO) Bollywood TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61883&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/favorit_tv_ro.png" group-title="RO - Muzică",(RO) Favorit
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61558&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/alfa_omega_tv.png" group-title="RO - Romaine",(RO) Alfa Omega
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61890&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/cbs_reality_eu.png" group-title="RO - Documentar & Realitate",(RO) CBS Reality
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61885&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/food_network_ca.png" group-title="RO - Romaine",(RO) Food network
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61557&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/telestar_ro_1.png" group-title="RO - Romaine",(RO) Telestar 1
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61879&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/tvr-cluj-ro.png" group-title="RO - Romaine",(RO) TVR Cluj HD+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=66664&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/tvr-craiova-ro.png" group-title="RO - Romaine",(RO) TVR Craiova HD+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=66665&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_24_ro_hd.png" group-title="RO - Romaine",(RO) Digi 24 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9184&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/rr/realitatea_tv_plus.png" group-title="RO - Romaine",(RO) Realitatea Plus
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=62620&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/romania_tv_ro.png" group-title="RO - Romaine",(RO) Romania TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9164&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/antena3_ro.png" group-title="RO - Romaine",(RO) Antena 3 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23290&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/pp/pro-gold-ro.png" group-title="RO - Film",(RO) Acasa Gold
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61884&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/aa/amc-us.png" group-title="RO - Film",(RO) AMC 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=46912&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/tlc_us.png" group-title="RO - Romaine",(RO) TLC
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61880&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/film-now-hu.png" group-title="RO - Film",(RO) Film Now
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61550&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_cinema_ro.png" group-title="RO - Film",(RO) Pro Cinema
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38439&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/diva_global.png" group-title="RO - Film",(RO) Diva
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61882&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/viasat_tv1000_balkan.png" group-title="RO - Film",(RO) TV1000
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9163&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_basic.png" group-title="RO - Film",(RO) Film Cafe
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61551&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/hbo_ro.png" group-title="RO - Film",(RO) HBO 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36936&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/hh/hbo2_ce.png" group-title="RO - Film",(RO) HBO 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23291&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/hh/hbo3_ce.png" group-title="RO - Film",(RO) HBO 3 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23292&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tnt_us.png" group-title="RO - Film",(RO) TNT
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61887&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/cc/cinemaraton-ro.png" group-title="RO - Film",(RO) CineMaraton 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61875&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/cinemax_ce.png" group-title="RO - Film",(RO) Cinemax 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23293&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/cinemax_ce_2.png" group-title="RO - Film",(RO) Cinemax 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23294&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ee/epic-drama-se.png" group-title="RO - Film",(RO) Epic Drama 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61868&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/axn_global_hd.png" group-title="RO - Film",(RO) AXN 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38437&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/axn_spin_ro.png" group-title="RO - Romaine",(RO) Axn Spin 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61878&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/axn_white_us.png" group-title="RO - Film",(RO) AXN White
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38435&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_turkiye.png" group-title="RO - Film",(RO) Filmbox
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9182&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/filmbox_extra.png" group-title="RO - Film",(RO) Filmbox Extra 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=65475&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_family.png" group-title="RO - Film",(RO) Filmbox Family
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61552&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_plus_cz.png" group-title="RO - Film",(RO) Filmbox Plus
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61553&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_premium_cz.png" group-title="RO - Film",(RO) Filmbox Premium
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61554&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/pp/paramount-network-us.png" group-title="RO - Film",(RO) Paramount Channel
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=46893&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/kiss_tv_ro.png" group-title="RO - Muzică",(RO) Kiss TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9175&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/1music_channel_ro.png" group-title="RO - Muzică",(RO) Music Channel
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9170&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/hit_music_channel.png" group-title="RO - Muzică",(RO) Hit Music
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61886&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/taraf_tv.png" group-title="RO - Romaine",(RO) Taraf TV
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23298&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/boomerang_global_hd.png" group-title="RO - Copii",(RO) Boomerang
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61892&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/cartoon_network_global.png" group-title="RO - Copii",(RO) Cartoon Network
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=65474&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/disney_channel_global.png" group-title="RO - Copii",(RO) Disney Channel
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38432&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/disney_junior_us.png" group-title="RO - Copii",(RO) Disney Junior
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38433&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/jim_jam_global.png" group-title="RO - Copii",(RO) Jim Jam
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61891&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/minimax_ro.png" group-title="RO - Copii",(RO) Minimax
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9171&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/nick_jr_us.png" group-title="RO - Copii",(RO) Nick JR
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61895&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nickelodeon_us_hd.png" group-title="RO - Copii",(RO) Nickelodeon
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9168&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport1_ro_hd.png" group-title="RO - Sport",(RO) Digi Sport 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=802&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport2_ro.png" group-title="RO - Sport",(RO) Digi Sport 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=803&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport3_ro.png" group-title="RO - Sport",(RO) Digi Sport 3 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=804&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport4_ro.png" group-title="RO - Sport",(RO) Digi Sport 4 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9180&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_tv.png" group-title="RO - Romaine",(RO) Pro X 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61872&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport1-ro.png" group-title="RO - Sport",(RO) Prima Sport 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38422&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport2-ro.png" group-title="RO - Sport",(RO) Prima Sport 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=65476&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport3-hd-ro.png" group-title="RO - Sport",(RO) Prima Sport 3 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38424&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport4-hd-ro.png" group-title="RO - Sport",(RO) Prima Sport 4 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38425&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.pp.ua/prima-sport-5.png" group-title="RO - Sport",(RO) Prima Sport 5 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=209950&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162299&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 1 HD+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162303&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162300&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 2 HD+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162304&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 3 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162301&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 3 HD+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162305&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 4 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162302&extension=ts
+#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 4 HD+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162307&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/eurosport_fr_1_hd.png" group-title="RO - Sport",(RO) Eurosport 1 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9178&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/eurosport_fr_2_hd.png" group-title="RO - Sport",(RO) Eurosport 2 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9177&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ee/extreme_sports_fr.png" group-title="RO - Sport",(RO) Extreme Sport
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38423&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/fight_box_hd.png" group-title="RO - Sport",(RO) Fightbox
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9173&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ll/looksport-ro.png" group-title="RO - Sport",(RO) Look Sport
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61894&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/the_fishing_hunting_channel_se_eu.png" group-title="RO - Sport",(RO) The Fishing & Hunting
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61556&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_animal_world_ro.png" group-title="RO - Documentar & Realitate",(RO) Digi Animal World 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9183&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_life_ro.png" group-title="RO - Documentar & Realitate",(RO) Digi Life 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9181&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_world_ro.png" group-title="RO - Documentar & Realitate",(RO) Digi World 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9179&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/discovery_global_us_hd.png" group-title="RO - Documentar & Realitate",(RO) Discovery channel 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61870&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/history_us.png" group-title="RO - Documentar & Realitate",(RO) History 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61873&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/investigation_discovery_us.png" group-title="RO - Documentar & Realitate",(RO) Investigation Discovery
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=62622&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nat_geo_wild_lam_hd.png" group-title="RO - Documentar & Realitate",(RO) Nat Geo Wild 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38430&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nat_geo_us_hd.png" group-title="RO - Documentar & Realitate",(RO) National Geographic 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38429&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/travel_mix.png" group-title="RO - Documentar & Realitate",(RO) Travel Mix
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61893&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/vv/viasat_explore_ru.png" group-title="RO - Documentar & Realitate",(RO) Viasat Explore
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36938&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/vv/viasat_history_hd.png" group-title="RO - Documentar & Realitate",(RO) Viasat History
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36937&extension=ts
+#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/vv/viasat_nature_hd.png" group-title="RO - Documentar & Realitate",(RO) Viasat Nature 4K+
+http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36939&extension=ts
+
