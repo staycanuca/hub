@@ -1,218 +1,1030 @@
 #EXTM3U
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TVR 1
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31381&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TVR 2
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31382&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TVR 3 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121950&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Pro TV HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31327&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Pro.2
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31329&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Etno TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31324&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Pro TV International
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31326&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Happy Channel 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31348&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Prima Tv
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31330&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Antena Stars
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31376&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Look Plus
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31341&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Agro TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31379&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) E! Entertainment 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121915&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Antena 1 HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31378&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) National 24 Plus
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129191&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Kanal D
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31343&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TV Paprika
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121948&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) B1 TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31372&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Profit TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121932&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Trinitas
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121947&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Zu TV 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121955&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Alfa Omega
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121906&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) FOOD network
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121927&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Telestar 1
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121934&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TVR Cluj HD+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121951&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TVR Craiova HD+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121952&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Digi 24 HD 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31366&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) REALITATEA PLUS
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31325&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Romania TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121933&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Antena 3 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31377&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Aleph News
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129184&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) BBC Earth 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129178&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) CNN
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129187&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Comedy Central
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129190&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Duck TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129189&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) HGTV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129182&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Mezzo
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129188&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) NCN
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129180&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TLC
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31386&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) Taraf TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31323&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Pro X 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121905&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) NationalTV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121929&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Bollywood TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121908&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Pro Gold 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121931&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) AMC 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31322&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Film Now
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121925&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Pro Cinema
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31328&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Diva
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121914&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : ROMAINE",(RO) TV1000
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121949&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) HBO
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31345&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) HBO 2 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31347&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) HBO 3
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31346&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) TNT
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121935&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) CineMaraton HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121912&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Cinemax 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31369&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Cinemax 2
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31368&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Epic Drama
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121916&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) AXN
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31374&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) AXN White
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31373&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) AXN Black
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129183&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Axn Spin
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121907&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) FilmBOX
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121920&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) FILMCAFE
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121924&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Filmbox Extra 4k
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31350&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Filmbox Family
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121921&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Filmbox Plus
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121922&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Filmbox Premium
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121923&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : FILM",(RO) Paramount Channel
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31331&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Discovery Channel 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121987&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Discovery ID HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31335&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Travel Channel 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31385&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Digi Animal World 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31365&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Digi Life 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31363&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Digi World 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31358&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) History 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=120692&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Nat Geo Wild
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31336&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Cbs Reality
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121910&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Travelmix 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121946&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) National Geographic 4K+
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31334&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Viasat History 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31344&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Viasat Nature 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121954&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : DOCU & REALITATE",(RO) Viasat Explore
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121953&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Boomerang
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121909&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Cartoon Network
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31371&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Disney Channel
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31355&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Disney Junior
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31354&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Nickelodeon
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31349&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Nicktoons
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=129186&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) JimJam
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=119280&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Nick JR
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121930&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : COPİİ",(RO) Minimax
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31338&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Digi Sport 1 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31362&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Digi Sport 2 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31361&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Digi Sport 3 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31360&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Digi Sport 4 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31359&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Prima Sport 1 HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31392&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Prima Sport 2 HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31391&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Prima Sport 3 HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31390&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Prima Sport 4 HD
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31389&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Eurosport 1 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31352&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Eurosport 2 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31351&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Fightbox 4K
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121919&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) Look Sport
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31340&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : MUZICÄ",(RO) Favorit
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121918&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : MUZICÄ",(RO) Kiss TV
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31342&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : MUZICÄ",(RO) Hit Music
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121928&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : MUZICÄ",(RO) Music Channel
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=31337&extension=ts&play_token=TOKENPH
-#EXTINF:-1 tvg-logo="https://static.vecteezy.com/system/resources/previews/038/015/883/non_2x/ai-generated-modern-tv-isolated-on-transparent-background-free-png.png" group-title="RO : SPORT",(RO) The Fishing & Hunting
-http://d.tvdark.eu/play/live.php?mac=MACPH&stream=121926&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443984&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443981&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443982&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443983&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443985&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO TV INTERNATIONAL.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV INTERNATIONAL FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443986&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO TV CINEMA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443987&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 1 CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 1 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443991&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 1 CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 1 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443988&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 1 CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 1 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443989&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 1 CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443990&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 1 CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 1 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443992&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 1 CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 1 CINEMA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443993&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 3 CNN.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 3 CNN FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443994&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 3 CNN.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 3 CNN HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443995&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 3 CNN.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 3 CNN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443996&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA 3 CNN.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA 3 CNN FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443997&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA STARS FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA STARS 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444001&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA STARS FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA STARS FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443998&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA STARS FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA STARS HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1443999&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA STARS FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA STARS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444000&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ANTENA STARS FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ANTENA STARS FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444002&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/MIREASA BAIETI.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ MIREASA FETE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444003&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/MIREASA BAIETI.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ MIREASA BAIETI
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444004&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/MIREASA CONFESIUNI.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ MIREASA CONFESIUNI
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444005&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444009&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444006&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444007&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444008&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444010&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D2 FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D2 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444014&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D2 FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D2 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444011&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D2 FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D2 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444012&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D2 FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444013&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/KANAL D2 FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ KANAL D2 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444015&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444016&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA TV HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444017&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444018&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA TV FIBRA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA TV FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444019&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA NEWS.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA NEWS FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444020&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA WORLD.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA WORLD HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444021&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRIMA COMEDY.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRIMA COMEDY FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444022&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ACASA TV.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ACASA TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444023&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ACASA TV.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ACASA TV HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444024&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ACASA TV.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ACASA TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444025&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ACASA GOLD.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ACASA GOLD FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444026&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/ACASA GOLD.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ ACASA GOLD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444027&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO CINEMA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444028&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/PRO CINEMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ PRO CINEMA HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444029&extension=ts
+#EXTINF:-1 tvg-logo="" group-title="┃RO┃ CANALE GENERALE",┃RO┃ HAPPY CHANNEL FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444030&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/HAPPY CHANNEL.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ HAPPY CHANNEL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444031&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/COMEDY CENTRAL.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ COMEDY CENTRAL FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444032&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/CINEMAX.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ CINEMAX HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444033&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/CINEMAX 2.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ CINEMAX 2 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444034&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/EPIC DRAMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ EPIC DRAMA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444035&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/EPIC DRAMA.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ EPIC DRAMA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444036&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/DIZI CHANNEL.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ DIZI CHANNEL HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444038&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/DIZI CHANNEL.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ DIZI CHANNEL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444039&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE GENERALE/DIVA TV.png" group-title="┃RO┃ CANALE GENERALE",┃RO┃ DIVA TV HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444037&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/REALITATEA PLUS.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ REALITATEA PLUS FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444040&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/REALITATEA PLUS.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ REALITATEA PLUS HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444041&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/REALITATEA PLUS.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ REALITATEA PLUS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444042&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/DIGI 24 FIBRA.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ DIGI 24 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444045&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/DIGI 24 FIBRA.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ DIGI 24 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444043&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/DIGI 24 FIBRA.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ DIGI 24
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444044&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/DIGI 24 FIBRA.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ DIGI 24 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444046&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/ROMANIA TV.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ ROMANIA TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444047&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/ROMANIA TV.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ ROMANIA TV HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444048&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/NATIONAL TV.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ NATIONAL TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444049&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/NATIONAL 24 PLUS.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ NATIONAL 24 PLUS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444050&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/EURONEWS ROMANIA.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ EURONEWS ROMANIA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444051&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/EURONEWS ROMANIA.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ EURONEWS ROMANIA HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444052&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/NASUL TV.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ NASUL TV HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444053&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/NASUL TV.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ NASUL TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444054&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/B1 TV.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ B1 TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444055&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/ALEPH NEWS.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ ALEPH NEWS HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444056&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/CANAL 33.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ CANAL 33 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444057&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/PROFI 24.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ PROFI 24
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444058&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 1.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 1 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444059&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 1.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 1 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444060&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 1.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444061&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 1.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 1 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444062&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 2.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 2 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444063&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 2.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 2 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444064&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 2.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444065&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 2.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 2 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444066&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 3.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 3 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444067&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR 3.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444068&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR CULTURAL.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR CULTURAL FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444069&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR FOLCLOR.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR FOLCLOR FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444070&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE STIRI/TVR INFO.png" group-title="┃RO┃ CANALE STIRI",┃RO┃ TVR INFO FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444071&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 1 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444075&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 1 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444072&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 1 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444073&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444074&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 1 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444076&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 2 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444080&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 2 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444077&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 2 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444078&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444079&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 2 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444081&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 3 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444085&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 3 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444082&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 3 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444083&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444084&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 3 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444086&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 4 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444090&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 4 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444087&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 4 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444088&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444089&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI SPORT 4 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444091&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/DIGI 4K.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ DIGI 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444092&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRO ARENA.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRO ARENA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444093&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRO ARENA.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRO ARENA HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444094&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRO ARENA.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRO ARENA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444095&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRO ARENA.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRO ARENA FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444096&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 1 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444099&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 1 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444098&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444097&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 1 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444100&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 2 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444102&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444101&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 2 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444103&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 3 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444105&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444104&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 3.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 3 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444106&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 4 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444108&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 4 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444107&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 4.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 4 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444109&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 5.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 5 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444111&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 5.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 5
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444110&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/PRIMA SPORT 5.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ PRIMA SPORT 5 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444112&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 1 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444113&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444114&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT 1.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 1 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444115&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 2 FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444116&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444117&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT 2.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 2 FIBRA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444118&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/EUROSPORT.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ EUROSPORT 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444119&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/TVR SPORT.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ TVR SPORT HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444120&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE SPORT/SPORT EXTRA.png" group-title="┃RO┃ CANALE SPORT",┃RO┃ SPORT EXTRA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444121&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/TELE 7 ABC.png" group-title="┃RO┃ CANALE FILME",┃RO┃ TELE 7 ABC
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444122&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/NOSTALGIA TV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NOSTALGIA TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444123&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/WARNER TV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ WARNER TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444124&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/FILM NOW.png" group-title="┃RO┃ CANALE FILME",┃RO┃ FILM NOW HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444125&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/FILMBOX PREMIUM.png" group-title="┃RO┃ CANALE FILME",┃RO┃ FILMBOX PREMIUM
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444126&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/FILM CAFE.png" group-title="┃RO┃ CANALE FILME",┃RO┃ FILM CAFE HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444127&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/BOLLYWOOD FILM.png" group-title="┃RO┃ CANALE FILME",┃RO┃ BOLLYWOOD FILM
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444129&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/BOLLYWOOD STARS.png" group-title="┃RO┃ CANALE FILME",┃RO┃ BOLLYWOOD STARS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444130&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/BOLLYWOOD CLASSIC.png" group-title="┃RO┃ CANALE FILME",┃RO┃ BOLLYWOOD CLASSIC HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444128&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/SKY SHOWTIME 1.png" group-title="┃RO┃ CANALE FILME",┃RO┃ SKY SHOWTIME 1 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444131&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/SKY SHOWTIME 2.png" group-title="┃RO┃ CANALE FILME",┃RO┃ SKY SHOWTIME 2 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444132&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444134&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO UHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444133&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO 2.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO 2 UHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444135&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO 2.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444136&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO 3.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO 3 UHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444137&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO 3.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444138&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO GO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO GO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444144&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO ZONE.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO ZONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444145&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO SIGNATURE.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO SIGNATURE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444140&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO ACTIUNE.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO ACTIUNE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444149&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO AVENTURA.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO AVENTURA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444148&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO COMEDIE.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO COMEDIE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444147&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO FANTASY.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO FANTASY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444146&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO HORROR.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO HORROR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444143&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO KIDS.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO KIDS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444142&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO MAX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO MAX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444141&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME/HBO WAR.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HBO WAR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444139&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DISCOVERY CHANNEL.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DISCOVERY CHANNEL FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444150&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DISCOVERY ID.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DISCOVERY ID FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444151&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/NATIONAL GEOGRAPHIC.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ NATIONAL GEOGRAPHIC FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444159&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/NATIONAL GEOGRAPHIC.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ NATIONAL GEOGRAPHIC
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444160&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/NAT GEO WILD.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ NAT GEO WILD FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444161&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/NAT GEO WILD.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ NAT GEO WILD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444162&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/NAT GEO PEOPLE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ NAT GEO PEOPLE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444163&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/ANIMAL PLANET.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ ANIMAL PLANET FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444153&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/ANIMAL PLANET.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ ANIMAL PLANET
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444152&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/CBS REALITY.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ CBS REALITY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444154&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/LOVE NATURE 4K.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ LOVE NATURE 4K
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444156&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/LOVE NATURE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ LOVE NATURE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444155&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/E! ENTERTAINMENT.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ E! ENTERTAINMENT FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444157&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/E! ENTERTAINMENT.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ E! ENTERTAINMENT
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444158&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/VIASAT NATURE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ VIASAT NATURE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444165&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/VIASAT HISTORY.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ VIASAT HISTORY FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444164&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/VIASAT EXPLORE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ VIASAT EXPLORE HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444166&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/HISTORY.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ HISTORY FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444167&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/HISTORY.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ HISTORY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444168&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/FOOD NETWORK.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ FOOD NETWORK
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444169&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AGRO.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AGRO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444184&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AMC.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AMC FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444186&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AMC.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AMC
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444185&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AXN.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AXN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444190&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AXN BLACK.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AXN BLACK
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444192&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AXN SPIN.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AXN SPIN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444193&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/AXN WHITE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ AXN WHITE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444191&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/BBC EARTH.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ BBC EARTH FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444174&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/BBC FIRST.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ BBC FIRST FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444175&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/CINEMARATON.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ CINEMARATON FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444187&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/CINEMARATON.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ CINEMARATON
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444188&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/CRIME+ INVESTIGATION.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ CRIME+ INVESTIGATION
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444171&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DIGI ANIMAL WORLD.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DIGI ANIMAL WORLD FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444178&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DIGI LIFE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DIGI LIFE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444181&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DIGI LIFE.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DIGI LIFE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444180&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DIGI WORLD.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DIGI WORLD FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444179&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/DOCU BOX.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ DOCU BOX FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444183&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/FISHING AND HUNTING.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ FISHING AND HUNTING
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444170&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/HGTV.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ HGTV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444177&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/HGTV.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ HGTV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444176&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/MARIA TV.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ MARIA TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444196&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/TLC.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ TLC FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444173&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/TRAVEL MIX.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ TRAVEL MIX FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444182&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/TRINITAS TV.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ TRINITAS TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444194&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/TRINITAS TV.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ TRINITAS TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444195&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/TV PAPRIKA.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ TV PAPRIKA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444172&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DOCUMENTARE/VIASAT KINO.png" group-title="┃RO┃ CANALE DOCUMENTARE",┃RO┃ VIASAT KINO FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444189&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/ATOMIC TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ ATOMIC TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444197&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/PARTY MIX.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ PARTY MIX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444198&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/KISS TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ KISS TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444199&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/MAGIC TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ MAGIC TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444200&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/ZU TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ ZU TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444201&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/UTV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ UTV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444202&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/MUSIC CHANNEL.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ MUSIC CHANNEL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444203&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/MTV EUROPE.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ MTV EUROPE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444204&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/MTV 00s.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ MTV 00s
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444205&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/MTV 80s.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ MTV 80s
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444206&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/ETNO TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ ETNO TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444207&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/FAVORIT TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ FAVORIT TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444208&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/HORA TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ HORA TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444210&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/SPERANTA TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ SPERANTA TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444211&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE MUZICA/TARAF TV.png" group-title="┃RO┃ CANALE MUZICA",┃RO┃ TARAF TV FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444209&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/TRA LA LA.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ TRA LA LA HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444212&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/NICKELODEON.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ NICKELODEON FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444220&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/NICK JR.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ NICK JR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444219&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/NICKTOONS.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ NICKTOONS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444218&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/TEEN NICK.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ TEEN NICK
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444221&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/DISNEY CHANNEL.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ DISNEY CHANNEL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444216&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/DISNEY JR.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ DISNEY JR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444215&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/CARTOON NETWORK.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ CARTOON NETWORK
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444213&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/CARTOONITO.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ CARTOONITO HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444214&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/DUCK TV.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ DUCK TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444223&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/JIM JAM.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ JIM JAM
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444222&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE DESENE ANIMATE/MINIMAX RO.png" group-title="┃RO┃ CANALE DESENE ANIMATE",┃RO┃ MINIMAX RO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444217&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE REGIONALE/A7 TV.png" group-title="┃RO┃ CANALE REGIONALE",┃RO┃ A7 TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444228&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE REGIONALE/IASI TV LIFE.png" group-title="┃RO┃ CANALE REGIONALE",┃RO┃ IASI TV LIFE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444229&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE REGIONALE/TELE MOLDOVA PLUS.png" group-title="┃RO┃ CANALE REGIONALE",┃RO┃ TELE MOLDOVA PLUS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444227&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX ACTION
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444266&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX ANIMATION
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444264&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX BOLLYWOOD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444265&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX CHRISTMASS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444263&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX CLASSIC
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444262&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX COMEDY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444260&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX DOKU
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444261&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX DRAMA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444259&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/NETFLIX.png" group-title="┃RO┃ CANALE FILME",┃RO┃ NETFLIX HORROR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444258&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/APPLE TV+.png" group-title="┃RO┃ CANALE FILME",┃RO┃ APPLE TV+ ACTION ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444251&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/APPLE TV+.png" group-title="┃RO┃ CANALE FILME",┃RO┃ APPLE TV+ ACTION TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444252&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/APPLE TV+.png" group-title="┃RO┃ CANALE FILME",┃RO┃ APPLE TV+ CLASSIC ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444253&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/APPLE TV+.png" group-title="┃RO┃ CANALE FILME",┃RO┃ APPLE TV+ CLASSIC TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444256&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/APPLE TV+.png" group-title="┃RO┃ CANALE FILME",┃RO┃ APPLE TV+ DRAMA ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444255&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/APPLE TV+.png" group-title="┃RO┃ CANALE FILME",┃RO┃ APPLE TV+ DRAMA TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444254&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO TV
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444246&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444249&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO 24 MIX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444244&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO BOX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444245&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO GOLD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444247&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO PLEX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444248&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/VOYO.png" group-title="┃RO┃ CANALE FILME",┃RO┃ VOYO STAR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444250&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/GAME OF THRONES.png" group-title="┃RO┃ CANALE FILME",┃RO┃ GAME OF THRONES (2011)
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444231&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/HOME ALONE.png" group-title="┃RO┃ CANALE FILME",┃RO┃ HOME ALONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444230&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV ACTION
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444233&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV ADVENTURE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444234&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV ANIMATIE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444235&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV BOLLYWOOD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444236&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV DOKU
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444243&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV HORROR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444242&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV KINO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444241&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV MARTIALARTS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444240&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV SF
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444238&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV THRILLER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444239&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ CANALE FILME 1/ROTV.png" group-title="┃RO┃ CANALE FILME",┃RO┃ ROTV WAR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444237&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN PREMIERE.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN PREMIERE 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444290&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN PREMIERE.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN PREMIERE 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444291&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN PREMIERE.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN PREMIERE 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444289&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN ACTION.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN ACTION 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444267&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN ACTION.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN ACTION 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444268&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN ACTION.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN ACTION 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444269&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN COMEDY.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN COMEDY 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444282&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN COMEDY.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN COMEDY 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444277&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN COMEDY.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN COMEDY 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444276&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN DRAMA.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN DRAMA 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444272&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN DRAMA.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN DRAMA 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444283&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN DRAMA.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN DRAMA 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444284&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN HORROR.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN HORROR 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444285&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN HORROR.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN HORROR 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444293&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN HORROR.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN HORROR 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444292&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN WESTERN.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN WESTERN 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444288&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN WESTERN.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN WESTERN 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444287&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN WESTERN.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN WESTERN 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444286&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN CHRISTMASS.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN CHRISTMASS 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444279&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN CHRISTMASS.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN CHRISTMASS 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444278&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN CHRISTMASS.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN CHRISTMASS 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444281&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN ANIMATIE.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN ANIMATIE 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444270&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN ANIMATIE.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN ANIMATIE 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444271&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN ANIMATIE.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN ANIMATIE 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444280&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN DOKU.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN DOKU 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444275&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN DOKU.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN DOKU 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444274&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ BEIN FILME/BEIN DOKU.png" group-title="┃RO┃ BEIN FILME",┃RO┃ BEIN DOKU 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444273&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/BAKUGAN.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY BAKUGAN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444294&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/DORA.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY DORA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444295&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/DORA AND FRIENDS.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY DORA AND FRIENDS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444296&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/FAMILIA FLINSTONES.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY FAMILIA FLINSTONES
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444297&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/GAMES OF THRONES.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY GAMES OF THRONES
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444298&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/HAMSTER&GRETEL.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY HAMSTER&GRETEL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444299&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/INTERSTELAR ELLA.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY INTERSTELAR ELLA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444300&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/LEGO DREAMZ.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY LEGO DREAMZ
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444301&extension=ts
+#EXTINF:-1 tvg-logo="" group-title="┃RO┃ SKY FILME",┃RO┃ SKY LEGO FRIENDS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444302&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/LEGO FRIENDS GIRLS.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY LEGO FRIENDS GIRLS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444303&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/MADADASCAR.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY MADADASCAR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444304&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/MAGNUM P.I.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY MAGNUM P.I
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444317&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/MARVEL STUDIOS LEGEND.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY MARVEL STUDIOS LEGEND
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444315&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/MICKEY CURSE.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY MICKEY CURSE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444316&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/MY HERO ACADEMIA.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY MY HERO ACADEMIA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444314&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/MY LITLLE PONNY.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY MY LITLLE PONNY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444312&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/NARUTO SHIPPUDEN.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY NARUTO SHIPPUDEN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444313&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/NCIS HAWAI.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY NCIS HAWAI
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444311&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/ONE PIECE.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY ONE PIECE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444310&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/PAW PATROL 1.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY PAW PATROL 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444308&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/PAW PATROL 2.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY PAW PATROL 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444309&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/PJ MASKS.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY PJ MASKS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444307&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/PURCELUSA PEPPA.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY PURCELUSA PEPPA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444306&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/SANCTUARY.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY SANCTUARY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444305&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/SPIDEY.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY SPIDEY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444325&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/THE GREATH NORTH.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY THE GREATH NORTH
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444324&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/THE LEGEND OF KORA.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY THE LEGEND OF KORA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444323&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/THE OWL HOUSE.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY THE OWL HOUSE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444322&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/THE VAMPIRE DIARIES.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY THE VAMPIRE DIARIES
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444321&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/THOMAS TRENULETUL.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY THOMAS TRENULETUL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444320&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/WACKY RACES.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY WACKY RACES
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444319&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ SKY FILME/WAKFU.png" group-title="┃RO┃ SKY FILME",┃RO┃ SKY WAKFU
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444318&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/ATV TURKISH SERIES.png" group-title="┃RO┃ DIGI FILME",┃RO┃ ATV TURKISH SERIES
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444388&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO FIVE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444367&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO FOUR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444366&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444363&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO SEVEN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444369&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO SIX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444368&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO THREE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444365&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/DIGI KINO SEVEN.png" group-title="┃RO┃ DIGI FILME",┃RO┃ DIGI KINO TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444364&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/FLIX CINEMA.png" group-title="┃RO┃ DIGI FILME",┃RO┃ FLIX CINEMA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444362&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/FLIX MOVIE.png" group-title="┃RO┃ DIGI FILME",┃RO┃ FLIX MOVIE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444361&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/FLIX NEW.png" group-title="┃RO┃ DIGI FILME",┃RO┃ FLIX NEW
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444359&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/FLIX PRIME.png" group-title="┃RO┃ DIGI FILME",┃RO┃ FLIX PRIME
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444358&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/FLIX ZONE.png" group-title="┃RO┃ DIGI FILME",┃RO┃ FLIX ZONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444360&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/LUNA PLAY.png" group-title="┃RO┃ DIGI FILME",┃RO┃ LUNA PLAY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444373&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/LUNA PRIME.png" group-title="┃RO┃ DIGI FILME",┃RO┃ LUNA PRIME
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444374&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/LUNA STREAM.png" group-title="┃RO┃ DIGI FILME",┃RO┃ LUNA STREAM
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444372&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/LUNA ZONE.png" group-title="┃RO┃ DIGI FILME",┃RO┃ LUNA ZONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444371&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/NOVACAST VACANTA MARE.png" group-title="┃RO┃ DIGI FILME",┃RO┃ NOVACAST VACANTA MARE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444389&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/ACTION.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - ACTION
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444387&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/BOOBA.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - BOOBA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444380&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/CRIME.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - CRIME
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444385&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/GRIZZY & THE LEMMINGS.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - GRIZZY & THE LEMMINGS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444375&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/MAŞA ŞI URSUL.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - MAŞA ŞI URSUL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444381&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/MAŞA ŞI URSUL.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - MAŞA ŞI URSUL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444382&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/PANTERA ROZ.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - PANTERA ROZ
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444378&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/PATRULA CĂȚELUȘILOR.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - PATRULA CĂȚELUȘILOR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444376&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/ROBERT DE NIRO.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - ROBERT DE NIRO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444384&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/THRILLER.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL -THRILLER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444386&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/TOM ȘI JERRY.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - TOM ȘI JERRY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444379&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/UCATARUL.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - UCATARUL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444383&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ DIGI FILME/ZIG & SHARKO.png" group-title="┃RO┃ DIGI FILME",┃RO┃ SPECIAL - ZIG & SHARKO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444377&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MOVIES ACTION.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MOVIES ACTION 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444442&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MOVIES ACTION.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MOVIES ACTION 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444443&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MOVIES ACTION.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MOVIES ACTION 5
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444444&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MOVIES ACTION.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MOVIES ACTION 6
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444446&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ORIGINAL CLASSIC.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ORIGINAL CLASSIC 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444435&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ORIGINAL CLASSIC.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ORIGINAL CLASSIC 2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444436&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ORIGINAL CLASSIC.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ORIGINAL CLASSIC 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444437&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ORIGINAL CLASSIC.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ORIGINAL CLASSIC 4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444438&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ORIGINAL CLASSIC.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ORIGINAL CLASSIC 5
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444439&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ORIGINAL CLASSIC.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ORIGINAL CLASSIC 6
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444440&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ACTIUNE 2 HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444533&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ACTIUNE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444553&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ARNOLD SCHWARZENEGGER FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444552&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ASTA-I ROMANIA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444532&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX AVENTURA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444531&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX AVENTURA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444551&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX BAIETI DE ORAS HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444530&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX BEST FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444550&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX BOLLYWOOD HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444529&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX CHEFI LA CUTITE HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444528&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX CLASSIC
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444549&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX CRIME FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444548&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX CULINAR FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444527&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX DENZEL WASHINGTON HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444547&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX DOI DEGEABA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444526&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX DRAMA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444525&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX FILME ROMANESTI HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444524&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX HORROR FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444523&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX JASON STATHAM FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444546&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX Jean Claude Van Damme
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444545&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX JIM CARREY FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444544&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX JOHN TRAVOLTA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444543&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX LARVA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444522&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX LAS FIERBINTI HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444505&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX LATINO MUSIC ⁴ᴷ ᵁHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444521&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX LEONARDO DiCAPRIO FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444542&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX LIAM NEESON FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444541&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX MANGALITA HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444520&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX MARTIN LAWRENCE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444540&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX MAX FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444539&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX MICKEY MOUSE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444519&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX MR. BEAN FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444518&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX MUZICA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444517&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX NICOLAS CAGE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444538&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX PETRECERE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444516&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX PREMIERE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444515&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ROBERT DE NIRO HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444537&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ROMANIA TE IUBESC HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444514&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX SCI-FI FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444513&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX SCI-FI FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444536&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX SEF SUB ACOPERIRE HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444512&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX STAND-UP FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444511&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX SUNNY BUNNIES FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444510&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX SUPER FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444535&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX SURVIVOR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444509&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX  THRILLER FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444508&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX VISURI LA CHEIE HD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444507&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX  WESTERN FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444506&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/FLIX.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ FLIX ⁴ᴷ ᵁHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444534&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV BOX MOVIES FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444565&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV COMEDIE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444564&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV FANTASY FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444563&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV FIGHT FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444562&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV FILME ROMANESTI FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444561&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV FILM FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444560&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV KARATE EXTRA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444559&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV KARATE FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444558&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV KARATE  PLUS FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444557&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV MAX MOVIES FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444556&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV MOVIES EXTRA FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444555&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/KINO TV.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ KINO TV MOVIES PLUS FHD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444554&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA ACTIUNE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444406&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA ADAM SANDLER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444405&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA ANGELINA JOLIE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444404&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA ANIMATIE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444402&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA AVENTURA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444401&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA BEN STILLER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444400&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA ISTORIC FANTASY
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444403&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA JOHNNY DEEP
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444408&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA LEONARDO DI CAPRIO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444407&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA MARTIAL ARTS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444409&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA MORGAN FREEMAN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444410&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA ROMANESTI
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444411&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA SCIENCE FICTION
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444412&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA VAL KILMER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444413&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA VAN DAMME
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444414&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MAGURA.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MAGURA WAR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444415&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/MOVIES ACTION.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ MOVIES ACTION 1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444441&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ACTION 3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444449&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ACTION 4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444450&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ACTION 6
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444451&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ADELA S3-S4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444452&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO AMERICA EXPRESS S1
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444453&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO AMERICA EXPRESS S2
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444454&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ARROW S1-S4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444455&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ARROW S5-S8
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444456&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ASIA EXPRESS S1-S3
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444457&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ATLETICO TEXTILA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444458&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO BAYMAX
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444459&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO BOB THE BUILDER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444460&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO BREAKING BAD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444462&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO BRIGADA NIMIC
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444463&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CHICAGO FIRE S1-S6
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444464&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CHICAGO FIRE S7-S12
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444465&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CHICAGO MED S1-S4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444466&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CHICAGO MED S5-S9
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444467&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CINEMA ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444468&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CINEMA TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444469&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO CLANUL
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444470&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO COMEDY ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444471&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO COMEDY THREE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444472&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO FILME RO ONE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444473&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO FILME RO TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444474&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO GAME OF THRONES S1-S4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444475&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO GAME OF THRONES S5-S8
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444476&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO GOMORRAH
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444477&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO GOOD GIRLS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444478&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO INSULA IUBIRII S1-S4
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444479&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO INSULA IUBIRII S5-S8
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444480&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO KIDS THREE
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444481&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO KIDS TWO
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444482&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO LIA SOTULUI MEU
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444483&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO LUCIFER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444484&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO MANGALITA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444485&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO MASHA AND THE BEAR
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444486&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO MERLIN
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444487&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO OZARK
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444488&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO POWER
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444489&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO PROFU
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444490&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO PURCELUSA PEPPA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444491&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO QUEEN OF THE SOUTH
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444492&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO ROSIE KIDS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444493&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO SOFIA THE FIRST
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444494&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO STATION 19
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444495&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO SUITS
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444496&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO SUPERNATURAL S1-S7
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444497&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO SUPERNATURAL S8-S15
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444498&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO THE 100
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444499&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO THE BLACKLIST
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444500&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO THE FLASH
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444501&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO THE WALKING DEAD
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444502&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO TIMON SI PUMBA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444503&extension=ts
+#EXTINF:-1 tvg-logo="http://picon.tivi-ott.net:25461/picon/ROMANIA/┃RO┃ ORIGINAL FILME/ZOKKO.png" group-title="┃RO┃ ORIGINAL FILME",┃RO┃ ZOKKO TRALALA
+http://line.cloud-ott.net:80/play/live.php?mac=MACPH&stream=1444504&extension=ts
 
