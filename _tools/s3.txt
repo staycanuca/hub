@@ -1,244 +1,717 @@
 #EXTM3U
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tvr1_ro.png" group-title="RO - Romaine",(RO) TVR 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9162&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tvr2_ro.png" group-title="RO - Romaine",(RO) TVR 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9161&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tvr3_ro.png" group-title="RO - Romaine",(RO) TVR 3 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61888&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_tv_hd.png" group-title="RO - Romaine",(RO) Pro TV 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61874&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/kanal_d_ro.png" group-title="RO - Romaine",(RO) Kanal D 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9176&extension=ts
-#EXTINF:-1 tvg-logo="https://kanald2.ro/img/kanald2/kanald2-logo.svg" group-title="RO - Romaine",(RO) Kanal D 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=209944&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/romania/acasa_ro_tv.png" group-title="RO - Romaine",(RO) Acasa 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=97057&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/romania/etno_tv.png" group-title="RO - Romaine",(RO) Etno TV 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=97054&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/discovery%20id.png" group-title="RO - Documentar & Realitate",(RO) Discovery ID
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=97053&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_tv_international.png" group-title="RO - Romaine",(RO) Pro TV International 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=6278&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/prima_tv_ro.png" group-title="RO - Romaine",(RO) PrimaTV 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9167&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/own/ro/national_tv.jpg" group-title="RO - Film",(RO) National TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9169&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/happy_channel_ro.png" group-title="RO - Romaine",(RO) Happy Channel 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38438&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tv_paprika_ro.png" group-title="RO - Romaine",(RO) TV Paprika 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38436&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/antena_stars_ro.png" group-title="RO - Romaine",(RO) Antena Stars 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9185&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/look_tv_ro_plus.png" group-title="RO - Romaine",(RO) Look Plus 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9174&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/aa/agro-tv-ro.png" group-title="RO - Romaine",(RO) Agro Tv
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=62621&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/nerdeland/e_global_us.png" group-title="RO - Romaine",(RO) E! Entertainment 4K
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38428&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/antena1_ro.png" group-title="RO - Romaine",(RO) Antena 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9186&extension=ts
-#EXTINF:-1 tvg-logo="http://tv.iptvboss.net/ch_logo/Național_24_Plus.png" group-title="RO - Romaine",(RO) National 24 Plus
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102758&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/b1_tv.png" group-title="RO - Romaine",(RO) B1
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38434&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/pp/profit-tv-ro.png" group-title="RO - Romaine",(RO) Profit TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61889&extension=ts
-#EXTINF:-1 tvg-logo="http://tv.iptvboss.net/ch_logo/Comedy_Centralpng.png" group-title="RO - Romaine",(RO) Comedy Central
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102757&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/romania/duck_tv_sk_hd.png" group-title="RO - Romaine",(RO) Duck TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102756&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/nerdeland/mezzo.png" group-title="RO - Romaine",(RO) Mezzo
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102755&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/cnn_international_global.png" group-title="RO - Romaine",(RO) CNN
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102754&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nick_toons_us.png" group-title="RO - Romaine",(RO) Nicktoons
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102753&extension=ts
-#EXTINF:-1 tvg-logo="" group-title="RO - Romaine",(RO) Aleph News
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102751&extension=ts
-#EXTINF:-1 tvg-logo="https://i.postimg.cc/d3GnpphR/AXN_Black.jpg" group-title="RO - Romaine",(RO) AXN Black
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102750&extension=ts
-#EXTINF:-1 tvg-logo="" group-title="RO - Romaine",(RO) HGTV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102749&extension=ts
-#EXTINF:-1 tvg-logo="" group-title="RO - Romaine",(RO) NCN
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102747&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/kapital%20network.png" group-title="RO - Romaine",(RO) KapitalTV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102746&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/bb/bbc_earth_uk.png" group-title="RO - Romaine",(RO) BBC Earth 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=102745&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/travel_channel_us.png" group-title="RO - Documentar & Realitate",(RO) Travel Channel 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61869&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/trinitas_tv.png" group-title="RO - Romaine",(RO) Trinitas
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61877&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/zu_tv_ro.png" group-title="RO - Romaine",(RO) Zu TV 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61871&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/bollywood_tv_ro_hd.png" group-title="RO - Film",(RO) Bollywood TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61883&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/favorit_tv_ro.png" group-title="RO - Muzică",(RO) Favorit
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61558&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/alfa_omega_tv.png" group-title="RO - Romaine",(RO) Alfa Omega
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61890&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/cbs_reality_eu.png" group-title="RO - Documentar & Realitate",(RO) CBS Reality
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61885&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/food_network_ca.png" group-title="RO - Romaine",(RO) Food network
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61557&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/telestar_ro_1.png" group-title="RO - Romaine",(RO) Telestar 1
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61879&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/tvr-cluj-ro.png" group-title="RO - Romaine",(RO) TVR Cluj HD+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=66664&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/tvr-craiova-ro.png" group-title="RO - Romaine",(RO) TVR Craiova HD+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=66665&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_24_ro_hd.png" group-title="RO - Romaine",(RO) Digi 24 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9184&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/rr/realitatea_tv_plus.png" group-title="RO - Romaine",(RO) Realitatea Plus
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=62620&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/romania_tv_ro.png" group-title="RO - Romaine",(RO) Romania TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9164&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/antena3_ro.png" group-title="RO - Romaine",(RO) Antena 3 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23290&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/pp/pro-gold-ro.png" group-title="RO - Film",(RO) Acasa Gold
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61884&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/aa/amc-us.png" group-title="RO - Film",(RO) AMC 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=46912&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/tlc_us.png" group-title="RO - Romaine",(RO) TLC
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61880&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/film-now-hu.png" group-title="RO - Film",(RO) Film Now
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61550&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_cinema_ro.png" group-title="RO - Film",(RO) Pro Cinema
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38439&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/diva_global.png" group-title="RO - Film",(RO) Diva
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61882&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/viasat_tv1000_balkan.png" group-title="RO - Film",(RO) TV1000
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9163&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_basic.png" group-title="RO - Film",(RO) Film Cafe
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61551&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/hbo_ro.png" group-title="RO - Film",(RO) HBO 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36936&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/hh/hbo2_ce.png" group-title="RO - Film",(RO) HBO 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23291&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/hh/hbo3_ce.png" group-title="RO - Film",(RO) HBO 3 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23292&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/tnt_us.png" group-title="RO - Film",(RO) TNT
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61887&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/cc/cinemaraton-ro.png" group-title="RO - Film",(RO) CineMaraton 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61875&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/cinemax_ce.png" group-title="RO - Film",(RO) Cinemax 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23293&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/cinemax_ce_2.png" group-title="RO - Film",(RO) Cinemax 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23294&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ee/epic-drama-se.png" group-title="RO - Film",(RO) Epic Drama 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61868&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/axn_global_hd.png" group-title="RO - Film",(RO) AXN 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38437&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/axn_spin_ro.png" group-title="RO - Romaine",(RO) Axn Spin 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61878&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/axn_white_us.png" group-title="RO - Film",(RO) AXN White
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38435&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_turkiye.png" group-title="RO - Film",(RO) Filmbox
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9182&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/filmbox_extra.png" group-title="RO - Film",(RO) Filmbox Extra 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=65475&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_family.png" group-title="RO - Film",(RO) Filmbox Family
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61552&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_plus_cz.png" group-title="RO - Film",(RO) Filmbox Plus
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61553&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/filmbox_premium_cz.png" group-title="RO - Film",(RO) Filmbox Premium
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61554&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/pp/paramount-network-us.png" group-title="RO - Film",(RO) Paramount Channel
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=46893&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/kiss_tv_ro.png" group-title="RO - Muzică",(RO) Kiss TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9175&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/1music_channel_ro.png" group-title="RO - Muzică",(RO) Music Channel
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9170&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/hit_music_channel.png" group-title="RO - Muzică",(RO) Hit Music
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61886&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/taraf_tv.png" group-title="RO - Romaine",(RO) Taraf TV
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=23298&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/boomerang_global_hd.png" group-title="RO - Copii",(RO) Boomerang
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61892&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/cartoon_network_global.png" group-title="RO - Copii",(RO) Cartoon Network
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=65474&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/disney_channel_global.png" group-title="RO - Copii",(RO) Disney Channel
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38432&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/disney_junior_us.png" group-title="RO - Copii",(RO) Disney Junior
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38433&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/jim_jam_global.png" group-title="RO - Copii",(RO) Jim Jam
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61891&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/minimax_ro.png" group-title="RO - Copii",(RO) Minimax
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9171&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/nick_jr_us.png" group-title="RO - Copii",(RO) Nick JR
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61895&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nickelodeon_us_hd.png" group-title="RO - Copii",(RO) Nickelodeon
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9168&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport1_ro_hd.png" group-title="RO - Sport",(RO) Digi Sport 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=802&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport2_ro.png" group-title="RO - Sport",(RO) Digi Sport 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=803&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport3_ro.png" group-title="RO - Sport",(RO) Digi Sport 3 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=804&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_sport4_ro.png" group-title="RO - Sport",(RO) Digi Sport 4 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9180&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/pro_tv.png" group-title="RO - Romaine",(RO) Pro X 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61872&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport1-ro.png" group-title="RO - Sport",(RO) Prima Sport 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38422&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport2-ro.png" group-title="RO - Sport",(RO) Prima Sport 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=65476&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport3-hd-ro.png" group-title="RO - Sport",(RO) Prima Sport 3 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38424&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/tt/telekom-sport4-hd-ro.png" group-title="RO - Sport",(RO) Prima Sport 4 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38425&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.pp.ua/prima-sport-5.png" group-title="RO - Sport",(RO) Prima Sport 5 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=209950&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162299&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 1 HD+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162303&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162300&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 2 HD+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162304&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 3 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162301&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 3 HD+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162305&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 4 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162302&extension=ts
-#EXTINF:-1 tvg-logo="https://picon.nxtbox.tv/satlogo/Senderlogos-master/orange%20sport.png" group-title="RO - Sport",(RO) Orange Sport 4 HD+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=162307&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/eurosport_fr_1_hd.png" group-title="RO - Sport",(RO) Eurosport 1 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9178&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/eurosport_fr_2_hd.png" group-title="RO - Sport",(RO) Eurosport 2 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9177&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ee/extreme_sports_fr.png" group-title="RO - Sport",(RO) Extreme Sport
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38423&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ff/fight_box_hd.png" group-title="RO - Sport",(RO) Fightbox
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9173&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/ll/looksport-ro.png" group-title="RO - Sport",(RO) Look Sport
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61894&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/the_fishing_hunting_channel_se_eu.png" group-title="RO - Sport",(RO) The Fishing & Hunting
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61556&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_animal_world_ro.png" group-title="RO - Documentar & Realitate",(RO) Digi Animal World 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9183&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_life_ro.png" group-title="RO - Documentar & Realitate",(RO) Digi Life 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9181&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/digi_world_ro.png" group-title="RO - Documentar & Realitate",(RO) Digi World 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=9179&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/discovery_global_us_hd.png" group-title="RO - Documentar & Realitate",(RO) Discovery channel 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61870&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/history_us.png" group-title="RO - Documentar & Realitate",(RO) History 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61873&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/uk/investigation_discovery_us.png" group-title="RO - Documentar & Realitate",(RO) Investigation Discovery
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=62622&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nat_geo_wild_lam_hd.png" group-title="RO - Documentar & Realitate",(RO) Nat Geo Wild 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38430&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/nn/nat_geo_us_hd.png" group-title="RO - Documentar & Realitate",(RO) National Geographic 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=38429&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/satlogo/romania/travel_mix.png" group-title="RO - Documentar & Realitate",(RO) Travel Mix
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=61893&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/vv/viasat_explore_ru.png" group-title="RO - Documentar & Realitate",(RO) Viasat Explore
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36938&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/vv/viasat_history_hd.png" group-title="RO - Documentar & Realitate",(RO) Viasat History
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36937&extension=ts
-#EXTINF:-1 tvg-logo="http://piconserver.nxtbox.de/lyngsat/tv/vv/viasat_nature_hd.png" group-title="RO - Documentar & Realitate",(RO) Viasat Nature 4K+
-http://prm.worldip.nl:80/play/live.php?mac=MACPH&stream=36939&extension=ts
-
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208004.png" group-title="RO| CANALE GENERALE",RO|  TVR FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208004&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92459.png" group-title="RO| CANALE GENERALE",RO| TVR HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92459&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56086.png" group-title="RO| CANALE GENERALE",RO| TVR 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56086&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56088.png" group-title="RO| CANALE GENERALE",RO| TVR 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56088&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207938.png" group-title="RO| CANALE GENERALE",RO|  TVR 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207938&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207939.png" group-title="RO| CANALE GENERALE",RO|  TVR 3
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207939&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459769.png" group-title="RO| CANALE GENERALE",RO| TVR CLUJ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459769&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208003.png" group-title="RO| CANALE GENERALE",RO|  TVR CRAIOVA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208003&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1487631.png" group-title="RO| CANALE GENERALE",RO| TVR INTERNATIONAL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1487631&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459772.png" group-title="RO| CANALE GENERALE",RO| TVR TARGU MURES
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459772&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56095.png" group-title="RO| CANALE GENERALE",RO| NATIONAL TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56095&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459776.png" group-title="RO| CANALE GENERALE",RO| NAŢIONAL TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459776&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207987.png" group-title="RO| CANALE GENERALE",RO|  NATIONAL 24
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207987&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459775.png" group-title="RO| CANALE GENERALE",RO| NAŢIONAL 24 PLUS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459775&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319084.png" group-title="RO| CANALE GENERALE",RO| PRO TV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319084&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56093.png" group-title="RO| CANALE GENERALE",RO| PRO TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56093&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319072.png" group-title="RO| CANALE GENERALE",RO| PROTV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319072&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319173.png" group-title="RO| CANALE GENERALE",RO| PRO TV NEWS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319173&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56042.png" group-title="RO| CANALE GENERALE",RO| PROTV INTERNATIONAL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56042&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56091.png" group-title="RO| CANALE GENERALE",RO| ROMANIA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56091&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207908.png" group-title="RO| CANALE GENERALE",RO|  AGRO TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207908&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207911.png" group-title="RO| CANALE GENERALE",RO|  ANTENA 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207911&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207912.png" group-title="RO| CANALE GENERALE",RO|  ANTENA STARS HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207912&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207948.png" group-title="RO| CANALE GENERALE",RO|  BUCOVINA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207948&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207950.png" group-title="RO| CANALE GENERALE",RO| AGRO TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207950&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207960.png" group-title="RO| CANALE GENERALE",RO| DIGI 24
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207960&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207919.png" group-title="RO| CANALE GENERALE",RO|  DUNA HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207919&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207949.png" group-title="RO| CANALE GENERALE",RO|  KANAL D 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207949&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207970.png" group-title="RO| CANALE GENERALE",RO|  MOLDOVA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207970&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207991.png" group-title="RO| CANALE GENERALE",RO|  PRO TV NEWS HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207991&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207997.png" group-title="RO| CANALE GENERALE",RO|  PROFIT TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207997&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207999.png" group-title="RO| CANALE GENERALE",RO| ROMANIA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207999&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208013.png" group-title="RO| CANALE GENERALE",RO|  TRINITAS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208013&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92517.png" group-title="RO| CANALE GENERALE",RO| ALFA & OMEGA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92517&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459771.png" group-title="RO| CANALE GENERALE",RO| ALFA OMEGA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459771&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56082.png" group-title="RO| CANALE GENERALE",RO| ANTENA 3
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56082&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459741.png" group-title="RO| CANALE GENERALE",RO| ANTENA 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459741&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56126.png" group-title="RO| CANALE GENERALE",RO| ANTENA STARS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56126&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459736.png" group-title="RO| CANALE GENERALE",RO| ANTENA STARS HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459736&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56125.png" group-title="RO| CANALE GENERALE",RO| B1 TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56125&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92533.png" group-title="RO| CANALE GENERALE",RO| BUCOVINA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92533&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464650.png" group-title="RO| CANALE GENERALE",RO| CNBC EUROPE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464650&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464649.png" group-title="RO| CANALE GENERALE",RO| CNN
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464649&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319123.png" group-title="RO| CANALE GENERALE",RO| CREDO TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319123&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464648.png" group-title="RO| CANALE GENERALE",RO| DIGI 24
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464648&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041538.png" group-title="RO| CANALE GENERALE",RO| DIGI 24 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041538&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459766.png" group-title="RO| CANALE GENERALE",RO| MOLDOVA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459766&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56061.png" group-title="RO| CANALE GENERALE",RO| ETNO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56061&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1410220.png" group-title="RO| CANALE GENERALE",RO| EURONEWS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1410220&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464640.png" group-title="RO| CANALE GENERALE",RO| FRANCE 24
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464640&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/75802.png" group-title="RO| CANALE GENERALE",RO| KANAL D
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=75802&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459765.png" group-title="RO| CANALE GENERALE",RO| KANAL D HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459765&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464639.png" group-title="RO| CANALE GENERALE",RO| KANAL D 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464639&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92619.png" group-title="RO| CANALE GENERALE",RO| MDI TV RO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92619&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464634.png" group-title="RO| CANALE GENERALE",RO| MEDIASET ITALIA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464634&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319140.png" group-title="RO| CANALE GENERALE",RO| MOLDOVA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319140&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56052.png" group-title="RO| CANALE GENERALE",RO| N24
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56052&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56051.png" group-title="RO| CANALE GENERALE",RO| NASUL TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56051&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56092.png" group-title="RO| CANALE GENERALE",RO| REALITATEA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56092&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56041.png" group-title="RO| CANALE GENERALE",RO| SPERANTA Tv
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56041&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464622.png" group-title="RO| CANALE GENERALE",RO| SUPERTV2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464622&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56035.png" group-title="RO| CANALE GENERALE",RO| TV PAPRIKA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56035&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459754.png" group-title="RO| CANALE GENERALE",RO| TV PAPRIKA HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459754&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464617.png" group-title="RO| CANALE GENERALE",RO| TV5 MONDE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464617&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207946.png" group-title="RO| CANALE DE DIVERTISMENT",RO|  ARCADIA WORLD FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207946&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207976.png" group-title="RO| CANALE DE DIVERTISMENT",RO|  FOOD NETWORK FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207976&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207979.png" group-title="RO| CANALE DE DIVERTISMENT",RO|  HAPPY CHANNEL FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207979&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207995.png" group-title="RO| CANALE DE DIVERTISMENT",RO|  PRIMA LOVE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207995&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56127.png" group-title="RO| CANALE DE DIVERTISMENT",RO| ANTENA 1 FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56127&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041528.png" group-title="RO| CANALE DE DIVERTISMENT",RO| CBS REALITY
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041528&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56072.png" group-title="RO| CANALE DE DIVERTISMENT",RO| COMEDY CENTRAL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56072&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459757.png" group-title="RO| CANALE DE DIVERTISMENT",RO| COMEDY CENTRAL HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459757&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56063.png" group-title="RO| CANALE DE DIVERTISMENT",RO| DIVA UNIVERSAL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56063&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464647.png" group-title="RO| CANALE DE DIVERTISMENT",RO| DIZI CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464647&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56062.png" group-title="RO| CANALE DE DIVERTISMENT",RO| E!
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56062&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459758.png" group-title="RO| CANALE DE DIVERTISMENT",RO| E! ENTERTAINMENT HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459758&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459761.png" group-title="RO| CANALE DE DIVERTISMENT",RO| FASHION TV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459761&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459779.png" group-title="RO| CANALE DE DIVERTISMENT",RO| FOOD TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459779&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56106.png" group-title="RO| CANALE DE DIVERTISMENT",RO| HAPPY CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56106&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459764.png" group-title="RO| CANALE DE DIVERTISMENT",RO| HAPPY CHANNEL HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459764&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56100.png" group-title="RO| CANALE DE DIVERTISMENT",RO| HGTV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56100&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464638.png" group-title="RO| CANALE DE DIVERTISMENT",RO| IZAURA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464638&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459746.png" group-title="RO| CANALE DE DIVERTISMENT",RO| MYZEN HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459746&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464626.png" group-title="RO| CANALE DE DIVERTISMENT",RO| PRIMA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464626&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56094.png" group-title="RO| CANALE DE DIVERTISMENT",RO| PRIMA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56094&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041521.png" group-title="RO| CANALE DE DIVERTISMENT",RO| PRIMATV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041521&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92655.png" group-title="RO| CANALE DE DIVERTISMENT",RO| REALITATEA PLUS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92655&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92465.png" group-title="RO| CANALE DE DIVERTISMENT",RO| TLC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92465&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464619.png" group-title="RO| CANALE DE DIVERTISMENT",RO| TV2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464619&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464618.png" group-title="RO| CANALE DE DIVERTISMENT",RO| TV4
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464618&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207951.png" group-title="RO| CANALE DE CINEMA",RO|  CINEMAX 1 FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207951&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207952.png" group-title="RO| CANALE DE CINEMA",RO|  CINEMAX 2 FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207952&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/CINETHRONIX-.jpg" group-title="RO| CANALE DE CINEMA",RO|  CINETHRONIX
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207953&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/epicdramahd.png" group-title="RO| CANALE DE CINEMA",RO|  EPIC DRAMA FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207969&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207922.png" group-title="RO| CANALE DE CINEMA",RO|  FILM CAFE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207922&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207920.png" group-title="RO| CANALE DE CINEMA",RO|  FILM NOW
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207920&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207957.png" group-title="RO| CANALE DE CINEMA",RO|  FILM NOW HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207957&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/filmboxfamily.png" group-title="RO| CANALE DE CINEMA",RO|  FILMBOX FAMILY
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207974&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207975.png" group-title="RO| CANALE DE CINEMA",RO|  FILMBOX PLUS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207975&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207924.png" group-title="RO| CANALE DE CINEMA",RO|  FILMBOX PREMIUM
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207924&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207925.png" group-title="RO| CANALE DE CINEMA",RO|  HBO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207925&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56057.png" group-title="RO| CANALE DE CINEMA",RO| HBO HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56057&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56105.png" group-title="RO| CANALE DE CINEMA",RO| HBO 2 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56105&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207926.png" group-title="RO| CANALE DE CINEMA",RO|  HBO 3
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207926&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459747.png" group-title="RO| CANALE DE CINEMA",RO| HBO 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459747&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56104.png" group-title="RO| CANALE DE CINEMA",RO| HBO 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56104&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207984.png" group-title="RO| CANALE DE CINEMA",RO|  MANIA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207984&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208000.png" group-title="RO| CANALE DE CINEMA",RO|  SANGEORZ TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208000&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319158.png" group-title="RO| CANALE DE CINEMA",RO| ACASA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319158&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56044.png" group-title="RO| CANALE DE CINEMA",RO| ACASA GOLD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56044&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/amcmehd.png" group-title="RO| CANALE DE CINEMA",RO| AMC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56083&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/amcmehd.png" group-title="RO| CANALE DE CINEMA",RO| AMC HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459750&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/amcmehd.png" group-title="RO| CANALE DE CINEMA",RO| AMC RO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92505&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56081.png" group-title="RO| CANALE DE CINEMA",RO| AXN
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56081&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56080.png" group-title="RO| CANALE DE CINEMA",RO| AXN BLACK
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56080&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459751.png" group-title="RO| CANALE DE CINEMA",RO| AXN HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459751&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56079.png" group-title="RO| CANALE DE CINEMA",RO| AXN SPIN
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56079&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56078.png" group-title="RO| CANALE DE CINEMA",RO| AXN WHITE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56078&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459780.png" group-title="RO| CANALE DE CINEMA",RO| BOLLYWOOD CLASIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459780&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459738.png" group-title="RO| CANALE DE CINEMA",RO| BOLLYWOOD HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459738&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56077.png" group-title="RO| CANALE DE CINEMA",RO| BOLLYWOOD TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56077&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207947.png" group-title="RO| CANALE DE CINEMA",RO|  BOLLYWOOD CLASIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207947&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041535.png" group-title="RO| CANALE DE CINEMA",RO| CINE THRONIX
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041535&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459734.png" group-title="RO| CANALE DE CINEMA",RO| CINEMARATON
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459734&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207954.png" group-title="RO| CANALE DE CINEMA",RO| CINEMARATON
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207954&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92537.png" group-title="RO| CANALE DE CINEMA",RO| CINEMARATON
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92537&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041525.png" group-title="RO| CANALE DE CINEMA",RO| CINEMARATON HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041525&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319009.png" group-title="RO| CANALE DE CINEMA",RO| CINEMAX 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319009&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56124.png" group-title="RO| CANALE DE CINEMA",RO| CINEMAX 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56124&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459743.png" group-title="RO| CANALE DE CINEMA",RO| CINEMAX HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459743&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56073.png" group-title="RO| CANALE DE CINEMA",RO| CINEMAX RO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56073&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459753.png" group-title="RO| CANALE DE CINEMA",RO| FILM CAFE HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459753&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041530.png" group-title="RO| CANALE DE CINEMA",RO| FILM NOW HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041530&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464643.png" group-title="RO| CANALE DE CINEMA",RO| FILMBOX BASIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464643&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92588.png" group-title="RO| CANALE DE CINEMA",RO| FILMBOX EXTRA HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92588&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464642.png" group-title="RO| CANALE DE CINEMA",RO| FILMBOX STARS INT
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464642&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464632.png" group-title="RO| CANALE DE CINEMA",RO| MOZI+
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464632&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56046.png" group-title="RO| CANALE DE CINEMA",RO| PRO 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56046&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459762.png" group-title="RO| CANALE DE CINEMA",RO| PRO 2 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459762&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56045.png" group-title="RO| CANALE DE CINEMA",RO| PRO CINEMA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56045&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319090.png" group-title="RO| CANALE DE CINEMA",RO| TV 1000
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319090&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464620.png" group-title="RO| CANALE DE CINEMA",RO| TV1000
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464620&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464616.png" group-title="RO| CANALE DE CINEMA",RO| WARNER TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464616&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56037.png" group-title="RO| CANALE DE CINEMA",RO| WB TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56037&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459760.png" group-title="RO| CANALE DE CINEMA",RO| WB TV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459760&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56076.png" group-title="RO| CANALE PENTRU COPII",RO| CARTOONITO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56076&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319006.png" group-title="RO| CANALE PENTRU COPII",RO| CARTOON
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319006&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464652.png" group-title="RO| CANALE PENTRU COPII",RO| CARTOONITO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464652&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56075.png" group-title="RO| CANALE PENTRU COPII",RO| CARTOON NETWORK
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56075&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56069.png" group-title="RO| CANALE PENTRU COPII",RO| DA VINCI LEARNING
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56069&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92492.png" group-title="RO| CANALE PENTRU COPII",RO| DISNEY
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92492&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/disneych.png" group-title="RO| CANALE PENTRU COPII",RO| DISNEY CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56064&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56114.png" group-title="RO| CANALE PENTRU COPII",RO| DISNEY JUNIOR
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56114&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207968.png" group-title="RO| CANALE PENTRU COPII",RO|  DUCK TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207968&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464646.png" group-title="RO| CANALE PENTRU COPII",RO| DUCKTV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464646&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="https://logo.protv.cc/piconsnew/jimjam.png" group-title="RO| CANALE PENTRU COPII",RO| JIM JAM
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92611&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464636.png" group-title="RO| CANALE PENTRU COPII",RO| M1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464636&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464635.png" group-title="RO| CANALE PENTRU COPII",RO| M2|PETOFI
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464635&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56099.png" group-title="RO| CANALE PENTRU COPII",RO| MINIMAX
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56099&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207989.png" group-title="RO| CANALE PENTRU COPII",RO|  NICKELODEON
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207989&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319169.png" group-title="RO| CANALE PENTRU COPII",RO| NICK JR
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319169&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464627.png" group-title="RO| CANALE PENTRU COPII",RO| NICKTOONS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464627&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464621.png" group-title="RO| CANALE PENTRU COPII",RO| TEENNICK ROMANIA
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464621&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207913.png" group-title="RO| CANALE DE SPORT",RO|  AUTO MOTOR SPORT
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207913&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207916.png" group-title="RO| CANALE DE SPORT",RO|  DIGI SPORT 1 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207916&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56119.png" group-title="RO| CANALE DE SPORT",RO| DIGI SPORT 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56119&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207917.png" group-title="RO| CANALE DE SPORT",RO|  DIGI SPORT 2 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207917&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56118.png" group-title="RO| CANALE DE SPORT",RO| DIGI SPORT 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56118&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207963.png" group-title="RO| CANALE DE SPORT",RO|  DIGI SPORT 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207963&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041527.png" group-title="RO| CANALE DE SPORT",RO| DIGI SPORT 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041527&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319153.png" group-title="RO| CANALE DE SPORT",RO| DIGI SPORT 3
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319153&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56117.png" group-title="RO| CANALE DE SPORT",RO| DIGI SPORT 3
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56117&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207964.png" group-title="RO| CANALE DE SPORT",RO|  DIGI SPORT 4 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207964&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56116.png" group-title="RO| CANALE DE SPORT",RO| DIGI SPORT 4
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56116&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459742.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459742&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92618.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92618&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207930.png" group-title="RO| CANALE DE SPORT",RO|  PRIMA SPORT
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207930&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208006.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 1 FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208006&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92489.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 1 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92489&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56113.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56113&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207928.png" group-title="RO| CANALE DE SPORT",RO|  PRIMA SPORT 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207928&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56040.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56040&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208007.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 2 FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208007&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92488.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 2 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92488&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92477.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 2 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92477&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208009.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 3 FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208009&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459749.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459749&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92476.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 3 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92476&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56111.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 3
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56111&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92486.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 4 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92486&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92680.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 4
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92680&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56110.png" group-title="RO| CANALE DE SPORT",RO| EUROSPORT 1 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56110&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56109.png" group-title="RO| CANALE DE SPORT",RO| EUROSPORT 2 HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56109&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459773.png" group-title="RO| CANALE DE SPORT",RO| EXTREME SPORTS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459773&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56060.png" group-title="RO| CANALE DE SPORT",RO| EXTREME SPORTS CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56060&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92584.png" group-title="RO| CANALE DE SPORT",RO| FIGHTBOX
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92584&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56039.png" group-title="RO| CANALE DE SPORT",RO| PRIMA SPORT 2
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56039&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459763.png" group-title="RO| CANALE DE SPORT",RO| PRO ARENA  HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459763&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92467.png" group-title="RO| CANALE DE SPORT",RO| Pro Arena
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92467&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/443338.png" group-title="RO| CANALE DOCUMENTARE",RO| DIGI 4K UHD [Only For 4K Devices]
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=443338&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207910.png" group-title="RO| CANALE DOCUMENTARE",RO|  ANIMAL PLANET HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207910&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207956.png" group-title="RO| CANALE DOCUMENTARE",RO|  CRIME INVESTIGATION
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207956&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207965.png" group-title="RO| CANALE DOCUMENTARE",RO|  DIGI WORLD FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207965&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207918.png" group-title="RO| CANALE DOCUMENTARE",RO|  DISCOVERY CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207918&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207967.png" group-title="RO| CANALE DOCUMENTARE",RO|  DTX HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207967&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207927.png" group-title="RO| CANALE DOCUMENTARE",RO|  HISTORY HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207927&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207986.png" group-title="RO| CANALE DOCUMENTARE",RO|  NAT GEO FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207986&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/208012.png" group-title="RO| CANALE DOCUMENTARE",RO|  TRAVEL MIX FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=208012&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207940.png" group-title="RO| CANALE DOCUMENTARE",RO|  VIASAT EXPLORER
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207940&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459737.png" group-title="RO| CANALE DOCUMENTARE",RO| ANIMAL PLANET HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459737&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1132498.png" group-title="RO| CANALE DOCUMENTARE",RO| BBC EARTH FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1132498&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459778.png" group-title="RO| CANALE DOCUMENTARE",RO| CRIME&INVESTIGATION NETWORK
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459778&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56122.png" group-title="RO| CANALE DOCUMENTARE",RO| DIGI ANIMAL WORLD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56122&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041529.png" group-title="RO| CANALE DOCUMENTARE",RO| DIGI ANIMAL WORLD HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041529&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56120.png" group-title="RO| CANALE DOCUMENTARE",RO| DIGI LIFE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56120&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56115.png" group-title="RO| CANALE DOCUMENTARE",RO| DIGI WORLD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56115&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56068.png" group-title="RO| CANALE DOCUMENTARE",RO| DISCOVERY
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56068&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459752.png" group-title="RO| CANALE DOCUMENTARE",RO| DISCOVERY HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459752&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459774.png" group-title="RO| CANALE DOCUMENTARE",RO| DISCOVERY SCIENCE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459774&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92561.png" group-title="RO| CANALE DOCUMENTARE",RO| DISCOVERY SHOWCASE HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92561&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92490.png" group-title="RO| CANALE DOCUMENTARE",RO| DOCUBOX
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92490&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56107.png" group-title="RO| CANALE DOCUMENTARE",RO| FISHING & HUNTING
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56107&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56103.png" group-title="RO| CANALE DOCUMENTARE",RO| HISTORY CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56103&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459768.png" group-title="RO| CANALE DOCUMENTARE",RO| ID
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459768&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92610.png" group-title="RO| CANALE DOCUMENTARE",RO| INVESTIGATION DISCOVERY HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92610&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464637.png" group-title="RO| CANALE DOCUMENTARE",RO| LOVE NATURE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464637&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56097.png" group-title="RO| CANALE DOCUMENTARE",RO| NAT GEO WILD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56097&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/natgeographicro.png" group-title="RO| CANALE DOCUMENTARE",RO| NAT GEOGRAPHIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56096&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319098.png" group-title="RO| CANALE DOCUMENTARE",RO| TRAVEL CHANNEL HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319098&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459739.png" group-title="RO| CANALE DOCUMENTARE",RO| TRAVEL HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459739&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459777.png" group-title="RO| CANALE DOCUMENTARE",RO| TRAVEL MIX
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459777&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459735.png" group-title="RO| CANALE DOCUMENTARE",RO| TRAVEL XP HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459735&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459755.png" group-title="RO| CANALE DOCUMENTARE",RO| VIASAT EXPLORE HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459755&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56029.png" group-title="RO| CANALE DOCUMENTARE",RO| VIASAT HISTORY
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56029&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459740.png" group-title="RO| CANALE DOCUMENTARE",RO| VIASAT HISTORY HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459740&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56087.png" group-title="RO| CANALE DOCUMENTARE",RO| VIASAT NATURE
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56087&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/459756.png" group-title="RO| CANALE DOCUMENTARE",RO| VIASAT NATURE HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=459756&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/1musicchannel.png" group-title="RO| CANALE MUZICALE",RO| 1 MUSIC CHANNEL
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92506&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207958.png" group-title="RO| CANALE MUZICALE",RO|  DIASPORA TV FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207958&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1429937.png" group-title="RO| CANALE MUZICALE",RO| FAVORIT TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1429937&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/hitmusicro.png" group-title="RO| CANALE MUZICALE",RO|  HIT MUSIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207980&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/92603.png" group-title="RO| CANALE MUZICALE",RO| HORA TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=92603&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041541.png" group-title="RO| CANALE MUZICALE",RO| HORA TV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041541&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56102.png" group-title="RO| CANALE MUZICALE",RO| KISS TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56102&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207983.png" group-title="RO| CANALE MUZICALE",RO|  MAGIC TV FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207983&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/319159.png" group-title="RO| CANALE MUZICALE",RO| MAGIC TV FHD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=319159&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1464633.png" group-title="RO| CANALE MUZICALE",RO| MEZZO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464633&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56054.png" group-title="RO| CANALE MUZICALE",RO| MOOZ RO
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56054&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/207932.png" group-title="RO| CANALE MUZICALE",RO|  MTV HITS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=207932&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56053.png" group-title="RO| CANALE MUZICALE",RO| MTV ROCKS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56053&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/stingraycmusic.png" group-title="RO| CANALE MUZICALE",RO| STINGRAY CMUSIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464624&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/stingraycmusic.png" group-title="RO| CANALE MUZICALE",RO| STINGRAY ICONCERTS
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1464623&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041540.png" group-title="RO| CANALE MUZICALE",RO| TARFA TV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041540&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56032.png" group-title="RO| CANALE MUZICALE",RO| UTV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56032&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1041537.png" group-title="RO| CANALE MUZICALE",RO| UTV HD
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1041537&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56031.png" group-title="RO| CANALE MUZICALE",RO| VH 1
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56031&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://103.176.90.118/picons/logos/vh1classic.png" group-title="RO| CANALE MUZICALE",RO| VH 1 CLASSIC
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56030&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/56028.png" group-title="RO| CANALE MUZICALE",RO| ZU TV
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=56028&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="" group-title="RO| FOCUS SAT VIP",####### FOCUS SAT VIP #######
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741091&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741090.png" group-title="RO| FOCUS SAT VIP",RO| ACASA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741090&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741089.png" group-title="RO| FOCUS SAT VIP",RO| ACASA GOLD ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741089&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741088.png" group-title="RO| FOCUS SAT VIP",RO| AGRO TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741088&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/amcmehd.png" group-title="RO| FOCUS SAT VIP",RO| AMC ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741087&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741086.png" group-title="RO| FOCUS SAT VIP",RO| AUTO MOTOR SPORT ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741086&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741085.png" group-title="RO| FOCUS SAT VIP",RO| AXN BLACK ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741085&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741084.png" group-title="RO| FOCUS SAT VIP",RO| AXN ROMANIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741084&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741083.png" group-title="RO| FOCUS SAT VIP",RO| AXN WHITE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741083&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741082.png" group-title="RO| FOCUS SAT VIP",RO| B1 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741082&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741081.png" group-title="RO| FOCUS SAT VIP",RO| BBC EARTH ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741081&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741080.png" group-title="RO| FOCUS SAT VIP",RO| BOLLYWOOD TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741080&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741079.png" group-title="RO| FOCUS SAT VIP",RO| CARTOON NETWORK ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741079&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741078.png" group-title="RO| FOCUS SAT VIP",RO| CARTOONITO ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741078&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741077.png" group-title="RO| FOCUS SAT VIP",RO| CBS REALITY ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741077&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741076.png" group-title="RO| FOCUS SAT VIP",RO| CINEMAX ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741076&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741075.png" group-title="RO| FOCUS SAT VIP",RO| CINEMAX 2 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741075&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741074.png" group-title="RO| FOCUS SAT VIP",RO| CLUB MTV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741074&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741073.png" group-title="RO| FOCUS SAT VIP",RO| CNBC EUROPE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741073&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741072.png" group-title="RO| FOCUS SAT VIP",RO| CNN ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741072&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741071.png" group-title="RO| FOCUS SAT VIP",RO| COMEDY CENTRAL ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741071&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741070.png" group-title="RO| FOCUS SAT VIP",RO| COMEDY CENTRAL ROMANIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741070&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741069.png" group-title="RO| FOCUS SAT VIP",RO| CRIME+ INVESTIGATION ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741069&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741068.png" group-title="RO| FOCUS SAT VIP",RO| CURRENT TIME TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741068&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741067.png" group-title="RO| FOCUS SAT VIP",RO| DIGI 24 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741067&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741066.png" group-title="RO| FOCUS SAT VIP",RO| DISNEY ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741066&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741065.png" group-title="RO| FOCUS SAT VIP",RO| DISNEY JUNIOR ROMANIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741065&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741064.png" group-title="RO| FOCUS SAT VIP",RO| DIVA UNIVERSAL ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741064&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741063.png" group-title="RO| FOCUS SAT VIP",RO| DIZI CHANNEL ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741063&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741062.png" group-title="RO| FOCUS SAT VIP",RO| DOCU BOX ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741062&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741061.png" group-title="RO| FOCUS SAT VIP",RO| DUCK TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741061&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741060.png" group-title="RO| FOCUS SAT VIP",RO| DUNA TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741060&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741059.png" group-title="RO| FOCUS SAT VIP",RO| DUNA WORLD / M4 SPORT+ ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741059&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741058.png" group-title="RO| FOCUS SAT VIP",RO| E! ENTERTAINMENT ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741058&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741057.png" group-title="RO| FOCUS SAT VIP",RO| ENGLISH CLUB TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741057&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="https://logo.protv.cc/piconsnew/epicdrama.png" group-title="RO| FOCUS SAT VIP",RO| EPIC DRAMA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741056&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741055.png" group-title="RO| FOCUS SAT VIP",RO| ETNO ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741055&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741054.png" group-title="RO| FOCUS SAT VIP",RO| EXTREME SPORTS CHANNEL ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741054&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741053.png" group-title="RO| FOCUS SAT VIP",RO| FASHION TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741053&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741052.png" group-title="RO| FOCUS SAT VIP",RO| FAVORIT TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741052&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741051.png" group-title="RO| FOCUS SAT VIP",RO| FIGHT BOX ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741051&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741050.png" group-title="RO| FOCUS SAT VIP",RO| FILM CAFE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741050&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741049.png" group-title="RO| FOCUS SAT VIP",RO| FILM BOX BASIC ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741049&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741048.png" group-title="RO| FOCUS SAT VIP",RO| FILM BOX EXTRA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741048&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="https://logo.protv.cc/piconsnew/filmboxfamily.png" group-title="RO| FOCUS SAT VIP",RO| FILM BOX FAMILY ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741047&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741046.png" group-title="RO| FOCUS SAT VIP",RO| FILM BOX PREMIUM ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741046&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741045.png" group-title="RO| FOCUS SAT VIP",RO| FILM BOX STARS INT ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741045&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741044.png" group-title="RO| FOCUS SAT VIP",RO| FRANCE 24 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741044&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741043.png" group-title="RO| FOCUS SAT VIP",RO| HBO ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741043&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741042.png" group-title="RO| FOCUS SAT VIP",RO| HBO 2 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741042&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741041.png" group-title="RO| FOCUS SAT VIP",RO| HBO 3 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741041&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741040.png" group-title="RO| FOCUS SAT VIP",RO| HISTORY ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741040&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741039.png" group-title="RO| FOCUS SAT VIP",RO| IZAURA TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741039&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="https://logo.protv.cc/piconsnew/jimjam.png" group-title="RO| FOCUS SAT VIP",RO| JIMJAM ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741038&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741037.png" group-title="RO| FOCUS SAT VIP",RO| KANAL D ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741037&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741036.png" group-title="RO| FOCUS SAT VIP",RO| KANAL D 2 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741036&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741035.png" group-title="RO| FOCUS SAT VIP",RO| LOVE NATURE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741035&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741034.png" group-title="RO| FOCUS SAT VIP",RO| M1 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741034&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741033.png" group-title="RO| FOCUS SAT VIP",RO| M2 / PETOFI ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741033&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741032.png" group-title="RO| FOCUS SAT VIP",RO| MEDIASET ITALIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741032&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741031.png" group-title="RO| FOCUS SAT VIP",RO| MEZZO ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741031&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741030.png" group-title="RO| FOCUS SAT VIP",RO| MINI MAX ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741030&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741029.png" group-title="RO| FOCUS SAT VIP",RO| MOZI+ ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741029&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741028.png" group-title="RO| FOCUS SAT VIP",RO| MTV 00S ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741028&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741027.png" group-title="RO| FOCUS SAT VIP",RO| MTV 80S ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741027&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741026.png" group-title="RO| FOCUS SAT VIP",RO| MTV EUROPE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741026&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741025.png" group-title="RO| FOCUS SAT VIP",RO| MTV HITS ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741025&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="https://logo.protv.cc/piconsnew/nationalgeographic.png" group-title="RO| FOCUS SAT VIP",RO| NATIONAL GEOGRAPHIC ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741024&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741023.png" group-title="RO| FOCUS SAT VIP",RO| NATIONAL TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741023&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741022.png" group-title="RO| FOCUS SAT VIP",RO| NAUTICAL CHANNEL ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741022&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741021.png" group-title="RO| FOCUS SAT VIP",RO| NEWS MAX ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741021&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741020.png" group-title="RO| FOCUS SAT VIP",RO| NICK JR ROMANIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741020&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741019.png" group-title="RO| FOCUS SAT VIP",RO| NICKELODEON HUNGARY ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741019&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741018.png" group-title="RO| FOCUS SAT VIP",RO| NICKELODEON ROMANIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741018&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741017.png" group-title="RO| FOCUS SAT VIP",RO| NICKTOONS ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741017&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741016.png" group-title="RO| FOCUS SAT VIP",RO| PRIME ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741016&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741015.png" group-title="RO| FOCUS SAT VIP",RO| PRO ARENA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741015&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741014.png" group-title="RO| FOCUS SAT VIP",RO| PRO CINEMA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741014&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741013.png" group-title="RO| FOCUS SAT VIP",RO| PRO TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741013&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741012.png" group-title="RO| FOCUS SAT VIP",RO| REALITATEA TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741012&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="https://logo.protv.cc/piconsnew/nationalgeographicwild.png" group-title="RO| FOCUS SAT VIP",RO| NATIONAL GEOGRAPHIC WILD ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741011&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/stingraycmusic.png" group-title="RO| FOCUS SAT VIP",RO| STINGRAY CMUSIC ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741010&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/stingraycmusic.png" group-title="RO| FOCUS SAT VIP",RO| STINGRAY ICONCERTS ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741009&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741008.png" group-title="RO| FOCUS SAT VIP",RO| SUPER TV 2 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741008&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741007.png" group-title="RO| FOCUS SAT VIP",RO| TEENNICK ROMANIA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741007&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741006.png" group-title="RO| FOCUS SAT VIP",RO| TRAVEL XP ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741006&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741005.png" group-title="RO| FOCUS SAT VIP",RO| TRINITAS ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741005&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741004.png" group-title="RO| FOCUS SAT VIP",RO| TV PAPRIKA ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741004&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741003.png" group-title="RO| FOCUS SAT VIP",RO| TV PAPRIKA RO ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741003&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741002.png" group-title="RO| FOCUS SAT VIP",RO| TV1000 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741002&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741001.png" group-title="RO| FOCUS SAT VIP",RO| TV 2 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741001&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1741000.png" group-title="RO| FOCUS SAT VIP",RO| TV4 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1741000&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740999.png" group-title="RO| FOCUS SAT VIP",RO| TV5 MONDE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740999&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740998.png" group-title="RO| FOCUS SAT VIP",RO| TVR 1 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740998&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740997.png" group-title="RO| FOCUS SAT VIP",RO| TVR 2 ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740997&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740996.png" group-title="RO| FOCUS SAT VIP",RO| TVR SPORT ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740996&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740995.png" group-title="RO| FOCUS SAT VIP",RO| VIASAT EXPLORE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740995&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740994.png" group-title="RO| FOCUS SAT VIP",RO| VIASAT HISTORY ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740994&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740993.png" group-title="RO| FOCUS SAT VIP",RO| VIASAT NATURE ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740993&extension=ts&play_token=TOKENPH
+#EXTINF:-1 tvg-logo="http://picons.cmshulk.com/picons/1740992.png" group-title="RO| FOCUS SAT VIP",RO| WARNER TV ᴿᴬᵂ
+http://line.myox.me:80/play/live.php?mac=MACPH&stream=1740992&extension=ts&play_token=TOKENPH
