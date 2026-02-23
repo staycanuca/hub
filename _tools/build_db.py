@@ -258,7 +258,7 @@ def main():
     valid_count = 0
     total_movies = 0
     
-    with concurrent.futures.ThreadPoolRequest(max_workers=MAX_WORKERS) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         # Submit all tasks
         future_to_server = {executor.submit(validate_and_fetch_server, s): s for s in servers_to_check}
         
