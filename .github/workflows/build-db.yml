@@ -3,7 +3,7 @@ name: Build IPTV Database
 on:
   schedule:
     - cron: '0 3 * * *' # Ruleaza in fiecare zi la ora 3 AM UTC
-  workflow_dispatch: # Permite declansarea manuala din GitHub UI
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -35,11 +35,16 @@ jobs:
         run: python _tools/build_db.py
 
       - name: Commit and Push Database
+        shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+
+          # Sync with remote BEFORE creating the commit
+          git fetch origin main
+          git pull --rebase --autostash origin main
 
           git add iptv_aggregator.db
           git commit -m "Auto-update IPTV Database [skip ci]" || exit 0
@@ -47,10 +52,13 @@ jobs:
           # Retry loop to avoid non-fast-forward if another run pushed first
           for i in 1 2 3 4 5; do
             git fetch origin main
-            git rebase origin/main
+            git pull --rebase --autostash origin main || true
+
             if git push origin HEAD:main; then
+              echo "Push successful."
               exit 0
             fi
+
             echo "Push rejected (non-fast-forward). Retry $i..."
             sleep $((i*2))
           done
