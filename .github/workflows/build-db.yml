@@ -4,6 +4,9 @@ on:
     - cron: '0 3 * * *' # Ruleaza in fiecare zi la ora 3 AM UTC
   workflow_dispatch: # Permite declansarea manuala din GitHub UI
 
+permissions:
+  contents: write
+
 jobs:
   build-db:
     runs-on: ubuntu-latest
