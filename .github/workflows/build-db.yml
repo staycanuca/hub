@@ -25,7 +25,7 @@ jobs:
           pip install requests
 
       - name: Run Scraper & Build Database
-        run: python github_actions/build_db.py
+        run: python _tools/build_db.py
 
       - name: Show database file sizes
         run: |
