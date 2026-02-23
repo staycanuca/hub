@@ -2,14 +2,18 @@
 """
 IPTV Aggregator DB Builder (Optimized + Dedupe + Titles/Streams separation)
 
+Fix for your error:
+- Replaced partial UNIQUE indexes + ON CONFLICT(name_normalized, year) with a single UNIQUE(dedupe_key)
+  because SQLite cannot target partial unique indexes in ON CONFLICT.
+
 Highlights:
 - Incremental DB (no delete/recreate daily)
-- Separate Title tables (dedupe globally) + Stream tables (availability per server)
+- Separate Title tables (global dedupe) + Stream tables (availability per server)
 - Duplicate checks:
-  - DB-level: UNIQUE indexes + UPSERT
+  - DB-level: UNIQUE(dedupe_key) + UPSERT
   - Python-level: seen sets to avoid repeated inserts in a run
 - SQLite tuning PRAGMAs + per-server commit
-- Optional skip live channels (default ON) to keep DB small
+- Optional skip live channels (default ON)
 - Optional only keep TMDB-matched titles (default OFF)
 - Truncate plot to keep DB size small
 
@@ -19,6 +23,7 @@ Env vars:
   TMDB_PAGES=5
   PLOT_MAXLEN=200
   ONLY_TMDB_MATCHED=0
+  REBUILD_DB=0  (set to 1 to delete DB and recreate fresh; useful once after schema changes)
 """
 
 import os
@@ -41,6 +46,7 @@ SKIP_LIVE = os.getenv("SKIP_LIVE", "1") == "1"
 TMDB_PAGES = int(os.getenv("TMDB_PAGES", "5"))
 PLOT_MAXLEN = int(os.getenv("PLOT_MAXLEN", "200"))
 ONLY_TMDB_MATCHED = os.getenv("ONLY_TMDB_MATCHED", "0") == "1"
+REBUILD_DB = os.getenv("REBUILD_DB", "0") == "1"
 
 HEADERS = {"User-Agent": "VLC/3.0.20 (Windows; x86_64)"}
 
@@ -66,9 +72,7 @@ def safe_trunc(s: Optional[str], maxlen: int) -> Optional[str]:
 
 
 def safe_year(date_str: Optional[str]) -> Optional[int]:
-    """
-    Extract year from "YYYY-MM-DD" or "YYYY" or other forms. Returns int year or None.
-    """
+    """Extract year from strings like YYYY-MM-DD / YYYY."""
     if not date_str:
         return None
     m = re.search(r"\b(19\d{2}|20\d{2}|2100)\b", str(date_str))
@@ -94,8 +98,23 @@ def fetch_list(url: str) -> list:
         return []
 
 
+def make_dedupe_key(tmdb_id: Optional[int], name_norm: str, year: Optional[int]) -> str:
+    """
+    A single UNIQUE target for dedupe:
+      - tmdb present:  tmdb:<id>
+      - fallback:      fb:<name_norm>:<year_or_0>
+    """
+    if tmdb_id is not None:
+        return f"tmdb:{int(tmdb_id)}"
+    y = int(year) if year is not None else 0
+    return f"fb:{name_norm}:{y}"
+
+
 # ---------------- DB ----------------
 def connect_db():
+    if REBUILD_DB and os.path.exists(DB_FILE):
+        os.remove(DB_FILE)
+
     conn = sqlite3.connect(DB_FILE)
     cur = conn.cursor()
 
@@ -123,7 +142,7 @@ def connect_db():
         )
     """)
 
-    # Categories (still per server)
+    # Categories (per server)
     cur.execute("""
         CREATE TABLE IF NOT EXISTS categories (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -136,10 +155,11 @@ def connect_db():
         )
     """)
 
-    # Movie Titles (global dedupe)
+    # Movie Titles (global dedupe by dedupe_key)
     cur.execute("""
         CREATE TABLE IF NOT EXISTS movie_titles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            dedupe_key TEXT NOT NULL,
             tmdb_id INTEGER,
             name TEXT NOT NULL,
             name_normalized TEXT NOT NULL,
@@ -149,7 +169,8 @@ def connect_db():
             popularity REAL,
             vote_count INTEGER,
             release_date TEXT,
-            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(dedupe_key)
         )
     """)
 
@@ -168,10 +189,11 @@ def connect_db():
         )
     """)
 
-    # Series Titles (global dedupe)
+    # Series Titles (global dedupe by dedupe_key)
     cur.execute("""
         CREATE TABLE IF NOT EXISTS series_titles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            dedupe_key TEXT NOT NULL,
             tmdb_id INTEGER,
             name TEXT NOT NULL,
             name_normalized TEXT NOT NULL,
@@ -181,7 +203,8 @@ def connect_db():
             popularity REAL,
             vote_count INTEGER,
             first_air_date TEXT,
-            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(dedupe_key)
         )
     """)
 
@@ -212,31 +235,6 @@ def connect_db():
             updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
             UNIQUE(server_id, stream_id)
         )
-    """)
-
-    # --- DEDUPE INDEXES (DB-level) ---
-    # Unique TMDB id when present
-    cur.execute("""
-        CREATE UNIQUE INDEX IF NOT EXISTS ux_movie_titles_tmdb
-        ON movie_titles(tmdb_id)
-        WHERE tmdb_id IS NOT NULL
-    """)
-    cur.execute("""
-        CREATE UNIQUE INDEX IF NOT EXISTS ux_series_titles_tmdb
-        ON series_titles(tmdb_id)
-        WHERE tmdb_id IS NOT NULL
-    """)
-
-    # Fallback uniqueness when no TMDB id: normalized name + year
-    cur.execute("""
-        CREATE UNIQUE INDEX IF NOT EXISTS ux_movie_titles_fallback
-        ON movie_titles(name_normalized, year)
-        WHERE tmdb_id IS NULL
-    """)
-    cur.execute("""
-        CREATE UNIQUE INDEX IF NOT EXISTS ux_series_titles_fallback
-        ON series_titles(name_normalized, year)
-        WHERE tmdb_id IS NULL
     """)
 
     # Helpful search indexes (lightweight)
@@ -362,54 +360,35 @@ def upsert_server(cur, s_data, info) -> Tuple[int, str]:
             info.get("max_connections", 0),
         ),
     )
-
     cur.execute("SELECT id FROM servers WHERE server_url=? AND username=?", (s_data["url"], s_data["user"]))
     server_id = cur.fetchone()[0]
     return server_id, server_name
 
 
-def upsert_movie_title(cur, *, tmdb_id: Optional[int], name: str, name_norm: str,
-                      year: Optional[int], plot: Optional[str], rating: Optional[float],
-                      popularity: Optional[float], vote_count: Optional[int], release_date: Optional[str]) -> int:
-    """
-    Dedupe logic:
-      - If tmdb_id present -> unique by tmdb_id
-      - Else -> unique by (name_normalized, year)
-    We do an INSERT ... ON CONFLICT for both cases by targeting the appropriate unique index.
-    SQLite doesn't let us name partial unique indexes as conflict targets directly,
-    so we implement it by:
-      1) Try insert with tmdb_id if present (conflict on tmdb unique index)
-      2) If no tmdb_id, insert with fallback unique index
-    Then SELECT id.
-    """
-    if tmdb_id is not None:
-        cur.execute(
-            """
-            INSERT INTO movie_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, release_date, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-            ON CONFLICT(tmdb_id) DO UPDATE SET
-                name=excluded.name,
-                name_normalized=excluded.name_normalized,
-                year=excluded.year,
-                plot=excluded.plot,
-                rating=excluded.rating,
-                popularity=excluded.popularity,
-                vote_count=excluded.vote_count,
-                release_date=excluded.release_date,
-                updated_at=excluded.updated_at
-            """,
-            (tmdb_id, name, name_norm, year, plot, rating, popularity, vote_count, release_date),
-        )
-        cur.execute("SELECT id FROM movie_titles WHERE tmdb_id=?", (tmdb_id,))
-        return cur.fetchone()[0]
-
-    # fallback path (tmdb_id NULL): unique(name_normalized, year)
+def upsert_movie_title(
+    cur,
+    *,
+    tmdb_id: Optional[int],
+    name: str,
+    name_norm: str,
+    year: Optional[int],
+    plot: Optional[str],
+    rating: Optional[float],
+    popularity: Optional[float],
+    vote_count: Optional[int],
+    release_date: Optional[str],
+) -> int:
+    dedupe_key = make_dedupe_key(tmdb_id, name_norm, year)
     cur.execute(
         """
-        INSERT INTO movie_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, release_date, updated_at)
-        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-        ON CONFLICT(name_normalized, year) DO UPDATE SET
+        INSERT INTO movie_titles
+        (dedupe_key, tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, release_date, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        ON CONFLICT(dedupe_key) DO UPDATE SET
+            tmdb_id=excluded.tmdb_id,
             name=excluded.name,
+            name_normalized=excluded.name_normalized,
+            year=excluded.year,
             plot=excluded.plot,
             rating=excluded.rating,
             popularity=excluded.popularity,
@@ -417,42 +396,36 @@ def upsert_movie_title(cur, *, tmdb_id: Optional[int], name: str, name_norm: str
             release_date=excluded.release_date,
             updated_at=excluded.updated_at
         """,
-        (name, name_norm, year, plot, rating, popularity, vote_count, release_date),
+        (dedupe_key, tmdb_id, name, name_norm, year, plot, rating, popularity, vote_count, release_date),
     )
-    cur.execute("SELECT id FROM movie_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?", (name_norm, year))
+    cur.execute("SELECT id FROM movie_titles WHERE dedupe_key=?", (dedupe_key,))
     return cur.fetchone()[0]
 
 
-def upsert_series_title(cur, *, tmdb_id: Optional[int], name: str, name_norm: str,
-                       year: Optional[int], plot: Optional[str], rating: Optional[float],
-                       popularity: Optional[float], vote_count: Optional[int], first_air_date: Optional[str]) -> int:
-    if tmdb_id is not None:
-        cur.execute(
-            """
-            INSERT INTO series_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, first_air_date, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-            ON CONFLICT(tmdb_id) DO UPDATE SET
-                name=excluded.name,
-                name_normalized=excluded.name_normalized,
-                year=excluded.year,
-                plot=excluded.plot,
-                rating=excluded.rating,
-                popularity=excluded.popularity,
-                vote_count=excluded.vote_count,
-                first_air_date=excluded.first_air_date,
-                updated_at=excluded.updated_at
-            """,
-            (tmdb_id, name, name_norm, year, plot, rating, popularity, vote_count, first_air_date),
-        )
-        cur.execute("SELECT id FROM series_titles WHERE tmdb_id=?", (tmdb_id,))
-        return cur.fetchone()[0]
-
+def upsert_series_title(
+    cur,
+    *,
+    tmdb_id: Optional[int],
+    name: str,
+    name_norm: str,
+    year: Optional[int],
+    plot: Optional[str],
+    rating: Optional[float],
+    popularity: Optional[float],
+    vote_count: Optional[int],
+    first_air_date: Optional[str],
+) -> int:
+    dedupe_key = make_dedupe_key(tmdb_id, name_norm, year)
     cur.execute(
         """
-        INSERT INTO series_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, first_air_date, updated_at)
-        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-        ON CONFLICT(name_normalized, year) DO UPDATE SET
+        INSERT INTO series_titles
+        (dedupe_key, tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, first_air_date, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        ON CONFLICT(dedupe_key) DO UPDATE SET
+            tmdb_id=excluded.tmdb_id,
             name=excluded.name,
+            name_normalized=excluded.name_normalized,
+            year=excluded.year,
             plot=excluded.plot,
             rating=excluded.rating,
             popularity=excluded.popularity,
@@ -460,9 +433,9 @@ def upsert_series_title(cur, *, tmdb_id: Optional[int], name: str, name_norm: st
             first_air_date=excluded.first_air_date,
             updated_at=excluded.updated_at
         """,
-        (name, name_norm, year, plot, rating, popularity, vote_count, first_air_date),
+        (dedupe_key, tmdb_id, name, name_norm, year, plot, rating, popularity, vote_count, first_air_date),
     )
-    cur.execute("SELECT id FROM series_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?", (name_norm, year))
+    cur.execute("SELECT id FROM series_titles WHERE dedupe_key=?", (dedupe_key,))
     return cur.fetchone()[0]
 
 
@@ -476,14 +449,12 @@ def main():
 
     print(
         f"Starting parallel validation of {len(servers_to_check)} servers "
-        f"(workers={MAX_WORKERS}, skip_live={int(SKIP_LIVE)}, only_tmdb={int(ONLY_TMDB_MATCHED)}, plot_maxlen={PLOT_MAXLEN})"
+        f"(workers={MAX_WORKERS}, skip_live={int(SKIP_LIVE)}, only_tmdb={int(ONLY_TMDB_MATCHED)}, plot_maxlen={PLOT_MAXLEN}, rebuild_db={int(REBUILD_DB)})"
     )
 
-    # Python-level dedupe during this run (reduces insert pressure)
-    seen_movie_titles = set()   # keys: ("tmdb", id) or ("fb", name_norm, year)
-    seen_series_titles = set()
-    # We do NOT dedupe streams across servers; only avoid duplicate insert attempts in same run.
-    # DB enforces UNIQUE(server_id, stream_id) anyway.
+    # Python-level dedupe during this run (cuts repeated work)
+    seen_movie_titles = set()   # dedupe_key
+    seen_series_titles = set()  # dedupe_key
 
     valid_count = 0
     total_movie_streams = 0
@@ -555,54 +526,26 @@ def main():
                 except Exception:
                     vc_i = None
 
-                # Python-level title dedupe key
-                if tmdb_id is not None:
-                    tkey = ("tmdb", int(tmdb_id))
-                else:
-                    tkey = ("fb", name_norm, year)
+                dedupe_key = make_dedupe_key(tmdb_id, name_norm, year)
 
-                # We'll still upsert into DB (safe), but the set cuts repeated work
-                if tkey in seen_movie_titles:
-                    # We still need a title_id for streams; cheapest is SELECT by key
-                    if tmdb_id is not None:
-                        cur.execute("SELECT id FROM movie_titles WHERE tmdb_id=?", (tmdb_id,))
-                        row = cur.fetchone()
-                        if not row:
-                            # fallback: insert once if missing
-                            title_id = upsert_movie_title(
-                                cur, tmdb_id=tmdb_id, name=name, name_norm=name_norm, year=year,
-                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
-                                release_date=release_date
-                            )
-                        else:
-                            title_id = row[0]
-                    else:
-                        cur.execute(
-                            "SELECT id FROM movie_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?",
-                            (name_norm, year),
-                        )
-                        row = cur.fetchone()
-                        if not row:
-                            title_id = upsert_movie_title(
-                                cur, tmdb_id=None, name=name, name_norm=name_norm, year=year,
-                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
-                                release_date=release_date
-                            )
-                        else:
-                            title_id = row[0]
+                if dedupe_key in seen_movie_titles:
+                    cur.execute("SELECT id FROM movie_titles WHERE dedupe_key=?", (dedupe_key,))
+                    row = cur.fetchone()
+                    title_id = row[0] if row else upsert_movie_title(
+                        cur,
+                        tmdb_id=int(tmdb_id) if tmdb_id is not None else None,
+                        name=name, name_norm=name_norm, year=year, plot=plot,
+                        rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                        release_date=release_date
+                    )
                 else:
-                    seen_movie_titles.add(tkey)
+                    seen_movie_titles.add(dedupe_key)
                     title_id = upsert_movie_title(
                         cur,
                         tmdb_id=int(tmdb_id) if tmdb_id is not None else None,
-                        name=name,
-                        name_norm=name_norm,
-                        year=year,
-                        plot=plot,
-                        rating=rating_f,
-                        popularity=pop_f,
-                        vote_count=vc_i,
-                        release_date=release_date,
+                        name=name, name_norm=name_norm, year=year, plot=plot,
+                        rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                        release_date=release_date
                     )
 
                 stream_id = m.get("stream_id")
@@ -669,50 +612,26 @@ def main():
                 except Exception:
                     vc_i = None
 
-                if tmdb_id is not None:
-                    tkey = ("tmdb", int(tmdb_id))
-                else:
-                    tkey = ("fb", name_norm, year)
+                dedupe_key = make_dedupe_key(tmdb_id, name_norm, year)
 
-                if tkey in seen_series_titles:
-                    if tmdb_id is not None:
-                        cur.execute("SELECT id FROM series_titles WHERE tmdb_id=?", (tmdb_id,))
-                        row = cur.fetchone()
-                        if not row:
-                            title_id = upsert_series_title(
-                                cur, tmdb_id=tmdb_id, name=name, name_norm=name_norm, year=year,
-                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
-                                first_air_date=first_air
-                            )
-                        else:
-                            title_id = row[0]
-                    else:
-                        cur.execute(
-                            "SELECT id FROM series_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?",
-                            (name_norm, year),
-                        )
-                        row = cur.fetchone()
-                        if not row:
-                            title_id = upsert_series_title(
-                                cur, tmdb_id=None, name=name, name_norm=name_norm, year=year,
-                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
-                                first_air_date=first_air
-                            )
-                        else:
-                            title_id = row[0]
+                if dedupe_key in seen_series_titles:
+                    cur.execute("SELECT id FROM series_titles WHERE dedupe_key=?", (dedupe_key,))
+                    row = cur.fetchone()
+                    title_id = row[0] if row else upsert_series_title(
+                        cur,
+                        tmdb_id=int(tmdb_id) if tmdb_id is not None else None,
+                        name=name, name_norm=name_norm, year=year, plot=plot,
+                        rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                        first_air_date=first_air
+                    )
                 else:
-                    seen_series_titles.add(tkey)
+                    seen_series_titles.add(dedupe_key)
                     title_id = upsert_series_title(
                         cur,
                         tmdb_id=int(tmdb_id) if tmdb_id is not None else None,
-                        name=name,
-                        name_norm=name_norm,
-                        year=year,
-                        plot=plot,
-                        rating=rating_f,
-                        popularity=pop_f,
-                        vote_count=vc_i,
-                        first_air_date=first_air,
+                        name=name, name_norm=name_norm, year=year, plot=plot,
+                        rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                        first_air_date=first_air
                     )
 
                 series_id = s.get("series_id")
