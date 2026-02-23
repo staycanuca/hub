@@ -1,16 +1,11 @@
 name: Build IPTV Database
-
 on:
   schedule:
     - cron: '0 3 * * *' # Ruleaza in fiecare zi la ora 3 AM UTC
-  workflow_dispatch:
+  workflow_dispatch: # Permite declansarea manuala din GitHub UI
 
 permissions:
   contents: write
-
-concurrency:
-  group: build-iptv-db
-  cancel-in-progress: false
 
 jobs:
   build-db:
@@ -18,8 +13,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -32,36 +25,28 @@ jobs:
           pip install requests
 
       - name: Run Scraper & Build Database
-        run: python _tools/build_db.py
+        run: python github_actions/build_db.py
 
-      - name: Commit and Push Database
-        shell: bash
+      - name: Show database file sizes
         run: |
-          set -euo pipefail
+          echo "Database file sizes:"
+          ls -lh iptv_*.db || echo "No database files found"
+          du -h iptv_*.db 2>/dev/null || true
 
+      - name: Commit and Push Databases
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git add iptv_live.db iptv_movies.db iptv_series.db
+          git commit -m "Auto-update IPTV Databases (live, movies, series) [skip ci]" || exit 0
+          git push
 
-          # Sync with remote BEFORE creating the commit
-          git fetch origin main
-          git pull --rebase --autostash origin main
-
-          git add iptv_aggregator.db
-          git commit -m "Auto-update IPTV Database [skip ci]" || exit 0
-
-          # Retry loop to avoid non-fast-forward if another run pushed first
-          for i in 1 2 3 4 5; do
-            git fetch origin main
-            git pull --rebase --autostash origin main || true
-
-            if git push origin HEAD:main; then
-              echo "Push successful."
-              exit 0
-            fi
-
-            echo "Push rejected (non-fast-forward). Retry $i..."
-            sleep $((i*2))
-          done
-
-          echo "Failed to push after retries."
-          exit 1
+      - name: Upload databases as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: iptv-databases
+          path: |
+            iptv_live.db
+            iptv_movies.db
+            iptv_series.db
+          retention-days: 7
