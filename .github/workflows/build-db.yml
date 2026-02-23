@@ -1,0 +1,33 @@
+name: Build IPTV Database
+on:
+  schedule:
+    - cron: '0 3 * * *' # Ruleaza in fiecare zi la ora 3 AM UTC
+  workflow_dispatch: # Permite declansarea manuala din GitHub UI
+
+jobs:
+  build-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run Scraper & Build Database
+        run: python _tools/build_db.py
+
+      - name: Commit and Push Database
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add iptv_aggregator.db
+          git commit -m "Auto-update IPTV Database [skip ci]" || exit 0
+          git push
