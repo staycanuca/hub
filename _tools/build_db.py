@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 """
-Optimized IPTV DB builder
+IPTV Aggregator DB Builder (Optimized + Dedupe + Titles/Streams separation)
 
-Key optimizations vs original:
-- Incremental DB updates (no delete/recreate daily)
-- SQLite PRAGMA tuning + single commit per server + WAL
-- Avoid duplicate HTTP calls (your original code called requests.get(...).json() twice per endpoint)
-- Truncate large text fields (plot) to keep DB size small
-- Optional: skip live channels to massively reduce DB size (default ON)
-- Optional: keep only TMDB-matched titles (default OFF)
-- Smaller, configurable TMDB prefetch pages
-- Batched inserts and fewer indexes (indexes are big)
+Highlights:
+- Incremental DB (no delete/recreate daily)
+- Separate Title tables (dedupe globally) + Stream tables (availability per server)
+- Duplicate checks:
+  - DB-level: UNIQUE indexes + UPSERT
+  - Python-level: seen sets to avoid repeated inserts in a run
+- SQLite tuning PRAGMAs + per-server commit
+- Optional skip live channels (default ON) to keep DB small
+- Optional only keep TMDB-matched titles (default OFF)
+- Truncate plot to keep DB size small
 
-Config via env vars:
-  SKIP_LIVE=1                  (default: 1)
-  TMDB_PAGES=5                 (default: 5)
-  PLOT_MAXLEN=200              (default: 200)
-  ONLY_TMDB_MATCHED=0          (default: 0)
-  MAX_WORKERS=20               (default: 20)
+Env vars:
+  MAX_WORKERS=20
+  SKIP_LIVE=1
+  TMDB_PAGES=5
+  PLOT_MAXLEN=200
+  ONLY_TMDB_MATCHED=0
 """
 
 import os
@@ -26,6 +27,7 @@ import requests
 import re
 from urllib.parse import urlparse, parse_qs
 import concurrent.futures
+from typing import Optional, Tuple
 
 # ---------------- CONFIG ----------------
 XC_FILE_URL = "https://raw.githubusercontent.com/staycanuca/hub/refs/heads/main/_tools/xc.txt"
@@ -45,120 +47,6 @@ HEADERS = {"User-Agent": "VLC/3.0.20 (Windows; x86_64)"}
 TMDB_CACHE = {"movies": {}, "series": {}}
 
 
-# ---------------- DB ----------------
-def connect_db():
-    conn = sqlite3.connect(DB_FILE)
-    cur = conn.cursor()
-
-    # Pragmas: smaller/faster and more stable for repeated writes
-    cur.execute("PRAGMA journal_mode=WAL;")
-    cur.execute("PRAGMA synchronous=NORMAL;")
-    cur.execute("PRAGMA temp_store=MEMORY;")
-    cur.execute("PRAGMA cache_size=-200000;")  # ~200MB cache (adjust if needed)
-    cur.execute("PRAGMA foreign_keys=ON;")
-
-    # Tables (IF NOT EXISTS) for incremental updates
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS servers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            server_url TEXT NOT NULL,
-            username TEXT NOT NULL,
-            password TEXT NOT NULL,
-            server_name TEXT,
-            is_active INTEGER DEFAULT 1,
-            last_checked TEXT,
-            status TEXT,
-            expiration_date TEXT,
-            active_cons INTEGER,
-            max_connections INTEGER,
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(server_url, username)
-        )
-    """)
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS movies (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            stream_id INTEGER NOT NULL,
-            server_id INTEGER NOT NULL,
-            name TEXT NOT NULL,
-            name_normalized TEXT,
-            stream_icon TEXT,
-            plot TEXT,
-            releaseDate TEXT,
-            rating TEXT,
-            tmdb_id INTEGER,
-            imdb_id TEXT,
-            tmdb_popularity REAL DEFAULT 0,
-            tmdb_vote_average REAL DEFAULT 0,
-            tmdb_vote_count INTEGER DEFAULT 0,
-            container_extension TEXT,
-            added_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(stream_id, server_id)
-        )
-    """)
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS series (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            series_id INTEGER NOT NULL,
-            server_id INTEGER NOT NULL,
-            name TEXT NOT NULL,
-            name_normalized TEXT,
-            cover TEXT,
-            plot TEXT,
-            releaseDate TEXT,
-            rating TEXT,
-            tmdb_id INTEGER,
-            imdb_id TEXT,
-            tmdb_popularity REAL DEFAULT 0,
-            tmdb_vote_average REAL DEFAULT 0,
-            tmdb_vote_count INTEGER DEFAULT 0,
-            added_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(series_id, server_id)
-        )
-    """)
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS live_channels (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            stream_id INTEGER NOT NULL,
-            server_id INTEGER NOT NULL,
-            name TEXT NOT NULL,
-            stream_icon TEXT,
-            epg_channel_id TEXT,
-            category_id TEXT,
-            added_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(stream_id, server_id)
-        )
-    """)
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS categories (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            category_id INTEGER NOT NULL,
-            server_id INTEGER NOT NULL,
-            category_name TEXT NOT NULL,
-            parent_id INTEGER,
-            content_type TEXT NOT NULL,
-            added_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(category_id, server_id, content_type)
-        )
-    """)
-
-    # Indexes: keep minimal. Indexes can bloat DB a lot.
-    # If you need more search performance, add them back carefully.
-    cur.execute("CREATE INDEX IF NOT EXISTS idx_movies_name_norm ON movies(name_normalized);")
-    cur.execute("CREATE INDEX IF NOT EXISTS idx_series_name_norm ON series(name_normalized);")
-
-    conn.commit()
-    return conn
-
-
 # ---------------- UTILS ----------------
 def normalize_name(name: str) -> str:
     if not name:
@@ -169,12 +57,27 @@ def normalize_name(name: str) -> str:
     return normalized
 
 
-def safe_trunc(s: str | None, maxlen: int) -> str | None:
+def safe_trunc(s: Optional[str], maxlen: int) -> Optional[str]:
     if not s:
         return None
-    if len(s) <= maxlen:
-        return s
-    return s[:maxlen]
+    if maxlen <= 0:
+        return None
+    return s if len(s) <= maxlen else s[:maxlen]
+
+
+def safe_year(date_str: Optional[str]) -> Optional[int]:
+    """
+    Extract year from "YYYY-MM-DD" or "YYYY" or other forms. Returns int year or None.
+    """
+    if not date_str:
+        return None
+    m = re.search(r"\b(19\d{2}|20\d{2}|2100)\b", str(date_str))
+    if not m:
+        return None
+    try:
+        return int(m.group(1))
+    except Exception:
+        return None
 
 
 def fetch_json(url: str, timeout: int = TIMEOUT):
@@ -184,12 +87,164 @@ def fetch_json(url: str, timeout: int = TIMEOUT):
 
 
 def fetch_list(url: str) -> list:
-    # ensure we only do ONE network call
     try:
         data = fetch_json(url)
         return data if isinstance(data, list) else []
     except Exception:
         return []
+
+
+# ---------------- DB ----------------
+def connect_db():
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+
+    # Pragmas: speed + smaller overhead on frequent writes
+    cur.execute("PRAGMA journal_mode=WAL;")
+    cur.execute("PRAGMA synchronous=NORMAL;")
+    cur.execute("PRAGMA temp_store=MEMORY;")
+    cur.execute("PRAGMA cache_size=-200000;")  # ~200MB cache (adjust if needed)
+    cur.execute("PRAGMA foreign_keys=ON;")
+
+    # Servers
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS servers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            server_url TEXT NOT NULL,
+            username TEXT NOT NULL,
+            password TEXT NOT NULL,
+            server_name TEXT,
+            status TEXT,
+            active_cons INTEGER,
+            max_connections INTEGER,
+            last_checked TEXT,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(server_url, username)
+        )
+    """)
+
+    # Categories (still per server)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS categories (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            category_id INTEGER NOT NULL,
+            server_id INTEGER NOT NULL,
+            category_name TEXT NOT NULL,
+            content_type TEXT NOT NULL,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(category_id, server_id, content_type)
+        )
+    """)
+
+    # Movie Titles (global dedupe)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS movie_titles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER,
+            name TEXT NOT NULL,
+            name_normalized TEXT NOT NULL,
+            year INTEGER,
+            plot TEXT,
+            rating REAL,
+            popularity REAL,
+            vote_count INTEGER,
+            release_date TEXT,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Movie Streams (availability per server)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS movie_streams (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            server_id INTEGER NOT NULL,
+            stream_id INTEGER NOT NULL,
+            title_id INTEGER NOT NULL,
+            stream_icon TEXT,
+            container_extension TEXT,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(server_id, stream_id),
+            FOREIGN KEY(title_id) REFERENCES movie_titles(id) ON DELETE CASCADE
+        )
+    """)
+
+    # Series Titles (global dedupe)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS series_titles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER,
+            name TEXT NOT NULL,
+            name_normalized TEXT NOT NULL,
+            year INTEGER,
+            plot TEXT,
+            rating REAL,
+            popularity REAL,
+            vote_count INTEGER,
+            first_air_date TEXT,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Series Streams (availability per server)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS series_streams (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            server_id INTEGER NOT NULL,
+            series_id INTEGER NOT NULL,
+            title_id INTEGER NOT NULL,
+            cover TEXT,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(server_id, series_id),
+            FOREIGN KEY(title_id) REFERENCES series_titles(id) ON DELETE CASCADE
+        )
+    """)
+
+    # Live channels (optional)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS live_channels (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            server_id INTEGER NOT NULL,
+            stream_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            category_id TEXT,
+            stream_icon TEXT,
+            epg_channel_id TEXT,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(server_id, stream_id)
+        )
+    """)
+
+    # --- DEDUPE INDEXES (DB-level) ---
+    # Unique TMDB id when present
+    cur.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS ux_movie_titles_tmdb
+        ON movie_titles(tmdb_id)
+        WHERE tmdb_id IS NOT NULL
+    """)
+    cur.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS ux_series_titles_tmdb
+        ON series_titles(tmdb_id)
+        WHERE tmdb_id IS NOT NULL
+    """)
+
+    # Fallback uniqueness when no TMDB id: normalized name + year
+    cur.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS ux_movie_titles_fallback
+        ON movie_titles(name_normalized, year)
+        WHERE tmdb_id IS NULL
+    """)
+    cur.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS ux_series_titles_fallback
+        ON series_titles(name_normalized, year)
+        WHERE tmdb_id IS NULL
+    """)
+
+    # Helpful search indexes (lightweight)
+    cur.execute("CREATE INDEX IF NOT EXISTS ix_movie_titles_name_norm ON movie_titles(name_normalized);")
+    cur.execute("CREATE INDEX IF NOT EXISTS ix_series_titles_name_norm ON series_titles(name_normalized);")
+
+    conn.commit()
+    return conn
 
 
 # ---------------- INPUT SERVERS ----------------
@@ -203,7 +258,6 @@ def parse_servers_from_url():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-
         if "username=" in line and "password=" in line:
             try:
                 parsed = urlparse(line)
@@ -256,7 +310,6 @@ def validate_and_fetch_server(server_data):
     url = server_data["url"]
     user = server_data["user"]
     pw = server_data["pass"]
-
     base = f"{url}/player_api.php?username={user}&password={pw}"
 
     try:
@@ -266,12 +319,10 @@ def validate_and_fetch_server(server_data):
 
         user_info = auth["user_info"]
 
-        # Categories
         cats_live = [] if SKIP_LIVE else fetch_list(f"{base}&action=get_live_categories")
         cats_vod = fetch_list(f"{base}&action=get_vod_categories")
         cats_series = fetch_list(f"{base}&action=get_series_categories")
 
-        # Streams
         live = [] if SKIP_LIVE else fetch_list(f"{base}&action=get_live_streams")
         vods = fetch_list(f"{base}&action=get_vod_streams")
         series = fetch_list(f"{base}&action=get_series")
@@ -283,16 +334,13 @@ def validate_and_fetch_server(server_data):
             "categories": {"live": cats_live, "movie": cats_vod, "series": cats_series},
             "streams": {"live": live, "movie": vods, "series": series},
         }
-
     except Exception as e:
         return {"status": "failed", "server": server_data, "error": str(e)}
 
 
-# ---------------- MAIN ----------------
-def upsert_server(cur, s_data, info):
+# ---------------- UPSERT HELPERS ----------------
+def upsert_server(cur, s_data, info) -> Tuple[int, str]:
     server_name = urlparse(s_data["url"]).netloc
-
-    # SQLite upsert via ON CONFLICT (requires SQLite 3.24+; GitHub runners have this)
     cur.execute(
         """
         INSERT INTO servers (server_url, username, password, server_name, status, active_cons, max_connections, last_checked)
@@ -315,15 +363,110 @@ def upsert_server(cur, s_data, info):
         ),
     )
 
-    # Find server_id
+    cur.execute("SELECT id FROM servers WHERE server_url=? AND username=?", (s_data["url"], s_data["user"]))
+    server_id = cur.fetchone()[0]
+    return server_id, server_name
+
+
+def upsert_movie_title(cur, *, tmdb_id: Optional[int], name: str, name_norm: str,
+                      year: Optional[int], plot: Optional[str], rating: Optional[float],
+                      popularity: Optional[float], vote_count: Optional[int], release_date: Optional[str]) -> int:
+    """
+    Dedupe logic:
+      - If tmdb_id present -> unique by tmdb_id
+      - Else -> unique by (name_normalized, year)
+    We do an INSERT ... ON CONFLICT for both cases by targeting the appropriate unique index.
+    SQLite doesn't let us name partial unique indexes as conflict targets directly,
+    so we implement it by:
+      1) Try insert with tmdb_id if present (conflict on tmdb unique index)
+      2) If no tmdb_id, insert with fallback unique index
+    Then SELECT id.
+    """
+    if tmdb_id is not None:
+        cur.execute(
+            """
+            INSERT INTO movie_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, release_date, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+            ON CONFLICT(tmdb_id) DO UPDATE SET
+                name=excluded.name,
+                name_normalized=excluded.name_normalized,
+                year=excluded.year,
+                plot=excluded.plot,
+                rating=excluded.rating,
+                popularity=excluded.popularity,
+                vote_count=excluded.vote_count,
+                release_date=excluded.release_date,
+                updated_at=excluded.updated_at
+            """,
+            (tmdb_id, name, name_norm, year, plot, rating, popularity, vote_count, release_date),
+        )
+        cur.execute("SELECT id FROM movie_titles WHERE tmdb_id=?", (tmdb_id,))
+        return cur.fetchone()[0]
+
+    # fallback path (tmdb_id NULL): unique(name_normalized, year)
     cur.execute(
-        "SELECT id FROM servers WHERE server_url=? AND username=?",
-        (s_data["url"], s_data["user"]),
+        """
+        INSERT INTO movie_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, release_date, updated_at)
+        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        ON CONFLICT(name_normalized, year) DO UPDATE SET
+            name=excluded.name,
+            plot=excluded.plot,
+            rating=excluded.rating,
+            popularity=excluded.popularity,
+            vote_count=excluded.vote_count,
+            release_date=excluded.release_date,
+            updated_at=excluded.updated_at
+        """,
+        (name, name_norm, year, plot, rating, popularity, vote_count, release_date),
     )
-    row = cur.fetchone()
-    return row[0], server_name
+    cur.execute("SELECT id FROM movie_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?", (name_norm, year))
+    return cur.fetchone()[0]
 
 
+def upsert_series_title(cur, *, tmdb_id: Optional[int], name: str, name_norm: str,
+                       year: Optional[int], plot: Optional[str], rating: Optional[float],
+                       popularity: Optional[float], vote_count: Optional[int], first_air_date: Optional[str]) -> int:
+    if tmdb_id is not None:
+        cur.execute(
+            """
+            INSERT INTO series_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, first_air_date, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+            ON CONFLICT(tmdb_id) DO UPDATE SET
+                name=excluded.name,
+                name_normalized=excluded.name_normalized,
+                year=excluded.year,
+                plot=excluded.plot,
+                rating=excluded.rating,
+                popularity=excluded.popularity,
+                vote_count=excluded.vote_count,
+                first_air_date=excluded.first_air_date,
+                updated_at=excluded.updated_at
+            """,
+            (tmdb_id, name, name_norm, year, plot, rating, popularity, vote_count, first_air_date),
+        )
+        cur.execute("SELECT id FROM series_titles WHERE tmdb_id=?", (tmdb_id,))
+        return cur.fetchone()[0]
+
+    cur.execute(
+        """
+        INSERT INTO series_titles (tmdb_id, name, name_normalized, year, plot, rating, popularity, vote_count, first_air_date, updated_at)
+        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        ON CONFLICT(name_normalized, year) DO UPDATE SET
+            name=excluded.name,
+            plot=excluded.plot,
+            rating=excluded.rating,
+            popularity=excluded.popularity,
+            vote_count=excluded.vote_count,
+            first_air_date=excluded.first_air_date,
+            updated_at=excluded.updated_at
+        """,
+        (name, name_norm, year, plot, rating, popularity, vote_count, first_air_date),
+    )
+    cur.execute("SELECT id FROM series_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?", (name_norm, year))
+    return cur.fetchone()[0]
+
+
+# ---------------- MAIN ----------------
 def main():
     conn = connect_db()
     cur = conn.cursor()
@@ -336,9 +479,15 @@ def main():
         f"(workers={MAX_WORKERS}, skip_live={int(SKIP_LIVE)}, only_tmdb={int(ONLY_TMDB_MATCHED)}, plot_maxlen={PLOT_MAXLEN})"
     )
 
+    # Python-level dedupe during this run (reduces insert pressure)
+    seen_movie_titles = set()   # keys: ("tmdb", id) or ("fb", name_norm, year)
+    seen_series_titles = set()
+    # We do NOT dedupe streams across servers; only avoid duplicate insert attempts in same run.
+    # DB enforces UNIQUE(server_id, stream_id) anyway.
+
     valid_count = 0
-    total_movies = 0
-    total_series = 0
+    total_movie_streams = 0
+    total_series_streams = 0
     total_live = 0
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
@@ -353,17 +502,13 @@ def main():
                 continue
 
             valid_count += 1
-
-            # Upsert server and get server_id
             server_id, server_name = upsert_server(cur, s_data, res["info"])
 
-            # --- Categories ---
+            # Categories
             cat_batch = []
             for c_type, cats in res["categories"].items():
                 for c in cats:
-                    cat_batch.append(
-                        (c.get("category_id"), server_id, c.get("category_name"), c_type)
-                    )
+                    cat_batch.append((c.get("category_id"), server_id, c.get("category_name"), c_type))
             if cat_batch:
                 cur.executemany(
                     """
@@ -376,168 +521,272 @@ def main():
                     cat_batch,
                 )
 
-            # --- Movies ---
-            movie_batch = []
+            # Movies: upsert titles + upsert streams
+            movie_stream_batch = []
             for m in res["streams"]["movie"]:
-                name = m.get("name", "")
+                name = m.get("name") or ""
                 if not name:
                     continue
                 name_norm = normalize_name(name)
-
                 tmdb = TMDB_CACHE["movies"].get(name_norm)
                 if ONLY_TMDB_MATCHED and not tmdb:
                     continue
 
+                tmdb_id = (tmdb or {}).get("id")
+                release_date = (tmdb or {}).get("release_date") or m.get("releaseDate")
+                year = safe_year(release_date)
                 plot = safe_trunc((tmdb or {}).get("overview") or m.get("plot"), PLOT_MAXLEN)
 
-                movie_batch.append(
+                rating = (tmdb or {}).get("vote_average") or m.get("rating")
+                try:
+                    rating_f = float(rating) if rating not in (None, "", "N/A") else None
+                except Exception:
+                    rating_f = None
+
+                popularity = (tmdb or {}).get("popularity")
+                try:
+                    pop_f = float(popularity) if popularity is not None else None
+                except Exception:
+                    pop_f = None
+
+                vote_count = (tmdb or {}).get("vote_count")
+                try:
+                    vc_i = int(vote_count) if vote_count is not None else None
+                except Exception:
+                    vc_i = None
+
+                # Python-level title dedupe key
+                if tmdb_id is not None:
+                    tkey = ("tmdb", int(tmdb_id))
+                else:
+                    tkey = ("fb", name_norm, year)
+
+                # We'll still upsert into DB (safe), but the set cuts repeated work
+                if tkey in seen_movie_titles:
+                    # We still need a title_id for streams; cheapest is SELECT by key
+                    if tmdb_id is not None:
+                        cur.execute("SELECT id FROM movie_titles WHERE tmdb_id=?", (tmdb_id,))
+                        row = cur.fetchone()
+                        if not row:
+                            # fallback: insert once if missing
+                            title_id = upsert_movie_title(
+                                cur, tmdb_id=tmdb_id, name=name, name_norm=name_norm, year=year,
+                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                                release_date=release_date
+                            )
+                        else:
+                            title_id = row[0]
+                    else:
+                        cur.execute(
+                            "SELECT id FROM movie_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?",
+                            (name_norm, year),
+                        )
+                        row = cur.fetchone()
+                        if not row:
+                            title_id = upsert_movie_title(
+                                cur, tmdb_id=None, name=name, name_norm=name_norm, year=year,
+                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                                release_date=release_date
+                            )
+                        else:
+                            title_id = row[0]
+                else:
+                    seen_movie_titles.add(tkey)
+                    title_id = upsert_movie_title(
+                        cur,
+                        tmdb_id=int(tmdb_id) if tmdb_id is not None else None,
+                        name=name,
+                        name_norm=name_norm,
+                        year=year,
+                        plot=plot,
+                        rating=rating_f,
+                        popularity=pop_f,
+                        vote_count=vc_i,
+                        release_date=release_date,
+                    )
+
+                stream_id = m.get("stream_id")
+                if stream_id is None:
+                    continue
+
+                movie_stream_batch.append(
                     (
-                        m.get("stream_id"),
                         server_id,
-                        name,
-                        name_norm,
+                        int(stream_id),
+                        title_id,
                         m.get("stream_icon"),
-                        plot,
-                        (tmdb or {}).get("release_date") or m.get("releaseDate"),
-                        str((tmdb or {}).get("vote_average") or m.get("rating") or ""),
-                        (tmdb or {}).get("id"),
-                        None,  # imdb_id not available in this fast path
-                        float((tmdb or {}).get("popularity") or 0),
-                        float((tmdb or {}).get("vote_average") or 0),
-                        int((tmdb or {}).get("vote_count") or 0),
                         m.get("container_extension"),
                     )
                 )
 
-            if movie_batch:
+            if movie_stream_batch:
                 cur.executemany(
                     """
-                    INSERT INTO movies
-                    (stream_id, server_id, name, name_normalized, stream_icon, plot, releaseDate, rating,
-                     tmdb_id, imdb_id, tmdb_popularity, tmdb_vote_average, tmdb_vote_count, container_extension, updated_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-                    ON CONFLICT(stream_id, server_id) DO UPDATE SET
-                        name=excluded.name,
-                        name_normalized=excluded.name_normalized,
+                    INSERT INTO movie_streams
+                    (server_id, stream_id, title_id, stream_icon, container_extension, updated_at)
+                    VALUES (?, ?, ?, ?, ?, datetime('now'))
+                    ON CONFLICT(server_id, stream_id) DO UPDATE SET
+                        title_id=excluded.title_id,
                         stream_icon=excluded.stream_icon,
-                        plot=excluded.plot,
-                        releaseDate=excluded.releaseDate,
-                        rating=excluded.rating,
-                        tmdb_id=excluded.tmdb_id,
-                        imdb_id=excluded.imdb_id,
-                        tmdb_popularity=excluded.tmdb_popularity,
-                        tmdb_vote_average=excluded.tmdb_vote_average,
-                        tmdb_vote_count=excluded.tmdb_vote_count,
                         container_extension=excluded.container_extension,
                         updated_at=excluded.updated_at
                     """,
-                    movie_batch,
+                    movie_stream_batch,
                 )
-                total_movies += len(movie_batch)
+                total_movie_streams += len(movie_stream_batch)
 
-            # --- Series ---
-            series_batch = []
+            # Series: upsert titles + upsert streams
+            series_stream_batch = []
             for s in res["streams"]["series"]:
-                name = s.get("name", "")
+                name = s.get("name") or ""
                 if not name:
                     continue
                 name_norm = normalize_name(name)
-
                 tmdb = TMDB_CACHE["series"].get(name_norm)
                 if ONLY_TMDB_MATCHED and not tmdb:
                     continue
 
+                tmdb_id = (tmdb or {}).get("id")
+                first_air = (tmdb or {}).get("first_air_date") or s.get("releaseDate")
+                year = safe_year(first_air)
                 plot = safe_trunc((tmdb or {}).get("overview") or s.get("plot"), PLOT_MAXLEN)
 
-                series_batch.append(
+                rating = (tmdb or {}).get("vote_average") or s.get("rating")
+                try:
+                    rating_f = float(rating) if rating not in (None, "", "N/A") else None
+                except Exception:
+                    rating_f = None
+
+                popularity = (tmdb or {}).get("popularity")
+                try:
+                    pop_f = float(popularity) if popularity is not None else None
+                except Exception:
+                    pop_f = None
+
+                vote_count = (tmdb or {}).get("vote_count")
+                try:
+                    vc_i = int(vote_count) if vote_count is not None else None
+                except Exception:
+                    vc_i = None
+
+                if tmdb_id is not None:
+                    tkey = ("tmdb", int(tmdb_id))
+                else:
+                    tkey = ("fb", name_norm, year)
+
+                if tkey in seen_series_titles:
+                    if tmdb_id is not None:
+                        cur.execute("SELECT id FROM series_titles WHERE tmdb_id=?", (tmdb_id,))
+                        row = cur.fetchone()
+                        if not row:
+                            title_id = upsert_series_title(
+                                cur, tmdb_id=tmdb_id, name=name, name_norm=name_norm, year=year,
+                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                                first_air_date=first_air
+                            )
+                        else:
+                            title_id = row[0]
+                    else:
+                        cur.execute(
+                            "SELECT id FROM series_titles WHERE tmdb_id IS NULL AND name_normalized=? AND year IS ?",
+                            (name_norm, year),
+                        )
+                        row = cur.fetchone()
+                        if not row:
+                            title_id = upsert_series_title(
+                                cur, tmdb_id=None, name=name, name_norm=name_norm, year=year,
+                                plot=plot, rating=rating_f, popularity=pop_f, vote_count=vc_i,
+                                first_air_date=first_air
+                            )
+                        else:
+                            title_id = row[0]
+                else:
+                    seen_series_titles.add(tkey)
+                    title_id = upsert_series_title(
+                        cur,
+                        tmdb_id=int(tmdb_id) if tmdb_id is not None else None,
+                        name=name,
+                        name_norm=name_norm,
+                        year=year,
+                        plot=plot,
+                        rating=rating_f,
+                        popularity=pop_f,
+                        vote_count=vc_i,
+                        first_air_date=first_air,
+                    )
+
+                series_id = s.get("series_id")
+                if series_id is None:
+                    continue
+
+                series_stream_batch.append(
                     (
-                        s.get("series_id"),
                         server_id,
-                        name,
-                        name_norm,
+                        int(series_id),
+                        title_id,
                         s.get("cover"),
-                        plot,
-                        (tmdb or {}).get("first_air_date") or s.get("releaseDate"),
-                        str((tmdb or {}).get("vote_average") or s.get("rating") or ""),
-                        (tmdb or {}).get("id"),
-                        None,
-                        float((tmdb or {}).get("popularity") or 0),
-                        float((tmdb or {}).get("vote_average") or 0),
-                        int((tmdb or {}).get("vote_count") or 0),
                     )
                 )
 
-            if series_batch:
+            if series_stream_batch:
                 cur.executemany(
                     """
-                    INSERT INTO series
-                    (series_id, server_id, name, name_normalized, cover, plot, releaseDate, rating,
-                     tmdb_id, imdb_id, tmdb_popularity, tmdb_vote_average, tmdb_vote_count, updated_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-                    ON CONFLICT(series_id, server_id) DO UPDATE SET
-                        name=excluded.name,
-                        name_normalized=excluded.name_normalized,
+                    INSERT INTO series_streams
+                    (server_id, series_id, title_id, cover, updated_at)
+                    VALUES (?, ?, ?, ?, datetime('now'))
+                    ON CONFLICT(server_id, series_id) DO UPDATE SET
+                        title_id=excluded.title_id,
                         cover=excluded.cover,
-                        plot=excluded.plot,
-                        releaseDate=excluded.releaseDate,
-                        rating=excluded.rating,
-                        tmdb_id=excluded.tmdb_id,
-                        imdb_id=excluded.imdb_id,
-                        tmdb_popularity=excluded.tmdb_popularity,
-                        tmdb_vote_average=excluded.tmdb_vote_average,
-                        tmdb_vote_count=excluded.tmdb_vote_count,
                         updated_at=excluded.updated_at
                     """,
-                    series_batch,
+                    series_stream_batch,
                 )
-                total_series += len(series_batch)
+                total_series_streams += len(series_stream_batch)
 
-            # --- Live Channels (optional) ---
+            # Live (optional)
             if not SKIP_LIVE:
                 live_batch = []
                 for l in res["streams"]["live"]:
-                    name = l.get("name", "")
-                    if not name:
+                    name = l.get("name") or ""
+                    stream_id = l.get("stream_id")
+                    if not name or stream_id is None:
                         continue
                     live_batch.append(
                         (
-                            l.get("stream_id"),
                             server_id,
+                            int(stream_id),
                             name,
+                            l.get("category_id"),
                             l.get("stream_icon"),
                             l.get("epg_channel_id"),
-                            l.get("category_id"),
                         )
                     )
-
                 if live_batch:
                     cur.executemany(
                         """
                         INSERT INTO live_channels
-                        (stream_id, server_id, name, stream_icon, epg_channel_id, category_id, updated_at)
+                        (server_id, stream_id, name, category_id, stream_icon, epg_channel_id, updated_at)
                         VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
-                        ON CONFLICT(stream_id, server_id) DO UPDATE SET
+                        ON CONFLICT(server_id, stream_id) DO UPDATE SET
                             name=excluded.name,
+                            category_id=excluded.category_id,
                             stream_icon=excluded.stream_icon,
                             epg_channel_id=excluded.epg_channel_id,
-                            category_id=excluded.category_id,
                             updated_at=excluded.updated_at
                         """,
                         live_batch,
                     )
                     total_live += len(live_batch)
 
-            # Commit once per valid server (keeps memory stable, DB consistent)
             conn.commit()
 
             print(
                 f"[{i}/{len(servers_to_check)}] ✅ {server_name} | "
-                f"movies+{len(movie_batch)} series+{len(series_batch)}"
-                + (f" live+{len(res['streams']['live'])}" if not SKIP_LIVE else " live(skipped)")
+                f"movie_streams+{len(movie_stream_batch)} series_streams+{len(series_stream_batch)}"
+                + (" live(skipped)" if SKIP_LIVE else f" live+{len(res['streams']['live'])}")
             )
 
-    # Vacuum occasionally helps reclaim space (especially if you removed lots of rows in old runs).
-    # It can take time on big DBs; keep enabled if size is priority.
+    # Optional vacuum for size (can take time on big db; keep it if size is priority)
     try:
         cur.execute("VACUUM;")
         conn.commit()
@@ -546,11 +795,11 @@ def main():
 
     conn.close()
 
-    print("=" * 60)
+    print("=" * 70)
     print(f"BUILD COMPLETE: {DB_FILE}")
     print(f"Valid Servers: {valid_count}/{len(servers_to_check)}")
-    print(f"Movies indexed: {total_movies} | Series indexed: {total_series} | Live indexed: {total_live}")
-    print("=" * 60)
+    print(f"Movie streams: {total_movie_streams} | Series streams: {total_series_streams} | Live: {total_live}")
+    print("=" * 70)
 
 
 if __name__ == "__main__":
