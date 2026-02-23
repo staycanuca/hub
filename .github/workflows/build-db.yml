@@ -1,4 +1,5 @@
 name: Build IPTV Database
+
 on:
   schedule:
     - cron: '0 3 * * *' # Ruleaza in fiecare zi la ora 3 AM UTC
@@ -7,12 +8,18 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build-iptv-db
+  cancel-in-progress: false
+
 jobs:
   build-db:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,8 +36,24 @@ jobs:
 
       - name: Commit and Push Database
         run: |
+          set -e
+
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+
           git add iptv_aggregator.db
           git commit -m "Auto-update IPTV Database [skip ci]" || exit 0
-          git push
+
+          # Retry loop to avoid non-fast-forward if another run pushed first
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push rejected (non-fast-forward). Retry $i..."
+            sleep $((i*2))
+          done
+
+          echo "Failed to push after retries."
+          exit 1
