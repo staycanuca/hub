@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - 'verify_servers.py'
+      - '_tools/verify_servers.py'
 
 jobs:
   verify:
