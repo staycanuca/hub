@@ -74,18 +74,6 @@
             ]
         },
         {
-            "id": "server4",
-            "name": "Server 4 RO",
-            "type": "stalker",
-            "portal_url": "http://line.iptvgoat.com:80",
-            "macs": [
-                "00:1A:79:C3:25:69",
-                "00:1A:79:C2:C7:EA",
-                "00:1A:79:55:AA:59",
-                "00:1A:79:64:34:66"
-            ]
-        },
-        {
             "id": "server5",
             "name": "Server 5 RO",
             "type": "stalker",
@@ -377,7 +365,6 @@
                 "00:1A:79:B6:E4:7B",
                 "00:1A:79:1A:81:41",
                 "00:1A:79:BF:5B:0B",
-                "00:1A:79:6A:1E:C4",
                 "00:1A:79:B8:80:F7",
                 "00:1A:79:82:CF:7C",
                 "00:1A:79:C2:B8:C0",
