@@ -13,6 +13,7 @@ from resources.lib.scrapers.terasacucartii import (
     get_categories as get_terasa_categories,
     get_series_list as get_terasa_series,
     get_sources as get_terasa_sources,
+    search as search_terasa,
 )
 
 from resources.lib.scrapers.blogul_atanase import (
@@ -30,6 +31,22 @@ from resources.lib.scrapers.serialecoreene import (
     get_new_episodes,
     get_episodes_and_sources as get_serialecoreene_episodes,
     get_playable_url,
+    search as search_serialecoreene,
+)
+
+from resources.lib.scrapers.serialero import (
+    get_menu as get_serialero_menu,
+    get_series_list as get_serialero_series,
+    get_seasons_and_episodes as get_serialero_episodes,
+    get_season_episodes as get_serialero_season_episodes,
+    get_sources as get_serialero_sources,
+)
+
+from resources.lib.scrapers.serialeromanesti import (
+    get_menu as get_serialeromanesti_menu,
+    get_series_list as get_serialeromanesti_series,
+    get_sources as get_serialeromanesti_sources,
+    search as search_serialeromanesti,
 )
 
 __all__ = [
@@ -44,6 +61,7 @@ __all__ = [
     "get_terasa_categories",
     "get_terasa_series",
     "get_terasa_sources",
+    "search_terasa",
     # Blogul Atanase
     "get_korean_categories",
     "get_years",
@@ -57,4 +75,16 @@ __all__ = [
     "get_new_episodes",
     "get_serialecoreene_episodes",
     "get_playable_url",
+    "search_serialecoreene",
+    # SerialeRo
+    "get_serialero_menu",
+    "get_serialero_series",
+    "get_serialero_episodes",
+    "get_serialero_season_episodes",
+    "get_serialero_sources",
+    # SerialeRomanesti
+    "get_serialeromanesti_menu",
+    "get_serialeromanesti_series",
+    "get_serialeromanesti_sources",
+    "search_serialeromanesti",
 ]

@@ -39,14 +39,26 @@ def get_main_menu():
 
 
 def get_series_list(url, page="1"):
-    """Get list of series from a category."""
-    page_url = f"{url}page/{page}/" if int(page) > 1 else url
+    """Get list of series from a category with caching."""
+    if int(page) > 1:
+        # Check if it's a search URL
+        if "?s=" in url:
+            if "&paged=" in url:
+                page_url = re.sub(r"&paged=\d+", f"&paged={page}", url)
+            else:
+                page_url = f"{url}&paged={page}"
+        else:
+            page_url = f"{url}page/{page}/"
+    else:
+        page_url = url
+        
     series = []
     next_page = None
 
     try:
-        response = get_html_content(page_url)
-        response.raise_for_status()
+        response = get_html_content(page_url, cache_time=3600)
+        if response.status_code != 200:
+            return series, next_page
         soup = BeautifulSoup(response.text, "html.parser")
     except Exception as e:
         log_error(f"Failed to fetch series list: {e}")
@@ -78,21 +90,34 @@ def get_series_list(url, page="1"):
     next_page_link = soup.find(
         "a", class_="page larger", rel="nofollow", string=str(int(page) + 1)
     )
+    # Generic fallback if specific link string isn't found
+    if not next_page_link:
+        pagination_div = soup.find("div", class_="pagination")
+        if pagination_div:
+             next_page_link = pagination_div.find("a", class_="next page-numbers")
+             
     if next_page_link and next_page_link.has_attr("href"):
         next_page = str(int(page) + 1)
 
     return series, next_page
 
 
+def search(query, page="1"):
+    """Search serialecoreene.org for content."""
+    search_url = f"{BASE_URL_SERIALECOREENE}?s={urllib.parse.quote_plus(query)}"
+    return get_series_list(search_url, page=page)
+
+
 def get_new_episodes(url, page="1"):
-    """Get new episodes list."""
+    """Get new episodes list with caching."""
     page_url = f"{url}page/{page}/" if int(page) > 1 else url
     episodes = []
     next_page = None
 
     try:
-        response = get_html_content(page_url)
-        response.raise_for_status()
+        response = get_html_content(page_url, cache_time=3600)
+        if response.status_code != 200:
+            return episodes, next_page
         soup = BeautifulSoup(response.text, "html.parser")
     except Exception as e:
         log_error(f"Failed to fetch new episodes: {e}")
@@ -131,10 +156,11 @@ def get_new_episodes(url, page="1"):
 
 
 def get_episodes_and_sources(url):
-    """Get episodes and sources from a series page."""
+    """Get episodes and sources from a series page with caching."""
     try:
-        response = get_html_content(url)
-        response.raise_for_status()
+        response = get_html_content(url, cache_time=3600)
+        if response.status_code != 200:
+            return []
         soup = BeautifulSoup(response.text, "html.parser")
     except Exception as e:
         log_error(f"Failed to fetch episode page: {e}")
@@ -249,7 +275,7 @@ def get_playable_url(episode_url):
         if video_url.startswith("//"):
             video_url = "https:" + video_url
 
-        return video_url
+        return {"url": video_url, "referer": episode_url}
 
     except Exception as e:
         log_error(f"Error getting playable URL: {e}")

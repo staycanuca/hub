@@ -5,6 +5,8 @@ Main entry point and router for the addon.
 
 import sys
 import urllib.parse
+import re
+import time
 import xbmc
 import xbmcplugin
 import xbmcgui
@@ -20,6 +22,7 @@ from resources.lib.utils import (
     get_custom_image,
     log,
     log_error,
+    parallel_map,
 )
 from resources.lib.resolvers import (
     resolve_url_wrapper,
@@ -50,6 +53,14 @@ from resources.lib.scrapers import (
     get_new_episodes,
     get_serialecoreene_episodes,
     get_playable_url,
+    get_serialero_menu,
+    get_serialero_series,
+    get_serialero_episodes,
+    get_serialero_season_episodes,
+    get_serialero_sources,
+    get_serialeromanesti_menu,
+    get_serialeromanesti_series,
+    get_serialeromanesti_sources,
 )
 
 
@@ -83,12 +94,159 @@ def add_directory_item(title, url, icon=None, is_folder=True, **listitem_props):
 
 def list_main_menu():
     """Display the main menu."""
-    # Search
+    add_directory_item(
+        "Mega Cauta", build_url("mega_search"), icon="https://i.imgur.com/dvqhLCI.png"
+    )
+    add_directory_item(
+        "VeziAici", build_url("list_veziaici_menu"), icon=ADDON_ICON
+    )
+    add_directory_item(
+        "SerialeRo",
+        build_url("list_serialero_menu"),
+        icon="https://serialero.net/img/test2.jpg"
+    )
+    add_directory_item(
+        "SerialeRomanesti",
+        build_url("list_serialeromanesti_menu"),
+        icon="https://serialeromanesti.net/wp-content/uploads/2025/12/logo2.png"
+    )
+    add_directory_item(
+        "BlogAtanase", build_url("list_blogatanase_menu"), icon="https://fericitazi.com/wp-content/uploads/Seriale-coreene-de-dragoste-780x450.jpg"
+    )
+    add_directory_item(
+        "TerasacuCarti",
+        build_url("list_turkish_series_categories"),
+        icon="https://fuzzy.ro/wp-content/uploads/2023/01/seriale-turcesti.jpg",
+    )
+    add_directory_item(
+        "SerialeCoreene",
+        build_url("list_serialecoreene_main"),
+        icon="https://serialecoreene.org/wp-content/uploads/2023/10/coreene-logo.png",
+    )
+
+    xbmcplugin.endOfDirectory(HANDLE, cacheToDisc=False)
+
+
+def mega_search(query=None):
+    """Mega Search functionality across all supported sites."""
+    if not query:
+        keyboard = xbmcgui.Dialog().input("Mega Cauta", type=xbmcgui.INPUT_ALPHANUM)
+        if not keyboard:
+            return
+        query = keyboard
+
+    # Show busy dialog as this might take a few seconds
+    xbmc.executebuiltin("ActivateWindow(busydialog)")
+
+    # Define all search tasks
+    from resources.lib.scrapers.veziaici import search as search_veziaici_scraper
+    from resources.lib.scrapers.serialero import search as search_serialero_scraper
+    from resources.lib.scrapers.blogul_atanase import search as search_blogatanase_scraper
+    from resources.lib.scrapers.terasacucartii import search as search_terasa_scraper
+    from resources.lib.scrapers.serialecoreene import search as search_serialecoreene_scraper
+    from resources.lib.scrapers.serialeromanesti import search as search_serialeromanesti_scraper
+
+    search_tasks = [
+        ("VeziAici", search_veziaici_scraper),
+        ("SerialeRo", search_serialero_scraper),
+        ("BlogAtanase", search_blogatanase_scraper),
+        ("TerasaCuCarti", search_terasa_scraper),
+        ("SerialeCoreene", search_serialecoreene_scraper),
+        ("SerialeRomanesti", search_serialeromanesti_scraper),
+    ]
+
+    def run_search(task):
+        name, func = task
+        try:
+            res = func(query)
+            # Standardize return format (some return (res, next_page), some just res)
+            if isinstance(res, tuple):
+                return name, res[0]
+            return name, res
+        except Exception as e:
+            log_error(f"Mega Search failed for {name}: {e}")
+            return name, []
+
+    # Run in parallel
+    results_map = parallel_map(run_search, search_tasks)
+    
+    xbmc.executebuiltin("Dialog.Close(busydialog)")
+
+    query_words = [w.lower() for w in query.split() if len(w) > 2]
+
+    for site_name, results in results_map:
+        if not results:
+            continue
+            
+        for item in results:
+            title = item.get("title", "")
+            url = item.get("url", "")
+            thumb = item.get("thumb", ADDON_ICON)
+            
+            # Post-filter: Ensure the title has some relevance to the query
+            # (Checks if any significant word of the query is in the title)
+            if query_words:
+                title_lower = title.lower()
+                if not any(word in title_lower for word in query_words):
+                    continue
+
+            display_title = f"[{site_name}] {title}"
+            
+            # Decide mode based on site
+            is_playable = False
+            is_folder = True
+            
+            if site_name == "VeziAici":
+                keywords = ["episod", "sezon", "season", "ep."]
+                if any(kw in title.lower() for kw in keywords):
+                    mode = "list_sources"
+                else:
+                    mode = "list_episodes"
+            elif site_name == "SerialeRo":
+                if item.get("is_movie"):
+                    mode = "play_serialero"
+                    is_playable = True
+                    is_folder = False
+                else:
+                    mode = "list_serialero_episodes"
+            elif site_name == "BlogAtanase":
+                keywords = ["serial", "sezon", "episod", "episoade"]
+                if any(kw in title.lower() for kw in keywords):
+                    mode = "list_korean_episodes"
+                else:
+                    mode = "list_movie_sources"
+            elif site_name == "TerasaCuCarti":
+                # For Turkish series, search usually returns episodes
+                # Let's check sources if we want to be smart, but for mega search
+                # we'll just go to sources list for safety
+                mode = "list_turkish_sources"
+            elif site_name == "SerialeCoreene":
+                mode = "list_serialecoreene_episodes"
+            elif site_name == "SerialeRomanesti":
+                is_cat = "/category/" in url
+                mode = "list_serialeromanesti_series" if is_cat else "play_serialeromanesti"
+                is_folder = is_cat
+                is_playable = not is_cat
+            else:
+                mode = "play_source"
+
+            add_directory_item(
+                display_title,
+                build_url(mode, url=url, name=title, title=title),
+                icon=thumb,
+                is_folder=is_folder,
+                is_playable=is_playable
+            )
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_veziaici_menu():
+    """Display the VeziAici menu."""
     add_directory_item(
         "Cauta", build_url("search"), icon="https://i.imgur.com/dvqhLCI.png"
     )
-
-    # Veziaici.net categories
+    
     categories = get_veziaici_menu()
     for category in categories:
         title = category["title"]
@@ -102,6 +260,7 @@ def list_main_menu():
                 name=title,
                 latest_url="https://veziaici.net/category/a-emisiuni-romanesti/",
             )
+            add_directory_item(title, url, icon=icon)
         elif "seriale" in title.lower():
             icon = get_custom_image("las fierbinti")
             url = build_url(
@@ -110,30 +269,21 @@ def list_main_menu():
                 name=title,
                 latest_url="https://veziaici.net/category/c-seriale-romanesti/",
             )
-        else:
-            url = build_url(
-                "list_shows",
-                shows=urllib.parse.quote(str(category["shows"])),
-                name=title,
-            )
+            add_directory_item(title, url, icon=icon)
 
-        add_directory_item(title, url, icon=icon)
+    xbmcplugin.endOfDirectory(HANDLE, cacheToDisc=False)
 
-    # Turkish series
+
+def list_blogatanase_menu():
+    """Display the BlogAtanase menu."""
     add_directory_item(
-        "Seriale Turcesti",
-        build_url("list_turkish_series_categories"),
-        icon="https://fuzzy.ro/wp-content/uploads/2023/01/seriale-turcesti.jpg",
+        "Cauta", build_url("search_blogatanase"), icon="https://i.imgur.com/dvqhLCI.png"
     )
-
-    # Korean series categories
     add_directory_item(
         "Seriale Coreene",
         build_url("list_korean_series_categories"),
         icon="https://fericitazi.com/wp-content/uploads/Seriale-coreene-de-dragoste-780x450.jpg",
     )
-
-    # Chinese series
     add_directory_item(
         "Seriale Chinezesti",
         build_url(
@@ -143,8 +293,6 @@ def list_main_menu():
         ),
         icon="https://fericitazi.com/wp-content/uploads/Seriale-coreene-de-dragoste-780x450.jpg",
     )
-
-    # Japanese series
     add_directory_item(
         "Seriale Japoneze",
         build_url(
@@ -154,8 +302,6 @@ def list_main_menu():
         ),
         icon="https://fericitazi.com/wp-content/uploads/Seriale-coreene-de-dragoste-780x450.jpg",
     )
-
-    # Thai series
     add_directory_item(
         "Seriale Thailandeze",
         build_url(
@@ -165,8 +311,6 @@ def list_main_menu():
         ),
         icon="https://fericitazi.com/wp-content/uploads/Seriale-coreene-de-dragoste-780x450.jpg",
     )
-
-    # Taiwan series
     add_directory_item(
         "Seriale Taiwan",
         build_url(
@@ -176,22 +320,213 @@ def list_main_menu():
         ),
         icon="https://fericitazi.com/wp-content/uploads/Seriale-coreene-de-dragoste-780x450.jpg",
     )
-
-    # SerialeCoreene.org
-    add_directory_item(
-        "SerialeCoreene.org",
-        build_url("list_serialecoreene_main"),
-        icon="https://serialecoreene.org/wp-content/uploads/2023/10/coreene-logo.png",
-    )
-
-    # Movies
     add_directory_item(
         "Filme",
         build_url("list_movies_categories"),
         icon="https://1.bp.blogspot.com/-5utXzUd3Wk0/XcatUqtM9pI/AAAAAAAACTU/8Jbt1d8gO8Y7XVLGQnjHYYnJ9ou1_kTLACLcBGAsYHQ/s1600/www.tvnowstream.de.jpg",
     )
 
+    xbmcplugin.endOfDirectory(HANDLE, cacheToDisc=False)
+
+
+def search_blogatanase(query=None, page="1"):
+    """Search functionality for blogul-lui-atanase.ro."""
+    if not query:
+        keyboard = xbmcgui.Dialog().input("Cauta", type=xbmcgui.INPUT_ALPHANUM)
+        if not keyboard:
+            return
+        query = keyboard
+
+    # Use the scraper search method
+    from resources.lib.scrapers.blogul_atanase import search as scraper_search_blogatanase
+    series, next_page = scraper_search_blogatanase(query, page)
+
+    for item in series:
+        title = item.get("title", "")
+        series_url = item.get("url", "")
+        thumb = item.get("thumb", ADDON_ICON)
+        description = item.get("description", "")
+
+        # Intelligent routing - similar to movies category
+        keywords = ["serial", "sezon", "episod", "episoade"]
+        is_series = any(
+            kw in title.lower() or kw in description.lower() for kw in keywords
+        )
+
+        list_item = xbmcgui.ListItem(title)
+        list_item.setArt({"thumb": thumb, "icon": thumb})
+        list_item.setInfo("video", {"title": title, "plot": description})
+
+        # Most search results on the blog are series/movies container pages
+        mode = "list_korean_episodes" if is_series else "list_movie_sources"
+
+        xbmcplugin.addDirectoryItem(
+            handle=HANDLE,
+            url=build_url(mode, url=series_url, name=title),
+            listitem=list_item,
+            isFolder=True,
+        )
+
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("search_blogatanase", query=query, page=next_page),
+            icon="https://i.imgur.com/dvqhLCI.png"
+        )
+
     xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_serialero_menu():
+    """Display the SerialeRo menu."""
+    add_directory_item(
+        "Cauta", build_url("search_serialero"), icon="https://i.imgur.com/dvqhLCI.png"
+    )
+    
+    items = get_serialero_menu()
+    for item in items:
+        add_directory_item(
+            item["title"],
+            build_url("list_serialero_series", url=item["url"], name=item["title"])
+        )
+    xbmcplugin.endOfDirectory(HANDLE, cacheToDisc=False)
+
+
+def search_serialero(query=None, page="1"):
+    """Search functionality for serialero.net."""
+    if not query:
+        keyboard = xbmcgui.Dialog().input("Cauta", type=xbmcgui.INPUT_ALPHANUM)
+        if not keyboard:
+            return
+        query = keyboard
+
+    # Reuse get_series_list logic through the search wrapper
+    from resources.lib.scrapers.serialero import search as scraper_search_serialero
+    series, next_page = scraper_search_serialero(query, page)
+
+    for item in series:
+        if item.get("is_movie"):
+            add_directory_item(
+                item["title"],
+                build_url("play_serialero", url=item["url"], title=item["title"]),
+                icon=item.get("thumb"),
+                is_folder=False,
+                is_playable=True,
+                info={"plot": item.get("description", "")}
+            )
+        else:
+            add_directory_item(
+                item["title"],
+                build_url("list_serialero_episodes", url=item["url"], name=item["title"]),
+                icon=item.get("thumb"),
+                info={"plot": item.get("description", "")}
+            )
+            
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("search_serialero", query=query, page=next_page),
+            icon="https://i.imgur.com/dvqhLCI.png"
+        )
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_serialero_series(url, name, page="1"):
+    """List series from serialero.net."""
+    series, next_page = get_serialero_series(url, page)
+    for item in series:
+        if item.get("is_movie"):
+            add_directory_item(
+                item["title"],
+                build_url("play_serialero", url=item["url"], title=item["title"]),
+                icon=item.get("thumb"),
+                is_folder=False,
+                is_playable=True,
+                info={"plot": item.get("description", "")}
+            )
+        else:
+            add_directory_item(
+                item["title"],
+                build_url("list_serialero_episodes", url=item["url"], name=item["title"]),
+                icon=item.get("thumb"),
+                info={"plot": item.get("description", "")}
+            )
+    
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("list_serialero_series", url=url, name=name, page=next_page)
+        )
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_serialero_episodes(url, name):
+    """List episodes for a serialero.net series."""
+    seasons, episodes = get_serialero_episodes(url)
+    
+    if seasons:
+        for season in seasons:
+            add_directory_item(
+                season["title"],
+                build_url("list_serialero_season_episodes", url=url, season_id=season["id"], name=name)
+            )
+        xbmcplugin.endOfDirectory(HANDLE)
+        return
+        
+    for ep in episodes:
+        add_directory_item(
+            f"{name} - {ep['title']}",
+            build_url("play_serialero", url=ep["url"], title=f"{name} - {ep['title']}"),
+            is_folder=False,
+            is_playable=True
+        )
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_serialero_season_episodes(url, season_id, name):
+    """List episodes for a specific season of serialero.net."""
+    if season_id.startswith("http"):
+        # For explicit season links, we just call get_seasons_and_episodes on the season URL
+        # which will extract the JS array episodes for that specific season page
+        _, episodes = get_serialero_episodes(season_id, force_episodes=True)
+    else:
+        episodes = get_serialero_season_episodes(url, season_id)
+        
+    for ep in episodes:
+        add_directory_item(
+            f"{name} - {ep['title']}",
+            build_url("play_serialero", url=ep["url"], title=f"{name} - {ep['title']}"),
+            is_folder=False,
+            is_playable=True
+        )
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def play_serialero(url, title):
+    """Play a source from serialero.net."""
+    sources = get_serialero_sources(url)
+    if not sources:
+        xbmcgui.Dialog().notification("Error", "No sources found", xbmcgui.NOTIFICATION_ERROR)
+        return
+
+    # If multiple sources, let user choose
+    if len(sources) > 1:
+        labels = [s["domain"] for s in sources]
+        selected = xbmcgui.Dialog().select("Select Source", labels)
+        if selected == -1:
+            return
+        source = sources[selected]
+    else:
+        source = sources[0]
+
+    # Resolve and play using the referer
+    result = resolve_url_wrapper(source["url"], referer=source.get("referer"))
+    if result:
+        list_item = create_listitem_with_stream(result, title)
+        xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
+    else:
+        xbmcgui.Dialog().notification("Error", "Failed to resolve URL", xbmcgui.NOTIFICATION_ERROR)
 
 
 def list_show_categories(shows_str, name, latest_url):
@@ -298,7 +633,6 @@ def list_episodes_for_season(episodes_json, season, name):
         list_item = xbmcgui.ListItem(title)
         list_item.setArt({"thumb": icon, "icon": icon, "fanart": ADDON_FANART})
         list_item.setInfo("video", {"title": title})
-        list_item.setProperty("IsPlayable", "false")
 
         xbmcplugin.addDirectoryItem(
             handle=HANDLE,
@@ -330,7 +664,7 @@ def list_sources(url, name):
 
         xbmcplugin.addDirectoryItem(
             handle=HANDLE,
-            url=build_url("play_source", url=video_url, title=name),
+            url=build_url("play_source", url=video_url, title=name, referer=url),
             listitem=list_item,
             isFolder=False,
         )
@@ -338,13 +672,12 @@ def list_sources(url, name):
     xbmcplugin.endOfDirectory(HANDLE)
 
 
-def play_source(url, title):
-    """Play a video from URL with optimized handling for ok.ru and vk.com."""
-    import time
-
+def play_source(url, title, referer=None):
+    """Play a video from URL with optimized handling."""
     start_time = time.time()
 
-    resolved = resolve_url_wrapper(url)
+    # Handle resolving
+    resolved = resolve_url_wrapper(url, referer=referer)
 
     if not resolved:
         xbmcgui.Dialog().ok(ADDON_NAME, "Could not resolve video URL.")
@@ -353,53 +686,14 @@ def play_source(url, title):
     resolve_time = time.time() - start_time
     log(f"[play_source] Resolved in {resolve_time:.2f}s")
 
-    # Handle StreamInfo objects (optimized resolvers)
-    if isinstance(resolved, StreamInfo):
-        log(f"[play_source] Using optimized StreamInfo: {resolved.manifest_type}")
+    # If resolved is a simple string, wrap it in a StreamInfo for uniform handling
+    if not isinstance(resolved, StreamInfo):
+        log("[play_source] Wrapping legacy URL string into StreamInfo")
+        manifest_type = "hls" if ".m3u8" in str(resolved) else ("dash" if ".mpd" in str(resolved) else "mp4")
+        resolved = StreamInfo(str(resolved), manifest_type=manifest_type)
 
-        # Force HTTPS for CDN URLs
-        if "http://" in resolved.url and any(
-            domain in resolved.url for domain in ["vkuser.net", "okcdn.ru", "mycdn.me"]
-        ):
-            resolved.url = resolved.url.replace("http://", "https://")
-
-        # Create properly configured ListItem
-        list_item = create_listitem_with_stream(resolved, title or "Video")
-
-        # Add buffer settings for MP4 files (slow loading fix)
-        if resolved.is_mp4():
-            # These properties help with slow-starting MP4s
-            list_item.setProperty("VideoPlayer.UseFastSeek", "true")
-            list_item.setProperty("VideoPlayer.OverrideEmbeddedSubtitles", "true")
-            # Pre-cache hint
-            list_item.setProperty("prefetch", "2")
-
-    else:
-        # Legacy string URL handling
-        log("[play_source] Using legacy URL string")
-        resolved_url = str(resolved)
-
-        # Force HTTPS for CDN URLs
-        if "http://" in resolved_url and any(
-            domain in resolved_url for domain in ["vkuser.net", "okcdn.ru", "mycdn.me"]
-        ):
-            resolved_url = resolved_url.replace("http://", "https://")
-
-        is_hls = ".m3u8" in resolved_url
-        is_dash = ".mpd" in resolved_url
-
-        list_item = xbmcgui.ListItem()
-        list_item.setInfo("video", {"title": title or "Video"})
-
-        if is_hls or is_dash:
-            list_item.setProperty("inputstream", "inputstream.adaptive")
-            # Don't set deprecated manifest_type - let ISA auto-detect
-        else:
-            # MP4 optimizations
-            list_item.setProperty("VideoPlayer.UseFastSeek", "true")
-            list_item.setProperty("prefetch", "2")
-
-        list_item.setPath(resolved_url)
+    # Use centralized factory to create the list item with all necessary properties
+    list_item = create_listitem_with_stream(resolved, title or "Video")
 
     # Set title property for Trakt scrobbling
     if title:
@@ -424,23 +718,39 @@ def download_source(url):
         xbmcgui.Dialog().ok(ADDON_NAME, "Could not resolve video URL for download.")
 
 
-def search(query=None):
-    """Search functionality."""
-    if not query:
+def search(query=None, url=None):
+    """Search functionality with pagination."""
+    if not query and not url:
         keyboard = xbmcgui.Dialog().input("Cauta", type=xbmcgui.INPUT_ALPHANUM)
         if not keyboard:
             return
         query = keyboard
 
-    results = search_veziaici(query)
+    results, next_url = search_veziaici(query, url=url)
 
     for item in results:
         title = item.get("title", "")
-        url = item.get("url", "")
+        item_url = item.get("url", "")
         icon = get_custom_image(title)
 
+        # Intelligently decide if this is a series or a specific episode
+        keywords = ["episod", "sezon", "season", "ep."]
+        is_direct_episode = any(kw in title.lower() for kw in keywords)
+        
+        if is_direct_episode:
+            mode = "list_sources"
+        else:
+            mode = "list_episodes"
+
         add_directory_item(
-            title, build_url("list_sources", url=url, name=title), icon=icon
+            title, build_url(mode, url=item_url, name=title), icon=icon
+        )
+
+    if next_url:
+        add_directory_item(
+            "Next Page >>", 
+            build_url("search", query=query, url=next_url),
+            icon="https://i.imgur.com/dvqhLCI.png"
         )
 
     xbmcplugin.endOfDirectory(HANDLE)
@@ -477,6 +787,10 @@ def list_latest(url, name):
 # Turkish series (terasacucartii.net)
 def list_turkish_series_categories():
     """List Turkish series categories."""
+    add_directory_item(
+        "Cauta", build_url("search_terasa"), icon="https://i.imgur.com/dvqhLCI.png"
+    )
+
     categories = get_terasa_categories()
 
     for cat in categories:
@@ -489,11 +803,22 @@ def list_turkish_series_categories():
     xbmcplugin.endOfDirectory(HANDLE)
 
 
-def list_turkish_series(url, page="1"):
-    """List Turkish series episodes."""
-    episodes, next_page = get_terasa_series(url, page)
+def search_terasa(query=None, page="1"):
+    """Search functionality for terasacucartii.net."""
+    if not query:
+        keyboard = xbmcgui.Dialog().input("Cauta", type=xbmcgui.INPUT_ALPHANUM)
+        if not keyboard:
+            return
+        query = keyboard
 
-    for ep in episodes:
+    from resources.lib.scrapers.terasacucartii import search as scraper_search_terasa
+    episodes, next_page = scraper_search_terasa(query, page)
+
+    # Pre-fetch sources in parallel to decide if it's a folder or direct play
+    log(f"[turkish] Pre-fetching sources for {len(episodes)} search results...")
+    episode_sources = parallel_map(lambda ep: get_terasa_sources(ep["url"]), episodes)
+
+    for ep, sources in zip(episodes, episode_sources):
         title = ep.get("title", "")
         ep_url = ep.get("url", "")
         thumb = ep.get("thumb", ADDON_ICON)
@@ -502,12 +827,79 @@ def list_turkish_series(url, page="1"):
         list_item.setArt({"thumb": thumb, "icon": thumb})
         list_item.setInfo("video", {"title": title})
 
-        xbmcplugin.addDirectoryItem(
-            handle=HANDLE,
-            url=build_url("list_turkish_sources", url=ep_url, name=title),
-            listitem=list_item,
-            isFolder=True,
+        # If only one source, allow direct playback from this menu
+        if len(sources) == 1:
+            video_url = sources[0].get("url")
+            referer = sources[0].get("referer")
+            list_item.setProperty("IsPlayable", "true")
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("play_source", url=video_url, title=title, referer=referer),
+                listitem=list_item,
+                isFolder=False,
+            )
+        else:
+            # Multiple sources or none yet, show sub-menu
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("list_turkish_sources", url=ep_url, name=title),
+                listitem=list_item,
+                isFolder=True,
+            )
+
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("search_terasa", query=query, page=next_page),
+            icon="https://i.imgur.com/dvqhLCI.png"
         )
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_turkish_series(url, page="1"):
+    """List Turkish series episodes with direct playback optimization."""
+    episodes, next_page = get_terasa_series(url, page)
+
+    # Pre-fetch sources in parallel to decide if it's a folder or direct play
+    log(f"[turkish] Pre-fetching sources for {len(episodes)} episodes...")
+    episode_sources = parallel_map(lambda ep: get_terasa_sources(ep["url"]), episodes)
+
+    for ep, sources in zip(episodes, episode_sources):
+        title = ep.get("title", "")
+        ep_url = ep.get("url", "")
+        thumb = ep.get("thumb", ADDON_ICON)
+
+        list_item = xbmcgui.ListItem(title)
+        list_item.setArt({"thumb": thumb, "icon": thumb})
+        list_item.setInfo("video", {"title": title})
+
+        # If only one source, allow direct playback from this menu
+        if len(sources) == 1:
+            video_url = sources[0].get("url")
+            list_item.setProperty("IsPlayable", "true")
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("play_source", url=video_url, title=title),
+                listitem=list_item,
+                isFolder=False,
+            )
+        elif len(sources) > 1:
+            # Multiple sources, show sub-menu
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("list_turkish_sources", url=ep_url, name=title),
+                listitem=list_item,
+                isFolder=True,
+            )
+        else:
+            # No sources found yet or extraction failed
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("list_turkish_sources", url=ep_url, name=title),
+                listitem=list_item,
+                isFolder=True,
+            )
 
     if next_page:
         add_directory_item(
@@ -608,9 +1000,7 @@ def list_korean_series(url, name, page="1"):
 
 
 def list_korean_episodes(url, name):
-    """List episodes for a Korean series."""
-    import json
-
+    """List episodes for a Korean series with direct playback optimization."""
     seasons, episodes = get_blogul_episodes(url, name)
 
     # If seasons exist, show season folders
@@ -628,45 +1018,71 @@ def list_korean_episodes(url, name):
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
-    # Show episodes directly
-    for ep in episodes:
+    # Pre-fetch sources in parallel for episodes without seasons
+    log(f"[korean] Pre-fetching sources for {len(episodes)} episodes...")
+    episode_sources = parallel_map(lambda ep: get_movie_sources(ep["url"]), episodes)
+
+    for ep, sources in zip(episodes, episode_sources):
         title = ep.get("title", "")
         ep_url = ep.get("url", "")
+        full_title = f"{name} - {title}"
 
         list_item = xbmcgui.ListItem(title)
-        list_item.setProperty("IsPlayable", "true")
         list_item.setInfo("video", {"title": title})
 
-        full_title = f"{name} - {title}"
-        xbmcplugin.addDirectoryItem(
-            handle=HANDLE,
-            url=build_url("play_source", url=ep_url, title=full_title),
-            listitem=list_item,
-            isFolder=False,
-        )
+        if len(sources) == 1:
+            video_url = sources[0].get("url")
+            list_item.setProperty("IsPlayable", "true")
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("play_source", url=video_url, title=full_title),
+                listitem=list_item,
+                isFolder=False,
+            )
+        else:
+            # Multiple sources or zero, show sources list
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("play_source", url=ep_url, title=full_title) if len(sources) == 0 else build_url("list_movie_sources", url=ep_url, name=full_title),
+                listitem=list_item,
+                isFolder=True if len(sources) > 1 else False,
+            )
 
     xbmcplugin.endOfDirectory(HANDLE)
 
 
 def list_korean_season_episodes(url, season_title, name):
-    """List episodes for a specific season."""
+    """List episodes for a specific season with direct playback optimization."""
     episodes = get_season_episodes(url, season_title, name)
 
-    for ep in episodes:
+    # Pre-fetch sources in parallel
+    log(f"[korean] Pre-fetching sources for season {season_title} ({len(episodes)} episodes)...")
+    episode_sources = parallel_map(lambda ep: get_movie_sources(ep["url"]), episodes)
+
+    for ep, sources in zip(episodes, episode_sources):
         title = ep.get("title", "")
         ep_url = ep.get("url", "")
+        full_title = f"{name} - {title}"
 
         list_item = xbmcgui.ListItem(title)
-        list_item.setProperty("IsPlayable", "true")
         list_item.setInfo("video", {"title": title})
 
-        full_title = f"{name} - {title}"
-        xbmcplugin.addDirectoryItem(
-            handle=HANDLE,
-            url=build_url("play_source", url=ep_url, title=full_title),
-            listitem=list_item,
-            isFolder=False,
-        )
+        if len(sources) == 1:
+            video_url = sources[0].get("url")
+            list_item.setProperty("IsPlayable", "true")
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("play_source", url=video_url, title=full_title),
+                listitem=list_item,
+                isFolder=False,
+            )
+        else:
+            xbmcplugin.addDirectoryItem(
+                handle=HANDLE,
+                url=build_url("list_movie_sources", url=ep_url, name=full_title),
+                listitem=list_item,
+                isFolder=True,
+            )
 
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -784,10 +1200,124 @@ def list_movie_sources(url, name):
     xbmcplugin.endOfDirectory(HANDLE)
 
 
+# SerialeRomanesti (serialeromanesti.net)
+def list_serialeromanesti_menu():
+    """Display the SerialeRomanesti menu."""
+    icon = "https://serialeromanesti.net/wp-content/uploads/2025/12/logo2.png"
+    add_directory_item(
+        "Cauta", build_url("search_serialeromanesti"), icon="https://i.imgur.com/dvqhLCI.png"
+    )
+    
+    items = get_serialeromanesti_menu()
+    for item in items:
+        add_directory_item(
+            item["title"],
+            build_url("list_serialeromanesti_series", url=item["url"], name=item["title"]),
+            icon=icon
+        )
+    xbmcplugin.endOfDirectory(HANDLE, cacheToDisc=False)
+
+
+def search_serialeromanesti(query=None, page="1"):
+    """Search functionality for serialeromanesti.net."""
+    icon = "https://serialeromanesti.net/wp-content/uploads/2025/12/logo2.png"
+    if not query:
+        keyboard = xbmcgui.Dialog().input("Cauta", type=xbmcgui.INPUT_ALPHANUM)
+        if not keyboard:
+            return
+        query = keyboard
+
+    from resources.lib.scrapers.serialeromanesti import search as scraper_search_serialeromanesti
+    series, next_page = scraper_search_serialeromanesti(query, page)
+
+    for item in series:
+        title = item.get("title", "")
+        series_url = item.get("url", "")
+        thumb = item.get("thumb", icon)
+        
+        # Intelligent routing: categories are folders, posts are playable
+        is_folder = "/category/" in series_url
+        mode = "list_serialeromanesti_series" if is_folder else "play_serialeromanesti"
+
+        add_directory_item(
+            title, 
+            build_url(mode, url=series_url, title=title), 
+            icon=thumb,
+            is_folder=is_folder,
+            is_playable=not is_folder
+        )
+
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("search_serialeromanesti", query=query, page=next_page),
+            icon="https://i.imgur.com/dvqhLCI.png"
+        )
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def list_serialeromanesti_series(url, name, page="1"):
+    """List series from serialeromanesti.net."""
+    icon = "https://serialeromanesti.net/wp-content/uploads/2025/12/logo2.png"
+    series, next_page = get_serialeromanesti_series(url, page)
+    
+    for item in series:
+        title = item.get("title", "")
+        item_url = item.get("url", "")
+        thumb = item.get("thumb", icon)
+
+        # Intelligent routing: categories are folders, posts are playable
+        is_folder = "/category/" in item_url
+        mode = "list_serialeromanesti_series" if is_folder else "play_serialeromanesti"
+
+        add_directory_item(
+            title, 
+            build_url(mode, url=item_url, title=title), 
+            icon=thumb,
+            is_folder=is_folder,
+            is_playable=not is_folder
+        )
+            
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("list_serialeromanesti_series", url=url, name=name, page=next_page),
+            icon="https://i.imgur.com/dvqhLCI.png"
+        )
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def play_serialeromanesti(url, title):
+    """Play an episode from serialeromanesti.net."""
+    sources = get_serialeromanesti_sources(url)
+    
+    if not sources:
+        xbmcgui.Dialog().ok(ADDON_NAME, "Nu s-au gasit surse video.")
+        return
+        
+    if len(sources) == 1:
+        play_source(sources[0]["url"], title, referer=sources[0].get("referer"))
+        return
+        
+    # Multiple sources, let user select
+    source_names = [s.get("domain", "Unknown") for s in sources]
+    dialog = xbmcgui.Dialog()
+    selected = dialog.select("Selecteaza sursa", source_names)
+    
+    if selected >= 0:
+        play_source(sources[selected]["url"], title, referer=sources[selected].get("referer"))
+
+
 # SerialeCoreene.org
 def list_serialecoreene_main():
     """Main menu for SerialeCoreene.org."""
     icon = "https://serialecoreene.org/wp-content/uploads/2023/10/coreene-logo.png"
+    add_directory_item(
+        "Cauta", build_url("search_serialecoreene"), icon="https://i.imgur.com/dvqhLCI.png"
+    )
+    
     menu = get_serialecoreene_menu()
 
     for item in menu:
@@ -797,6 +1327,44 @@ def list_serialecoreene_main():
                 item.get("mode"), url=item.get("url"), name=item.get("title", "")
             ),
             icon=icon,
+        )
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+def search_serialecoreene(query=None, page="1"):
+    """Search functionality for serialecoreene.org."""
+    icon = "https://serialecoreene.org/wp-content/uploads/2023/10/coreene-logo.png"
+    if not query:
+        keyboard = xbmcgui.Dialog().input("Cauta", type=xbmcgui.INPUT_ALPHANUM)
+        if not keyboard:
+            return
+        query = keyboard
+
+    from resources.lib.scrapers.serialecoreene import search as scraper_search_serialecoreene
+    series, next_page = scraper_search_serialecoreene(query, page)
+
+    for item in series:
+        title = item.get("title", "")
+        series_url = item.get("url", "")
+        thumb = item.get("thumb", icon)
+
+        list_item = xbmcgui.ListItem(title)
+        list_item.setArt({"thumb": thumb, "icon": thumb})
+        list_item.setInfo("video", {"title": title})
+
+        xbmcplugin.addDirectoryItem(
+            handle=HANDLE,
+            url=build_url("list_serialecoreene_episodes", url=series_url, name=title),
+            listitem=list_item,
+            isFolder=True,
+        )
+
+    if next_page:
+        add_directory_item(
+            "Next Page >>",
+            build_url("search_serialecoreene", query=query, page=next_page),
+            icon="https://i.imgur.com/dvqhLCI.png"
         )
 
     xbmcplugin.endOfDirectory(HANDLE)
@@ -898,35 +1466,17 @@ def list_serialecoreene_episodes(url, name):
 
 def play_serialecoreene_episode(url, name):
     """Play episode from SerialeCoreene.org (handles redirects)."""
-    video_url = get_playable_url(url)
+    res = get_playable_url(url)
 
-    if not video_url:
+    if not res:
         xbmcgui.Dialog().ok(ADDON_NAME, "Nu s-a putut extrage sursa video.")
         return
 
-    resolved = resolve_url_wrapper(video_url)
-
-    if not resolved:
-        xbmcgui.Dialog().ok(ADDON_NAME, "Could not resolve video URL.")
-        return
-
-    # Handle StreamInfo objects
-    if isinstance(resolved, StreamInfo):
-        list_item = create_listitem_with_stream(resolved, name)
-    else:
-        resolved_url = str(resolved)
-        list_item = xbmcgui.ListItem(path=resolved_url)
-        list_item.setInfo("video", {"title": name})
-
-        if ".m3u8" in resolved_url or ".mpd" in resolved_url:
-            list_item.setProperty("inputstream", "inputstream.adaptive")
-            if ".m3u8" in resolved_url:
-                list_item.setProperty("inputstream.adaptive.manifest_type", "hls")
-            elif ".mpd" in resolved_url:
-                list_item.setProperty("inputstream.adaptive.manifest_type", "mpd")
-
-    xbmcgui.Window(10000).setProperty("VeziAici_Title", name)
-    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
+    video_url = res.get("url")
+    referer = res.get("referer")
+    
+    # Use centralized playback logic
+    play_source(video_url, name, referer=referer)
 
 
 # Trakt integration
@@ -949,6 +1499,32 @@ def router(paramstring):
     # Main navigation
     if mode is None:
         list_main_menu()
+    elif mode == "list_veziaici_menu":
+        list_veziaici_menu()
+    elif mode == "list_blogatanase_menu":
+        list_blogatanase_menu()
+    elif mode == "list_serialero_menu":
+        list_serialero_menu()
+    elif mode == "search_serialero":
+        search_serialero(params.get("query"), params.get("page", "1"))
+    elif mode == "list_serialero_series":
+        list_serialero_series(params.get("url"), params.get("name"), params.get("page", "1"))
+    elif mode == "list_serialero_episodes":
+        list_serialero_episodes(params.get("url"), params.get("name"))
+    elif mode == "list_serialero_season_episodes":
+        list_serialero_season_episodes(params.get("url"), params.get("season_id"), params.get("name"))
+    elif mode == "play_serialero":
+        play_serialero(params.get("url"), params.get("title"))
+
+    # SerialeRomanesti
+    elif mode == "list_serialeromanesti_menu":
+        list_serialeromanesti_menu()
+    elif mode == "search_serialeromanesti":
+        search_serialeromanesti(params.get("query"), params.get("page", "1"))
+    elif mode == "list_serialeromanesti_series":
+        list_serialeromanesti_series(params.get("url"), params.get("name"), params.get("page", "1"))
+    elif mode == "play_serialeromanesti":
+        play_serialeromanesti(params.get("url"), params.get("title"))
 
     # Veziaici.net
     elif mode == "list_show_categories":
@@ -968,9 +1544,11 @@ def router(paramstring):
     elif mode == "list_sources":
         list_sources(params.get("url"), params.get("name"))
     elif mode == "search":
-        search(params.get("query"))
+        search(params.get("query"), params.get("url"))
 
     # Turkish series
+    elif mode == "search_terasa":
+        search_terasa(params.get("query"), params.get("page", "1"))
     elif mode == "list_turkish_series_categories":
         list_turkish_series_categories()
     elif mode == "list_turkish_series":
@@ -979,6 +1557,8 @@ def router(paramstring):
         list_turkish_sources(params.get("url"), params.get("name"))
 
     # Korean/Asian series
+    elif mode == "search_blogatanase":
+        search_blogatanase(params.get("query"), params.get("page", "1"))
     elif mode == "list_korean_series_categories":
         list_korean_series_categories()
     elif mode == "list_korean_series_years":
@@ -1005,6 +1585,8 @@ def router(paramstring):
     # SerialeCoreene.org
     elif mode == "list_serialecoreene_main":
         list_serialecoreene_main()
+    elif mode == "search_serialecoreene":
+        search_serialecoreene(params.get("query"), params.get("page", "1"))
     elif mode == "list_serialecoreene_all_series":
         list_serialecoreene_all_series(
             params.get("url"), params.get("name"), params.get("page", "1")
@@ -1026,7 +1608,9 @@ def router(paramstring):
 
     # Playback
     elif mode == "play_source":
-        play_source(params.get("url"), params.get("title"))
+        play_source(params.get("url"), params.get("title"), referer=params.get("referer"))
+    elif mode == "mega_search":
+        mega_search(params.get("query"))
     elif mode == "play_serialecoreene_episode":
         play_serialecoreene_episode(params.get("url"), params.get("name"))
     elif mode == "download_source":

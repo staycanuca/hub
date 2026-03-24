@@ -2,6 +2,7 @@
 <settings>
     <category label="General">
         <setting id="resolver" type="select" label="Metoda de rezolvare" default="0" values="ResolveURL|Youtube-DL" />
+        <setting id="player_method" type="select" label="Metoda redare OK/VK" default="0" values="FFmpeg (Default)|InputStream Adaptive" />
     </category>
     <category label="Trakt">
         <setting id="trakt_info" type="text" label="Status" default="Neconectat" enable="false" />
