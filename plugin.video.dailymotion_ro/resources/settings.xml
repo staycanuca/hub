@@ -21,5 +21,12 @@
 	<category label="30113">
 		<setting label="30114" type="lsep"/>
         <setting id="family_filter" type="bool" label="30104" default="true"/>
-	</category>
+</category>
+    <category label="Actualizari automate">
+        <setting id="auto_update_enabled" type="bool" label="Activeaza actualizarea automata" default="true"/>
+        <setting id="auto_update_mode" type="enum" label="Mod actualizare" values="Rapid|Complet" default="0"/>
+        <setting id="auto_update_interval" type="enum" label="Interval" values="La pornire|La ora|La 6 ore|Zilnic" default="0"/>
+        <setting id="auto_update_hour" type="number" label="Ora pentru Zilnic (0-23)" default="3" visible="eq(-1,3)"/>
+        <setting id="auto_update_notify" type="bool" label="Notificare la final" default="true"/>
+    </category>
 </settings>

@@ -723,63 +723,259 @@ def addUserFavDir(name, url, mode, iconimage):
 
 
 def seriale_menu(url):
+    addDir("[COLOR cyan]Actualizare serialele[/COLOR]", "", 'auto_update_from_users_file', "{0}featured.png".format(_ipath))
     if enablePlaylistImport:
-        addDir("[COLOR yellow]Importa Playlist in JSON[/COLOR]", "", 'import_playlist_prompt', "{0}playlists.png".format(_ipath))
+        addDir("[COLOR yellow]Importa Playlist[/COLOR]", "", 'import_playlist_prompt', "{0}playlists.png".format(_ipath))
     if enableUserImport:
-        addDir("[COLOR yellow]Importa Videoclipuri de la Utilizator[/COLOR]", "", 'import_user_prompt', "{0}users.png".format(_ipath))
+        addDir("[COLOR yellow]Importa User (Rapid)[/COLOR]", "", 'import_user_prompt', "{0}users.png".format(_ipath))
+        addDir("[COLOR red]Importa User (Complet)[/COLOR]", "", 'import_user_prompt_full', "{0}users.png".format(_ipath))
+        addDir("[COLOR orange]Scaneaza User (Rapid)[/COLOR]", "", 'scan_user_for_all_series', "{0}users.png".format(_ipath))
+        addDir("[COLOR red]Scaneaza User (Complet)[/COLOR]", "", 'scan_user_for_all_series_full', "{0}users.png".format(_ipath))
+        addDir("[COLOR red]Actualizare Completa (useri.txt)[/COLOR]", "", 'auto_update_from_users_file_full', "{0}featured.png".format(_ipath))
 
-    # Hardcoded shows
-    hardcoded_shows = {
-        "Las Fierbinti": "las_fierbinti",
-        "Vlad": "vlad",
-        "Iubire cu parfum de lavanda": "iubire_cu_parfum_de_lavanda",
-        "Clanul": "clanul",
-        "Tatutu": "tatutu",
-        "Baieti de oras": "baieti_de_oras",
-        "Adela": "adela",
-        "Lia - Sotia sotului meu": "lia_sotia_sotului_meu"
-    }
-
-    for show_name, show_id in hardcoded_shows.items():
-        addDir(show_name, show_id, 'list_seasons', "{0}channels.png".format(_ipath))
 
     # Dynamically added shows from JSON
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
-    if xbmcvfs.exists(save_file):
-        try:
-            with xbmcvfs.File(save_file, 'r') as f:
-                content = f.read()
-                if content:
-                    saved_data = json.loads(content)
-                    # Get unique serial names from json
-                    json_shows = sorted(list(set([item['serial'] for item in saved_data if 'serial' in item])))
-                    
-                    for show_name in json_shows:
-                        # Add show if not in hardcoded list
-                        if show_name not in hardcoded_shows:
-                            # The URL passed will be the show name itself, to be handled by a new function
-                            addDir("[COLOR yellow]{0}[/COLOR]".format(show_name), show_name, 'list_saved_seasons', "{0}channels.png".format(_ipath))
-
-        except Exception as e:
-            xbmc.log("Error processing saved_videos.json for dynamic menu: {0}".format(e), xbmc.LOGERROR)
+    saved_data, _ = _read_saved_videos()
+    if saved_data:
+        json_shows = sorted(list(set([item['serial'] for item in saved_data if 'serial' in item])))
+        for show_name in json_shows:
+            addDir(show_name, show_name, 'list_saved_seasons', "{0}channels.png".format(_ipath))
 
     xbmcplugin.endOfDirectory(pluginhandle)
 
 
-def list_saved_seasons(show_name):
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
-    seasons = set()
-    if xbmcvfs.exists(save_file):
+def _scan_user_and_sort(user_id, series_list, pDialog, full_scan=False):
+    # Step 1: Fetch new videos
+    real_user_id = user_id
+    try:
+        api_lookup_url = "{0}/user/{1}?fields=id".format(urlMain, user_id)
+        content = getUrl2(api_lookup_url)
+        data = json.loads(content)
+        if data.get('id'): real_user_id = data['id']
+    except Exception: pass
+
+    clean_data, existing_video_ids = _read_saved_videos()
+    saved_lookup = OrderedDict(( (item['serial'], str(item['sezon']), str(item['episod'])), item) for item in clean_data)
+    
+    all_videos = []
+    page, has_more, stop_fetching = 1, True, False
+    while has_more and not stop_fetching:
+        if pDialog.iscanceled(): return None
+        api_url = "{0}/videos?owner={1}&fields=id,title&sort=recent&limit=100&page={2}".format(urlMain, real_user_id, page)
         try:
-            with xbmcvfs.File(save_file, 'r') as f:
-                content = f.read()
-                if content:
-                    saved_data = json.loads(content)
-                    for item in saved_data:
-                        if item.get('serial') == show_name and item.get('sezon'):
-                            seasons.add(int(item['sezon']))
-        except Exception as e:
-            xbmc.log("Error reading seasons from saved_videos.json: {0}".format(e), xbmc.LOGERROR)
+            content = getUrl2(api_url)
+            data = json.loads(content)
+            if data.get('list'):
+                page_videos = data['list']
+                if not full_scan: # Only apply early-exit if not a full scan
+                    for video in page_videos:
+                        if video['id'] in existing_video_ids:
+                            stop_fetching = True
+                            break
+                
+                if stop_fetching:
+                    for video in page_videos:
+                        if video['id'] in existing_video_ids: break
+                        all_videos.append(video)
+                else:
+                    all_videos.extend(page_videos)
+                has_more = data.get('has_more', False)
+                page += 1
+            else: has_more = False
+        except Exception: has_more = False
+
+    if not all_videos:
+        return {'error': 'Nu s-au gasit videoclipuri noi.'}
+
+    # Step 2: Sort videos by matching series name
+    pDialog.update(70, 'Se sorteaza {0} videoclipuri...'.format(len(all_videos)))
+    
+    sorted_videos = {}
+    unmatched_count = 0
+    normalized_series_list = {s: _normalize_romanian(s) for s in series_list}
+
+    for video in all_videos:
+        matched_series = None
+        normalized_title = _normalize_romanian(video['title'])
+        for series_name, normalized_series_name in normalized_series_list.items():
+            if _is_series_match_for_title(normalized_series_name, normalized_title):
+                matched_series = series_name
+                break
+        
+        if matched_series:
+            sezon, episod = _parse_season_episode(video['title'])
+            if sezon and episod:
+                if matched_series not in sorted_videos:
+                    sorted_videos[matched_series] = []
+                sorted_videos[matched_series].append({
+                    "video_id": video['id'], "video_title": video['title'],
+                    "serial": matched_series, "sezon": sezon, "episod": episod
+                })
+            else:
+                unmatched_count += 1
+        else:
+            unmatched_count += 1
+
+    if not sorted_videos:
+        return {'error': 'Nu s-a putut asocia niciun video nou cu serialele cunoscute.'}
+
+    # Step 3: Merge with existing data and generate summary
+    pDialog.update(90, 'Se actualizeaza baza de date...')
+    
+    summary_details = {}
+    for series_name, videos in sorted_videos.items():
+        summary_details[series_name] = {'new': 0, 'updated': 0}
+        for video in videos:
+            lookup_key = (video['serial'], video['sezon'], video['episod'])
+            if lookup_key in saved_lookup:
+                if saved_lookup[lookup_key]['video_id'] != video['video_id']:
+                    saved_lookup[lookup_key].update(video)
+                    summary_details[series_name]['updated'] += 1
+            else:
+                saved_lookup[lookup_key] = video
+                summary_details[series_name]['new'] += 1
+    
+    final_data = list(saved_lookup.values())
+    if _write_saved_videos(final_data):
+        return {'summary': summary_details, 'unmatched': unmatched_count}
+    else:
+        return {'error': 'Salvarea datelor a esuat.'}
+
+
+def scan_user_for_all_series(full_scan=False):
+    # Step 1: Get the master list of series names
+    users_file = translate_path('{0}/resources/files/useri.txt'.format(_path))
+    if not xbmcvfs.exists(users_file):
+        xbmcgui.Dialog().notification('Eroare', 'Fisierul useri.txt nu a fost gasit.', _icon, 3000, False)
+        return
+    with xbmcvfs.File(users_file, 'r') as f: content = f.read()
+    
+    series_list = set()
+    lines = [line.strip() for line in content.split('\n') if line.strip() and not line.strip().startswith('#')]
+    for line in lines:
+        parts = line.split('|')
+        if len(parts) == 3:
+            series_list.add(parts[2].strip())
+
+    if not series_list:
+        xbmcgui.Dialog().notification('Info', 'Nu sunt definite seriale in useri.txt.', _icon, 3000, False)
+        return
+
+    # Step 2: Get user to scan
+    user_id = get_key("Introdu numele de utilizator Dailymotion de scanat")
+    if not user_id: return
+
+    # Step 3: Run the scan and sort process
+    dialog_title = 'Scanare Completa' if full_scan else 'Scanare Utilizator'
+    pDialog.create(dialog_title, 'Se preiau datele pentru {0}...'.format(user_id))
+    result = _scan_user_and_sort(user_id, list(series_list), pDialog, full_scan=full_scan)
+    pDialog.close()
+
+    # Step 4: Display summary
+    if result:
+        if result.get('error'):
+            xbmcgui.Dialog().notification('Info', result['error'], _icon, 4000, False)
+        elif result.get('summary'):
+            summary_message = "Scanare finalizata!\n"
+            total_new, total_updated = 0, 0
+            for series, counts in result['summary'].items():
+                if counts['new'] > 0 or counts['updated'] > 0:
+                    summary_message += "\n[B]{0}:[/B] {1} noi, {2} actualizate".format(series, counts['new'], counts['updated'])
+                    total_new += counts['new']
+                    total_updated += counts['updated']
+            
+            summary_message += "\n\n[B]Total gasit:[/B] {0} episoade noi, {1} actualizate.".format(total_new, total_updated)
+            summary_message += "\nVideoclipuri neasociate: {0}".format(result['unmatched'])
+            
+            xbmcgui.Dialog().ok('Rezumat Scanare', summary_message)
+            # Refresh the series menu without re-triggering the scan script
+            xbmc.executebuiltin("Container.Update(plugin://{0}/?url=seriale&mode=seriale_menu)".format(addonID))
+    elif not pDialog.iscanceled():
+        xbmcgui.Dialog().notification('Eroare', 'A aparut o eroare neasteptata.', _icon, 3000, False)
+
+def scan_user_for_all_series_full():
+    scan_user_for_all_series(full_scan=True)
+
+def auto_update_from_users_file(full_scan=False, silent=False):
+    users_file = translate_path('{0}/resources/files/useri.txt'.format(_path))
+    if not xbmcvfs.exists(users_file):
+        if not silent:
+            xbmcgui.Dialog().notification('Eroare', 'Fisierul useri.txt nu a fost gasit.', _icon, 3000, False)
+        xbmc.log('Dailymotion: useri.txt nu a fost gasit', xbmc.LOGERROR)
+        return
+
+    with xbmcvfs.File(users_file, 'r') as f:
+        content = f.read()
+    
+    lines = [line.strip() for line in content.split('\n') if line.strip() and not line.strip().startswith('#')]
+
+    if not lines:
+        if not silent:
+            xbmcgui.Dialog().notification('Info', 'Fisierul useri.txt este gol.', _icon, 3000, False)
+        xbmc.log('Dailymotion: useri.txt este gol', xbmc.LOGINFO)
+        return
+
+    dialog_title = 'Actualizare Completa' if full_scan else 'Actualizare Automata'
+    if not silent:
+        pDialog.create(dialog_title, 'Initializare...')
+    total_new, total_updated, total_ignored = 0, 0, 0
+    
+    for i, line in enumerate(lines):
+        progress = int((i / float(len(lines))) * 100)
+        
+        parts = line.split('|')
+        if len(parts) != 3:
+            xbmc.log("Dailymotion: Skipping malformed line in useri.txt: {0}".format(line), xbmc.LOGWARNING)
+            continue
+
+        source_type, source_id, series_name = parts[0].strip(), parts[1].strip(), parts[2].strip()
+        
+        if not silent:
+            pDialog.update(progress, 'Se actualizeaza {0}/{1}: {2}...'.format(i+1, len(lines), series_name))
+        
+        if not silent and pDialog.iscanceled():
+            break
+        
+        summary = None
+        if source_type == 'user':
+            summary = _import_videos_for_user(source_id, series_name, pDialog, full_scan=full_scan)
+        elif source_type == 'playlist':
+            # For auto-update, we always auto-detect season from title
+            summary = _import_videos_from_playlist(source_id, series_name, "auto", pDialog, full_scan=full_scan)
+        else:
+            xbmc.log("Dailymotion: Unknown source type '{0}' in useri.txt".format(source_type), xbmc.LOGWARNING)
+            continue
+
+        if summary and not summary.get('error'):
+            total_new += summary['new']
+            total_updated += summary['updated']
+            total_ignored += summary['ignored']
+
+    if not silent:
+        pDialog.close()
+    
+    summary_message = "Actualizare finalizata!\nTotal episoade noi: {0}\nTotal episoade actualizate: {1}\nTotal titluri ignorate: {2}".format(
+        total_new, total_updated, total_ignored)
+    xbmc.log('Dailymotion: ' + summary_message.replace('\n', ' | '), xbmc.LOGINFO)
+    if not silent and addon.getSetting('auto_update_notify') == 'true':
+        xbmcgui.Dialog().ok('Rezumat Actualizare', summary_message)
+    # Refresh the series menu without re-triggering the update script
+    xbmc.executebuiltin("Container.Update(plugin://{0}/?url=seriale&mode=seriale_menu)".format(addonID))
+
+def auto_update_from_users_file_full():
+    auto_update_from_users_file(full_scan=True)
+
+
+def list_saved_seasons(show_name):
+    saved_data, _ = _read_saved_videos()
+    seasons = set()
+    if saved_data:
+        for item in saved_data:
+            if item.get('serial') == show_name and item.get('sezon'):
+                try:
+                    seasons.add(int(item['sezon']))
+                except (ValueError, TypeError):
+                    continue # Ignore non-integer season numbers
 
     if seasons:
         for season_num in sorted(list(seasons), reverse=True):
@@ -790,31 +986,23 @@ def list_saved_seasons(show_name):
 
 
 def list_saved_episodes(url):
-    show_name, season_num = url.split('|')
-    season_num = int(season_num)
+    show_name, season_num_str = url.split('|')
     
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
+    saved_data, _ = _read_saved_videos()
     episodes = []
-    if xbmcvfs.exists(save_file):
-        try:
-            with xbmcvfs.File(save_file, 'r') as f:
-                content = f.read()
-                if content:
-                    saved_data = json.loads(content)
-                    for item in saved_data:
-                        if item.get('serial') == show_name and item.get('sezon') and int(item.get('sezon')) == season_num:
-                            episodes.append(item)
-        except Exception as e:
-            xbmc.log("Error reading episodes from saved_videos.json: {0}".format(e), xbmc.LOGERROR)
+    if saved_data:
+        for item in saved_data:
+            # Ensure consistent type comparison
+            if item.get('serial') == show_name and str(item.get('sezon')) == season_num_str:
+                episodes.append(item)
 
     if episodes:
-        # Sort episodes by episode number
-        sorted_episodes = sorted(episodes, key=lambda x: int(x.get('episod', 0)))
+        # Sort episodes by episode number, handling potential non-integer values
+        sorted_episodes = sorted(episodes, key=lambda x: int(x.get('episod', 0)) if str(x.get('episod', 0)).isdigit() else 0)
         for episode_data in sorted_episodes:
             vid_id = episode_data.get('video_id')
-            ep_num = int(episode_data.get('episod', 0))
-            # Use video_title from json if available, otherwise construct a default one
-            title = episode_data.get('video_title', "{0} - episodul {1}".format(show_name, ep_num))
+            ep_num_str = str(episode_data.get('episod', 'N/A'))
+            title = episode_data.get('video_title', "{0} - episodul {1}".format(show_name, ep_num_str))
             
             u = "{0}?url={1}&mode=playVideo".format(sys.argv[0], urllib_parse.quote_plus(vid_id))
             liz = make_listitem(name=title)
@@ -823,157 +1011,6 @@ def list_saved_episodes(url):
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=False)
 
     xbmcplugin.endOfDirectory(pluginhandle)
-
-def list_seasons(url):
-    show_id = url
-    if show_id == "las_fierbinti":
-        show_name = "Las Fierbinti"
-        seasons_url = "https://www.tvmaze.com/shows/4071/las-fierbinti/seasons"
-    elif show_id == "vlad":
-        show_name = "Vlad"
-        seasons_url = "https://www.tvmaze.com/shows/38309/vlad/seasons"
-    elif show_id == "iubire_cu_parfum_de_lavanda":
-        show_name = "Iubire cu parfum de lavanda"
-        seasons_url = "https://www.tvmaze.com/shows/80908/iubire-cu-parfum-de-lavanda/seasons"
-    elif show_id == "clanul":
-        show_name = "Clanul"
-        seasons_url = "https://www.tvmaze.com/shows/68023/clanul/seasons"
-    elif show_id == "tatutu":
-        show_name = "Tatutu"
-        seasons_url = "https://www.tvmaze.com/shows/79887/tatutu/seasons"
-    elif show_id == "baieti_de_oras":
-        show_name = "Baieti de oras"
-        seasons_url = "https://www.tvmaze.com/shows/55185/baieti-de-oras/seasons"
-    elif show_id == "adela":
-        show_name = "Adela"
-        seasons_url = "https://www.tvmaze.com/shows/53958/adela/seasons"
-    elif show_id == "lia_sotia_sotului_meu":
-        show_name = "Lia - Sotia sotului meu"
-        seasons_url = "https://www.tvmaze.com/shows/66548/lia-sotia-sotului-meu/seasons"
-    else:
-        xbmcplugin.endOfDirectory(pluginhandle)
-        return
-
-    headers = {'User-Agent': _UA}
-    html_content = requests.get(seasons_url, headers=headers).text
-    seasons_data = re.findall(r'<a href="(/seasons/(\d+)/[^"]+)">Season (\d+)</a>', html_content, re.IGNORECASE)
-    seasons = sorted([(int(num), sid, url) for url, sid, num in seasons_data], reverse=True)
-    for season_number, season_id, season_url in seasons:
-        full_season_url = "https://www.tvmaze.com" + season_url + "/episodes"
-        url_param = "{0}|{1}".format(show_name, full_season_url)
-        addDir("Sezonul {0}".format(season_number), url_param, 'list_episodes', "{0}channels.png".format(_ipath))
-    xbmcplugin.endOfDirectory(pluginhandle)
-
-def list_episodes(url):
-    show_name, episodes_url = url.split('|')
-
-    # Load saved videos for priority matching
-    saved_videos_lookup = {}
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
-    if xbmcvfs.exists(save_file):
-        try:
-            with xbmcvfs.File(save_file, 'r') as f:
-                content = f.read()
-                if content:
-                    saved_data = json.loads(content)
-                    for item in saved_data:
-                        try:
-                            key = (item['serial'].lower().strip(), str(int(item['sezon'])), str(int(item['episod'])))
-                            saved_videos_lookup[key] = item['video_id']
-                        except (ValueError, KeyError):
-                            continue # Skip malformed entries
-        except Exception as e:
-            xbmc.log("Error processing saved_videos.json: {0}".format(e), xbmc.LOGERROR)
-
-    headers = {'User-Agent': _UA}
-    html_content = requests.get(episodes_url, headers=headers).text
-    episodes = re.findall(r'<a href="/episodes/\d+/[^>]*?(\d+)x(\d+)[^>]*?>([^<]+)</a>', html_content)
-    for s_num, e_num, episode_title in episodes:
-        saved_vid_id = None
-        try:
-            # Normalize numbers to ensure matching (e.g., '01' becomes '1')
-            lookup_key = (show_name.lower().strip(), str(int(s_num)), str(int(e_num)))
-            saved_vid_id = saved_videos_lookup.get(lookup_key)
-        except ValueError:
-            pass # s_num or e_num from regex is not a valid int
-
-        if saved_vid_id:
-            # Priority: Use the saved video ID
-            new_title = "[COLOR green][SAVED][/COLOR] {0} - ep. {1:02d}".format(episode_title.strip(), int(e_num))
-            u = "{0}?url={1}&mode=playVideo".format(sys.argv[0], urllib_parse.quote_plus(saved_vid_id))
-            liz = make_listitem(name=new_title)
-            liz.setArt({'thumb': "{0}videos.png".format(_ipath)})
-            liz.setProperty('IsPlayable', 'true')
-            
-            context_items = []
-            search_query_1 = "{0} S{1:02d}E{2:02d}".format(show_name, int(s_num), int(e_num))
-            context_action_1 = 'Container.Update({0}?mode=search_episode&url={1})'.format(sys.argv[0], urllib_parse.quote_plus(search_query_1))
-            context_items.append(('Cauta (format SXXEYY)', context_action_1))
-            search_query_2 = "{0} s{1}e{2}".format(show_name.lower(), int(s_num), int(e_num))
-            context_action_2 = 'Container.Update({0}?mode=search_episode&url={1})'.format(sys.argv[0], urllib_parse.quote_plus(search_query_2))
-            context_items.append(('Cauta (format sXeY)', context_action_2))
-            liz.addContextMenuItems(context_items)
-
-            xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=False)
-        else:
-            # Fallback: Search on Dailymotion
-            search_query1 = "{0} S{1:02d}E{2:02d}".format(show_name, int(s_num), int(e_num))
-            search_url1 = "{0}/videos?fields=id,title&search={1}&sort=relevance&limit=10&family_filter={2}&localization={3}&page=1".format(urlMain, urllib_parse.quote_plus(search_query1), familyFilter, language)
-            search_query2 = "{0} s{1}e{2}".format(show_name.lower(), int(s_num), int(e_num))
-            search_url2 = "{0}/videos?fields=id,title&search={1}&sort=relevance&limit=10&family_filter={2}&localization={3}&page=1".format(urlMain, urllib_parse.quote_plus(search_query2), familyFilter, language)
-
-            found_vid = None
-            try:
-                content = getUrl2(search_url1)
-                data = json.loads(content)
-                if data['list']:
-                    for item in data['list']:
-                        if "s{0:02d}e{1:02d}".format(int(s_num), int(e_num)).lower() in item['title'].lower():
-                            found_vid = item['id']
-                            break
-                
-                if not found_vid:
-                    content = getUrl2(search_url2)
-                    data = json.loads(content)
-                    if data['list']:
-                        for item in data['list']:
-                            if "s{0}e{1}".format(int(s_num), int(e_num)).lower() in item['title'].lower():
-                                found_vid = item['id']
-                                break
-
-                if found_vid:
-                    new_title = "{0} - ep. {1:02d}".format(episode_title.strip(), int(e_num))
-                    u = "{0}?url={1}&mode=playVideo".format(sys.argv[0], urllib_parse.quote_plus(found_vid))
-                    liz = make_listitem(name=new_title)
-                    liz.setArt({'thumb': "{0}videos.png".format(_ipath)})
-                    liz.setProperty('IsPlayable', 'true')
-                    
-                    context_items = []
-                    search_query_1 = "{0} S{1:02d}E{2:02d}".format(show_name, int(s_num), int(e_num))
-                    context_action_1 = 'Container.Update({0}?mode=search_episode&url={1})'.format(sys.argv[0], urllib_parse.quote_plus(search_query_1))
-                    context_items.append(('Cauta (format SXXEYY)', context_action_1))
-                    search_query_2 = "{0} s{1}e{2}".format(show_name.lower(), int(s_num), int(e_num))
-                    context_action_2 = 'Container.Update({0}?mode=search_episode&url={1})'.format(sys.argv[0], urllib_parse.quote_plus(search_query_2))
-                    context_items.append(('Cauta (format sXeY)', context_action_2))
-                    liz.addContextMenuItems(context_items)
-                    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=False)
-                else:
-                    new_title = "{0} - ep. {1:02d} (Not Found)".format(episode_title.strip(), int(e_num))
-                    liz = make_listitem(name=new_title)
-                    liz.setArt({'thumb': "{0}videos.png".format(_ipath)})
-                    liz.setProperty('IsPlayable', 'false')
-                    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url='', listitem=liz, isFolder=False)
-
-            except Exception as e:
-                xbmc.log("Error fetching episode: {0}".format(e), xbmc.LOGERROR)
-                new_title = "{0} - ep. {1:02d} (Error)".format(episode_title.strip(), int(e_num))
-                liz = make_listitem(name=new_title)
-                liz.setArt({'thumb': "{0}videos.png".format(_ipath)})
-                liz.setProperty('IsPlayable', 'false')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url='', listitem=liz, isFolder=False)
-
-    xbmcplugin.endOfDirectory(pluginhandle)
-
 
 def search_episode(search_query):
     search_url = "{0}/videos?fields=description,duration,id,owner.username,taken_time,thumbnail_large_url,title,views_total&search={1}&sort=relevance&limit=20&family_filter={2}&localization={3}&page=1".format(urlMain, urllib_parse.quote_plus(search_query), familyFilter, language)
@@ -1025,32 +1062,17 @@ def save_video_data(name, vid):
         "video_id": vid,
         "video_title": name,
         "serial": serial_name,
-        "sezon": sezon_num,
-        "episod": episod_num
+        "sezon": str(sezon_num),
+        "episod": str(episod_num)
     }
 
-    save_dir = translate_path('{0}/resources/files/'.format(_path))
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
-
-    if not xbmcvfs.exists(save_dir):
-        xbmcvfs.mkdirs(save_dir)
-
-    saved_data = []
-    if xbmcvfs.exists(save_file):
-        with xbmcvfs.File(save_file, 'r') as f:
-            try:
-                content = f.read()
-                if content:
-                    saved_data = json.loads(content)
-            except Exception as e:
-                xbmc.log("Error reading saved_videos.json: {0}".format(e), xbmc.LOGERROR)
-    
+    saved_data, _ = _read_saved_videos()
     saved_data.append(data_to_save)
 
-    with xbmcvfs.File(save_file, 'w') as f:
-        f.write(json.dumps(saved_data, indent=4))
-
-    xbmcgui.Dialog().notification('Succes', 'Datele video au fost salvate.', _icon, 3000, False)
+    if _write_saved_videos(saved_data):
+        xbmcgui.Dialog().notification('Succes', 'Datele video au fost salvate.', _icon, 3000, False)
+    else:
+        xbmcgui.Dialog().notification('Eroare', 'Salvarea datelor a esuat.', _icon, 3000, False)
 
 
 def get_key(heading):
@@ -1060,6 +1082,59 @@ def get_key(heading):
         return keyboard.getText()
 
 
+from collections import OrderedDict
+
+def _read_saved_videos():
+    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
+    saved_data = []
+    if xbmcvfs.exists(save_file):
+        try:
+            with xbmcvfs.File(save_file, 'r') as f:
+                content = f.read()
+                if content:
+                    saved_data = json.loads(content)
+        except Exception as e:
+            xbmc.log("Error reading saved_videos.json: {0}".format(e), xbmc.LOGERROR)
+            return [], set() # Return empty values on error
+
+    # Use OrderedDict to keep the last found unique entry, effectively de-duplicating
+    unique_entries = OrderedDict()
+    existing_video_ids = set()
+
+    for item in saved_data:
+        # Force string type for season and episode to ensure consistent keys
+        serial = item.get('serial')
+        sezon = str(item.get('sezon')) if item.get('sezon') is not None else None
+        episod = str(item.get('episod')) if item.get('episod') is not None else None
+        
+        if serial and sezon and episod:
+            unique_key = (serial, sezon, episod)
+            unique_entries[unique_key] = item
+        
+        if item.get('video_id'):
+            existing_video_ids.add(item['video_id'])
+
+    # The final clean list is the values from our de-duplicated dictionary
+    clean_data = list(unique_entries.values())
+    
+    return clean_data, existing_video_ids
+
+
+def _write_saved_videos(data):
+    save_dir = translate_path('{0}/resources/files/'.format(_path))
+    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
+    if not xbmcvfs.exists(save_dir):
+        xbmcvfs.mkdirs(save_dir)
+    
+    try:
+        with xbmcvfs.File(save_file, 'w') as f:
+            f.write(json.dumps(data, indent=4))
+        return True
+    except Exception as e:
+        xbmc.log("Error writing saved_videos.json: {0}".format(e), xbmc.LOGERROR)
+        return False
+
+
 def import_playlist_prompt():
     playlist_id = get_key("Introdu ID-ul playlist-ului Dailymotion")
     if not playlist_id: return
@@ -1067,114 +1142,112 @@ def import_playlist_prompt():
     serial_name = get_key("Introdu numele serialului")
     if not serial_name: return
     
-    sezon_num = get_key("Introdu numarul sezonului")
-    if not sezon_num: return
+    # Season is now optional, it will be parsed from titles if possible
+    sezon_num = get_key("Introdu numarul sezonului (optional, lasa gol pt. auto-detect)")
+    if not sezon_num:
+        sezon_num = "auto" # A special value to indicate auto-detection
 
-    start_episod_str = get_key("Introdu numarul episodului de start (default: 1)")
-    if not start_episod_str or not start_episod_str.isdigit():
-        start_episod = 1
-    else:
-        start_episod = int(start_episod_str)
-
-    url_param = "{0}|{1}|{2}|{3}".format(playlist_id, serial_name, sezon_num, start_episod)
+    url_param = "{0}|{1}|{2}".format(playlist_id, serial_name, sezon_num)
     import_playlist(url_param)
 
 
-def import_playlist(params):
-    playlist_id, serial_name, sezon_num, start_episod = params.split('|')
-    start_episod = int(start_episod)
-    
-    pDialog.create('Import Playlist', 'Se preiau datele playlist-ului...')
-    
-    save_dir = translate_path('{0}/resources/files/'.format(_path))
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
+def _import_videos_from_playlist(playlist_id, serial_name, sezon_num_default, pDialog=None, full_scan=False):
+    clean_data, existing_video_ids = _read_saved_videos()
+    saved_lookup = OrderedDict(( (item['serial'], str(item['sezon']), str(item['episod'])), item) for item in clean_data)
 
-    if not xbmcvfs.exists(save_dir):
-        xbmcvfs.mkdirs(save_dir)
-
-    saved_data = []
-    if xbmcvfs.exists(save_file):
-        with xbmcvfs.File(save_file, 'r') as f:
-            try:
-                content = f.read()
-                if content:
-                    saved_data = json.loads(content)
-            except Exception as e:
-                xbmc.log("Error reading saved_videos.json for import: {0}".format(e), xbmc.LOGERROR)
-
-    # Create a lookup for faster duplicate checking
-    # Key: (serial_name, sezon_num, episod_num)
-    saved_lookup = {(item['serial'], str(item['sezon']), str(item['episod'])): item for item in saved_data}
-    
-    new_videos = []
+    all_videos = []
     page = 1
     has_more = True
-    imported_count = 0
-    
-    while has_more:
-        if pDialog.iscanceled():
-            break
+    stop_fetching = False
+    while has_more and not stop_fetching:
+        if pDialog and pDialog.iscanceled(): return None
         
-        pDialog.update(int(page * 10), 'Se preia pagina {0}...'.format(page))
-        
-        api_url = "{0}/playlist/{1}/videos?fields=id,title&limit=100&page={2}".format(urlMain, playlist_id, page)
+        api_url = "{0}/playlist/{1}/videos?fields=id,title&sort=recent&limit=100&page={2}".format(urlMain, playlist_id, page)
         try:
             content = getUrl2(api_url)
             data = json.loads(content)
         except Exception as e:
-            xbmc.log("Failed to fetch playlist page: {0}".format(e), xbmc.LOGERROR)
-            xbmcgui.Dialog().notification('Eroare', 'Nu s-a putut prelua playlist-ul.', _icon, 3000, False)
-            pDialog.close()
-            return
+            xbmc.log("Failed to fetch playlist page {0}: {1}".format(playlist_id, e), xbmc.LOGERROR)
+            return {'new': 0, 'updated': 0, 'ignored': 0, 'error': 'Could not fetch playlist.'}
 
         if not data.get('list'):
-            break # No more videos
+            break
 
-        new_videos.extend(data['list'])
+        page_videos = data['list']
+        if not full_scan: # Only apply early-exit if not a full scan
+            for video in page_videos:
+                if video['id'] in existing_video_ids:
+                    stop_fetching = True
+                    break
+        
+        if stop_fetching:
+            for video in page_videos:
+                if video['id'] in existing_video_ids: break
+                all_videos.append(video)
+        else:
+            all_videos.extend(page_videos)
+
         has_more = data.get('has_more', False)
         page += 1
 
-    if not new_videos:
-        xbmcgui.Dialog().notification('Info', 'Playlist-ul este gol sau nu a fost gasit.', _icon, 3000, False)
-        pDialog.close()
-        return
+    if not all_videos:
+        return {'new': 0, 'updated': 0, 'ignored': 0, 'error': 'No new videos found in playlist.'}
 
-    pDialog.update(90, 'Se proceseaza videoclipurile...')
-    
-    current_episode_num = start_episod
-    for video_item in new_videos:
-        lookup_key = (serial_name, sezon_num, str(current_episode_num))
+    parsed_videos = []
+    ignored_count = 0
+    for video in all_videos:
+        sezon, episod = _parse_season_episode(video['title'])
         
-        new_entry = {
-            "video_id": video_item['id'],
-            "video_title": video_item['title'],
-            "serial": serial_name,
-            "sezon": sezon_num,
-            "episod": str(current_episode_num)
-        }
+        if not sezon and sezon_num_default != "auto":
+            sezon = sezon_num_default
 
-        if lookup_key in saved_lookup:
-            # Update existing entry
-            saved_lookup[lookup_key].update(new_entry)
+        if sezon and episod:
+            parsed_videos.append({
+                "video_id": video['id'], "video_title": video['title'],
+                "serial": serial_name, "sezon": sezon, "episod": episod
+            })
         else:
-            # Add as a new entry to be appended later
-            saved_lookup[lookup_key] = new_entry
-        
-        imported_count += 1
-        current_episode_num += 1
+            ignored_count += 1
 
-    # Convert the lookup back to a list
+    if not parsed_videos:
+        return {'new': 0, 'updated': 0, 'ignored': ignored_count, 'error': 'Could not parse season/episode from any new titles.'}
+
+    updated_count, new_count = 0, 0
+    for video in parsed_videos:
+        lookup_key = (video['serial'], video['sezon'], video['episod'])
+        if lookup_key in saved_lookup:
+            if saved_lookup[lookup_key]['video_id'] != video['video_id']:
+                saved_lookup[lookup_key].update(video)
+                updated_count += 1
+        else:
+            saved_lookup[lookup_key] = video
+            new_count += 1
+
     final_data = list(saved_lookup.values())
+    if _write_saved_videos(final_data):
+        return {'new': new_count, 'updated': updated_count, 'ignored': ignored_count}
+    else:
+        return {'new': 0, 'updated': 0, 'ignored': 0, 'error': 'Failed to save data to file.'}
 
-    try:
-        with xbmcvfs.File(save_file, 'w') as f:
-            f.write(json.dumps(final_data, indent=4))
-        pDialog.close()
-        xbmcgui.Dialog().notification('Succes', '{0} episoade importate/actualizate.'.format(imported_count), _icon, 4000, False)
-    except Exception as e:
-        pDialog.close()
-        xbmc.log("Error writing saved_videos.json: {0}".format(e), xbmc.LOGERROR)
-        xbmcgui.Dialog().notification('Eroare', 'Salvarea datelor a esuat.', _icon, 3000, False)
+
+def import_playlist(params):
+    playlist_id, serial_name, sezon_num_default = params.split('|')
+    
+    pDialog.create('Import Playlist Inteligent', 'Se preiau datele pentru {0}...'.format(serial_name))
+    
+    summary = _import_videos_from_playlist(playlist_id, serial_name, sezon_num_default, pDialog)
+    
+    pDialog.close()
+
+    if summary:
+        if summary.get('error'):
+            xbmcgui.Dialog().notification('Info', summary['error'], _icon, 4000, False)
+        else:
+            summary_message = "Import finalizat!\nEpisoade noi: {0}\nEpisoade actualizate: {1}\nTitluri ignorate: {2}".format(
+                summary['new'], summary['updated'], summary['ignored'])
+            xbmcgui.Dialog().ok('Rezumat Import', summary_message)
+    elif not pDialog.iscanceled():
+        xbmcgui.Dialog().notification('Eroare', 'A aparut o eroare neasteptata.', _icon, 3000, False)
 
 
 def _normalize_romanian(text):
@@ -1186,24 +1259,41 @@ def _normalize_romanian(text):
     return text
 
 def _parse_season_episode(title):
-    # Try SxxExx format, case-insensitive
-    match = re.search(r's(\d{1,2})e(\d{1,3})', title, re.IGNORECASE)
-    if match:
-        return (str(int(match.group(1))), str(int(match.group(2))))
+    sezon, episod = None, None
 
-    # Try Sezonul X Episodul Y format, case-insensitive
-    match = re.search(r'sezonul?\s*(\d{1,2})\s*episodul?\s*(\d{1,3})', title, re.IGNORECASE)
-    if match:
-        return (str(int(match.group(1))), str(int(match.group(2))))
+    # List of regex patterns to try for season and episode
+    patterns = [
+        re.compile(r's(\d{1,2})e(\d{1,3})', re.IGNORECASE),
+        re.compile(r'sezonul?\s*(\d{1,2})\s*episodul?\s*(\d{1,3})', re.IGNORECASE),
+        re.compile(r'(\d{1,2})x(\d{1,3})', re.IGNORECASE)
+    ]
+    
+    # Try patterns that find both season and episode
+    for pattern in patterns:
+        match = pattern.search(title)
+        if match:
+            sezon, episod = str(int(match.group(1))), str(int(match.group(2)))
+            break
 
-    # Try 1x01 format
-    match = re.search(r'(\d{1,2})x(\d{1,3})', title, re.IGNORECASE)
-    if match:
-        return (str(int(match.group(1))), str(int(match.group(2))))
+    # If no season/episode combo found, try to find just the episode and default to Season 1
+    if not episod:
+        # Allow optional punctuation and parentheses around the episode number
+        episode_pattern = re.compile(r'(?:ep(?:isodul)?)\s*[\.:\-]?\s*\(?\s*(\d{1,3})\s*\)?', re.IGNORECASE)
+        match = episode_pattern.search(title)
+        if match:
+            sezon, episod = "1", str(int(match.group(1)))
 
-    return (None, None)
+    # If an episode was found, check for parts
+    if episod:
+        part_pattern = re.compile(r'partea?\s*(\d{1,2})', re.IGNORECASE)
+        part_match = part_pattern.search(title)
+        if part_match:
+            part_num = str(int(part_match.group(1)))
+            episod = "{0}.{1}".format(episod, part_num)
 
-def import_user_prompt():
+    return (sezon, episod)
+
+def import_user_prompt(full_scan=False):
     user_id = get_key("Introdu numele de utilizator Dailymotion")
     if not user_id: return
 
@@ -1211,98 +1301,108 @@ def import_user_prompt():
     if not serial_name: return
 
     url_param = "{0}|{1}".format(user_id, serial_name)
-    import_user_videos(url_param)
+    if full_scan:
+        import_user_videos(url_param, full_scan=True)
+    else:
+        import_user_videos(url_param)
 
-def import_user_videos(params):
-    user_id, serial_name = params.split('|')
+def import_user_prompt_full():
+    import_user_prompt(full_scan=True)
+
+def _is_series_match_for_title(normalized_series_name, normalized_video_title):
+    """
+    Checks if all words from the series name are present in the video title.
+    This is more robust than a simple 'in' check.
+    """
+    series_words = set(normalized_series_name.split())
+    # Create a searchable string from title by replacing common separators with spaces
+    title_searchable = normalized_video_title.replace('-', ' ').replace('_', ' ')
+    title_words = set(title_searchable.split())
     
-    pDialog.create('Import Inteligent', 'Se verifica ID-ul utilizatorului...')
+    return series_words.issubset(title_words)
 
-    real_user_id = user_id # Default to original input
+def _import_videos_for_user(user_id, serial_name, pDialog=None, full_scan=False):
+    # Step 1: Confirm real user ID
+    real_user_id = user_id
     try:
         api_lookup_url = "{0}/user/{1}?fields=id".format(urlMain, user_id)
         content = getUrl2(api_lookup_url)
         data = json.loads(content)
         if data.get('id'):
             real_user_id = data['id']
-            xbmc.log("Dailymotion: Confirmed real user ID for '{0}' is '{1}'".format(user_id, real_user_id), xbmc.LOGDEBUG)
-    except Exception as e:
-        xbmc.log("Dailymotion: Exception while confirming user ID: {0}".format(e), xbmc.LOGERROR)
+    except Exception:
+        pass # Ignore errors, proceed with original user_id
+    xbmc.log("Dailymotion: resolved user_id '{0}' -> '{1}'".format(user_id, real_user_id), xbmc.LOGDEBUG)
 
-    pDialog.update(10, 'Se preiau datele...')
+    # Step 2: Fetch new videos since last update
+    clean_data, existing_video_ids = _read_saved_videos()
+    saved_lookup = OrderedDict(( (item['serial'], str(item['sezon']), str(item['episod'])), item) for item in clean_data)
     
-    # Fetch all videos from user
     all_videos = []
     page = 1
     has_more = True
-    while has_more:
-        if pDialog.iscanceled(): break
-        pDialog.update(10 + int(page * 10), 'Se preia pagina {0}...'.format(page))
+    stop_fetching = False
+    while has_more and not stop_fetching:
+        if pDialog and pDialog.iscanceled(): return None
+
         api_url = "{0}/videos?owner={1}&fields=id,title&sort=recent&limit=100&page={2}".format(urlMain, real_user_id, page)
+        xbmc.log("Dailymotion: fetching user videos page={0} url={1}".format(page, api_url), xbmc.LOGDEBUG)
         try:
             content = getUrl2(api_url)
             data = json.loads(content)
             if data.get('list'):
-                all_videos.extend(data['list'])
+                page_videos = data['list']
+                if not full_scan: # Only apply early-exit if not a full scan
+                    for video in page_videos:
+                        if video['id'] in existing_video_ids:
+                            stop_fetching = True
+                            xbmc.log("Dailymotion: early-exit triggered at page={0} existing_video_id={1}".format(page, video['id']), xbmc.LOGDEBUG)
+                            break
+                
+                if stop_fetching:
+                    for video in page_videos:
+                        if video['id'] in existing_video_ids: break
+                        all_videos.append(video)
+                else:
+                    all_videos.extend(page_videos)
+
                 has_more = data.get('has_more', False)
+                xbmc.log("Dailymotion: page={0} items={1} has_more={2} total_accum={3}".format(page, len(page_videos), has_more, len(all_videos)), xbmc.LOGDEBUG)
                 page += 1
             else:
                 has_more = False
         except Exception as e:
-            xbmc.log("Failed to fetch user videos page: {0}".format(e), xbmc.LOGERROR)
+            xbmc.log("Failed to fetch user videos page for {0}: {1}".format(user_id, e), xbmc.LOGERROR)
             has_more = False
 
-    if pDialog.iscanceled(): return
-
     if not all_videos:
-        xbmcgui.Dialog().notification('Info', 'Utilizatorul nu are videoclipuri sau nu a fost gasit.', _icon, 3000, False)
-        pDialog.close()
-        return
+        return {'new': 0, 'updated': 0, 'ignored': 0, 'error': 'No new videos found.'}
+    xbmc.log("Dailymotion: fetched total videos={0}".format(len(all_videos)), xbmc.LOGDEBUG)
 
-    # Filter videos by serial name (diacritic-insensitive)
-    pDialog.update(70, 'Se filtreaza videoclipurile pentru "{0}"...'.format(serial_name))
+    # Step 3: Filter and parse videos
     normalized_serial = _normalize_romanian(serial_name)
-    filtered_videos = [v for v in all_videos if normalized_serial in _normalize_romanian(v.get('title', ''))]
+    filtered_videos = [v for v in all_videos if _is_series_match_for_title(normalized_serial, _normalize_romanian(v.get('title', '')))]
+    xbmc.log("Dailymotion: filtering by serial='{0}' -> matched={1} unmatched={2}".format(normalized_serial, len(filtered_videos), len(all_videos) - len(filtered_videos)), xbmc.LOGDEBUG)
 
-    if not filtered_videos:
-        xbmcgui.Dialog().notification('Info', 'Nu s-au gasit videoclipuri pentru "{0}" la acest utilizator.'.format(serial_name), _icon, 4000, False)
-        pDialog.close()
-        return
-
-    # Parse season and episode from titles
-    pDialog.update(80, 'Se analizeaza titlurile video...')
     parsed_videos = []
+    ignored_count = len(all_videos) - len(filtered_videos)
     for video in filtered_videos:
         sezon, episod = _parse_season_episode(video['title'])
         if sezon and episod:
             parsed_videos.append({
-                "video_id": video['id'],
-                "video_title": video['title'],
-                "serial": serial_name,
-                "sezon": sezon,
-                "episod": episod
+                "video_id": video['id'], "video_title": video['title'],
+                "serial": serial_name, "sezon": sezon, "episod": episod
             })
+        else:
+            ignored_count += 1
+            xbmc.log("Dailymotion: could not parse season/episode for title='{0}'".format(video['title']), xbmc.LOGDEBUG)
 
     if not parsed_videos:
-        xbmcgui.Dialog().notification('Info', 'Nu s-a putut extrage sezon/episod din niciun titlu.', _icon, 4000, False)
-        pDialog.close()
-        return
+        return {'new': 0, 'updated': 0, 'ignored': ignored_count, 'error': 'Could not parse season/episode from any new titles.'}
+    xbmc.log("Dailymotion: parsed videos count={0}".format(len(parsed_videos)), xbmc.LOGDEBUG)
 
-    # Load existing data and merge
-    pDialog.update(90, 'Se actualizeaza baza de date locala...')
-    save_file = translate_path('{0}/resources/files/saved_videos.json'.format(_path))
-    saved_data = []
-    if xbmcvfs.exists(save_file):
-        with xbmcvfs.File(save_file, 'r') as f:
-            try:
-                content = f.read()
-                if content: saved_data = json.loads(content)
-            except: pass
-
-    saved_lookup = {(item['serial'], str(item['sezon']), str(item['episod'])): item for item in saved_data}
-    
-    updated_count = 0
-    new_count = 0
+    # Step 4: Merge with existing data
+    updated_count, new_count = 0, 0
     for video in parsed_videos:
         lookup_key = (video['serial'], video['sezon'], video['episod'])
         if lookup_key in saved_lookup:
@@ -1312,18 +1412,41 @@ def import_user_videos(params):
         else:
             saved_lookup[lookup_key] = video
             new_count += 1
+    xbmc.log("Dailymotion: merge results new={0} updated={1}".format(new_count, updated_count), xbmc.LOGDEBUG)
 
-    # Save final data
+    # Step 5: Write data and return summary
     final_data = list(saved_lookup.values())
-    try:
-        with xbmcvfs.File(save_file, 'w') as f:
-            f.write(json.dumps(final_data, indent=4))
-        pDialog.close()
-        xbmcgui.Dialog().notification('Succes', '{0} episoade noi, {1} actualizate.'.format(new_count, updated_count), _icon, 4000, False)
-    except Exception as e:
-        pDialog.close()
-        xbmc.log("Error writing saved_videos.json: {0}".format(e), xbmc.LOGERROR)
-        xbmcgui.Dialog().notification('Eroare', 'Salvarea datelor a esuat.', _icon, 3000, False)
+    xbmc.log("Dailymotion: writing saved_videos entries={0}".format(len(final_data)), xbmc.LOGDEBUG)
+    if _write_saved_videos(final_data):
+        xbmc.log("Dailymotion: write saved_videos.json successful", xbmc.LOGDEBUG)
+        return {'new': new_count, 'updated': updated_count, 'ignored': ignored_count}
+    else:
+        xbmc.log("Dailymotion: write saved_videos.json failed", xbmc.LOGERROR)
+        return {'new': 0, 'updated': 0, 'ignored': 0, 'error': 'Failed to save data to file.'}
+
+
+def import_user_videos(params, full_scan=False):
+    user_id, serial_name = params.split('|')
+    
+    dialog_title = 'Import Complet' if full_scan else 'Import Inteligent'
+    pDialog.create(dialog_title, 'Se preiau datele pentru {0}...'.format(serial_name))
+    
+    summary = _import_videos_for_user(user_id, serial_name, pDialog, full_scan=full_scan)
+    
+    pDialog.close()
+
+    if summary:
+        if summary.get('error'):
+            xbmcgui.Dialog().notification('Info', summary['error'], _icon, 4000, False)
+        else:
+            summary_message = "Import finalizat!\nEpisoade noi: {0}\nEpisoade actualizate: {1}\nTitluri ignorate: {2}".format(
+                summary['new'], summary['updated'], summary['ignored'])
+            xbmcgui.Dialog().ok('Rezumat Import', summary_message)
+    elif not pDialog.iscanceled():
+        xbmcgui.Dialog().notification('Eroare', 'A aparut o eroare neasteptata.', _icon, 3000, False)
+
+def import_user_videos_full(params):
+    import_user_videos(params, full_scan=True)
 
 def search(url):
     search_string = get_key(translation(30002))
@@ -1462,10 +1585,6 @@ elif mode == 'tmdb_search':
     tmdb_search(query)
 elif mode == 'seriale_menu':
     seriale_menu(url)
-elif mode == 'list_seasons':
-    list_seasons(url)
-elif mode == 'list_episodes':
-    list_episodes(url)
 elif mode == 'search_episode':
     search_episode(url)
 elif mode == 'list_saved_seasons':
@@ -1478,7 +1597,105 @@ elif mode == 'import_playlist':
     import_playlist(url)
 elif mode == 'import_user_prompt':
     import_user_prompt()
+elif mode == 'import_user_prompt_full':
+    import_user_prompt_full()
 elif mode == 'import_user_videos':
     import_user_videos(url)
+elif mode == 'import_user_videos_full':
+    import_user_videos(url, full_scan=True)
+elif mode == 'auto_update_from_users_file':
+    auto_update_from_users_file()
+elif mode == 'auto_update_from_users_file_full':
+    auto_update_from_users_file_full()
+elif mode == 'scan_user_for_all_series':
+    scan_user_for_all_series()
+elif mode == 'scan_user_for_all_series_full':
+    scan_user_for_all_series_full()
 else:
     index()
+# --- Overrides: improved matching and parsing ---
+_STOPWORDS = set(['de', 'si', 'in', 'la', 'cu', 'pe', 'un', 'o', 'din', 'al', 'ale', 'ul'])
+
+def _normalize_romanian(text):
+    """
+    Robust normalization for Romanian strings used in matching.
+    Lowercase, strip diacritics, replace separators, collapse spaces.
+    """
+    try:
+        if not isinstance(text, str):
+            text = str(text)
+    except Exception:
+        return ""
+    import unicodedata
+    text = unicodedata.normalize('NFKD', text)
+    text = ''.join(ch for ch in text if not unicodedata.combining(ch))
+    text = text.lower()
+    mapping = {'ă': 'a', 'â': 'a', 'î': 'i', 'ș': 's', 'ş': 's', 'ț': 't', 'ţ': 't'}
+    text = ''.join(mapping.get(ch, ch) for ch in text)
+    for sep in ['-', '_', '.', ',', ':', ';', '|', '/', '\\']:
+        text = text.replace(sep, ' ')
+    text = ' '.join(text.split())
+    return text
+
+def _is_series_match_for_title(normalized_series_name, normalized_video_title):
+    """
+    Match if a majority of significant words from series name appear in title.
+    Ignores stopwords to reduce false negatives like "State de Romania".
+    """
+    series_words = [w for w in normalized_series_name.split() if w not in _STOPWORDS and len(w) > 1]
+    if not series_words:
+        return False
+    title_words = set(normalized_video_title.split())
+    matches = sum(1 for w in series_words if w in title_words)
+    needed = 1 if len(series_words) == 1 else max(2, int(round(0.6 * len(series_words))))
+    return matches >= needed
+
+def _parse_season_episode(title):
+    """
+    More flexible parser for season/episode from common Romanian and SxxExx formats.
+    Supports variants: "Sezon 1 Episod 2", "S 1 E 2", "1x02", "Ep 2 Sezon 1", "Ep. 12".
+    """
+    sezon, episod = None, None
+
+    patterns = [
+        re.compile(r"\b[Ss]\s*(\d{1,2})\s*[Ee]\s*(\d{1,3})\b"),
+        re.compile(r"sez(?:on(?:ul)?)?\s*(\d{1,2})\s*(?:ep(?:isod(?:ul)?)?)\s*(\d{1,3})", re.IGNORECASE),
+        re.compile(r"(\d{1,2})\s*x\s*(\d{1,3})", re.IGNORECASE),
+        re.compile(r"(?:ep(?:isod(?:ul)?)?)\s*(\d{1,3}).*?sez(?:on(?:ul)?)?\s*(\d{1,2})", re.IGNORECASE)
+    ]
+    for pattern in patterns:
+        m = pattern.search(title)
+        if m:
+            if pattern.pattern.startswith('(?:ep'):
+                episod_val, sezon_val = m.group(1), m.group(2)
+            else:
+                sezon_val, episod_val = m.group(1), m.group(2)
+            try:
+                sezon, episod = str(int(sezon_val)), str(int(episod_val))
+            except Exception:
+                pass
+            break
+
+    if not episod:
+        for ep_pat in [
+            re.compile(r"(?:ep(?:isod(?:ul)?)?)\s*[\.:\-]?\s*\(?\s*(\d{1,3})\s*\)?", re.IGNORECASE),
+            re.compile(r"\b[Ee]\s*\(?\s*(\d{1,3})\s*\)?\b")
+        ]:
+            m = ep_pat.search(title)
+            if m:
+                try:
+                    sezon, episod = "1", str(int(m.group(1)))
+                except Exception:
+                    pass
+                if episod:
+                    break
+
+    if episod:
+        part_match = re.compile(r"partea?\s*(\d{1,2})", re.IGNORECASE).search(title)
+        if part_match:
+            try:
+                episod = "{0}.{1}".format(episod, str(int(part_match.group(1))))
+            except Exception:
+                pass
+
+    return (sezon, episod)

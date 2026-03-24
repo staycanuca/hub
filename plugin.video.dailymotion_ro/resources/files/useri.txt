@@ -1,0 +1,210 @@
+# Format: tip_sursa|ID_sursa|nume_serial
+#
+# Unde:
+#   tip_sursa   - Poate fi 'user' sau 'playlist'.
+#   ID_sursa    - Numele de utilizator Dailymotion SAU ID-ul playlist-ului.
+#   nume_serial - Numele sub care va aparea serialul in Kodi.
+# --- EXEMPLE ---
+# Pentru a importa videoclipurile de la un utilizator Dailymotion:
+# Pentru a importa videoclipurile dintr-un playlist Dailymotion:
+# (ID-ul se gaseste in URL-ul playlist-ului, ex: https://www.dailymotion.com/playlist/x7z123 -> ID-ul este x7z123)
+playlist|xajpym|State de Romania
+playlist|x7z123|Clanul
+playlist|x91wg4|Tatutu
+playlist|x93mh6|Tatutu
+playlist|x8yess|Las Fierbinti
+playlist|x9ca9m|Las Fierbinti
+playlist|x3m2e5|Las Fierbinti
+playlist|x956hi|Clanul
+user|statederomania|State de Romania
+user|viorelrobert33|Sef sub acoperire
+user|emisiuniromanesti|Schimb de mame
+user|wachmaster|Schimb de mame
+user|zamenasuuu|Baieti de oras
+user|zamenasuuu|Ana, mi-ai fost scrisa in ADN
+user|zamenasuuu|Asia Express
+user|zamenasuuu|Asia Express - Drumul Eroilor
+user|zamenasuuu|Insula Iubirii
+user|zamenasuuu|Iubire cu parfum de lavanda
+user|zamenasuuu|Las Fierbinti
+user|zamenasuuu|MasterChef
+user|zamenasuuu|Mireasa
+user|zamenasuuu|Power Couple
+user|zamenasuuu|Romanii au talent
+user|zamenasuuu|Sariti de pe fix
+user|zamenasuuu|Te cunosc de undeva
+user|zamenasuuu|The Ticket
+user|zamenasuuu|X Factor
+user|logovideoro|Clanul
+user|logovideoro|Baieti de oras
+user|logovideoro|Iubire cu parfum de lavanda
+user|logovideoro|Las Fierbinti
+user|logovideoro|Regina
+user|logovideoro|Tatutu
+user|logovideoro|Vlad
+user|BiiliiChannel|Baieti de oras
+user|BiiliiChannel|Ana, mi-ai fost scrisa in ADN
+user|BiiliiChannel|Asia Express
+user|BiiliiChannel|Asia Express - Drumul Eroilor
+user|BiiliiChannel|Insula Iubirii
+user|BiiliiChannel|Iubire cu parfum de lavanda
+user|BiiliiChannel|Las Fierbinti
+user|BiiliiChannel|MasterChef
+user|BiiliiChannel|Mireasa
+user|BiiliiChannel|Power Couple
+user|BiiliiChannel|Regina
+user|BiiliiChannel|Romanii au talent
+user|BiiliiChannel|Sariti de pe fix
+user|BiiliiChannel|The Ticket
+user|BiiliiChannel|X Factor
+user|fanromania|Baieti de oras
+user|fanromania|Generatia de Suflet
+user|fanromania|Las Fierbinti
+user|fanromania|Sariti de pe fix
+user|fanromania|Tatutu
+user|evomedia.ro|Baieti de oras
+user|evomedia.ro|Ana, mi-ai fost scrisa in ADN
+user|evomedia.ro|Atletico Textila
+user|evomedia.ro|Insula Iubirii
+user|evomedia.ro|Iubire cu parfum de lavanda
+user|evomedia.ro|Las Fierbinti
+user|evomedia.ro|Mireasa
+user|evomedia.ro|Power Couple
+user|evomedia.ro|Romanii au talent
+user|evomedia.ro|Sariti de pe fix
+user|evomedia.ro|Tatutu
+user|evomedia.ro|X Factor
+user|lablocSerialTv|Baieti de oras
+user|lablocSerialTv|Mireasa
+user|lablocSerialTv|Sariti de pe fix
+user|lablocSerialTv|Te cunosc de undeva
+user|filmesubtitrateinromana|Baieti de oras
+user|filmesubtitrateinromana|Las Fierbinti
+user|emisiuniromanesti|Baieti de oras
+user|emisiuniromanesti|Ana, mi-ai fost scrisa in ADN
+user|emisiuniromanesti|Asia Express
+user|emisiuniromanesti|Asia Express - Drumul Eroilor
+user|emisiuniromanesti|Atletico Textila
+user|emisiuniromanesti|Betoane
+user|emisiuniromanesti|Chefi Ia cutite
+user|emisiuniromanesti|Generatia de Suflet
+user|emisiuniromanesti|Insula Iubirii
+user|emisiuniromanesti|Iubire cu parfum de lavanda
+user|emisiuniromanesti|Las Fierbinti
+user|emisiuniromanesti|MasterChef
+user|emisiuniromanesti|Mireasa
+user|emisiuniromanesti|Power Couple
+user|emisiuniromanesti|Regina
+user|emisiuniromanesti|Romanii au talent
+user|emisiuniromanesti|Sariti de pe fix
+user|emisiuniromanesti|Survivor
+user|emisiuniromanesti|Tatutu
+user|emisiuniromanesti|Te cunosc de undeva
+user|emisiuniromanesti|The Ticket
+user|emisiuniromanesti|Vlad
+user|emisiuniromanesti|X Factor
+user|wachmaster|Clanul
+user|wachmaster|Baieti de oras
+user|wachmaster|Lia, sotia sotului meu
+user|wachmaster|Ana, mi-ai fost scrisa in ADN
+user|wachmaster|Asia Express
+user|wachmaster|Asia Express - Drumul Eroilor
+user|wachmaster|Betoane
+user|wachmaster|Chefi Ia cutite
+user|wachmaster|Insula Iubirii
+user|wachmaster|Iubire cu parfum de lavanda
+user|wachmaster|MasterChef
+user|wachmaster|Mireasa
+user|wachmaster|Power Couple
+user|wachmaster|Romanii au talent
+user|wachmaster|Sariti de pe fix
+user|wachmaster|Survivor
+user|wachmaster|Tatutu
+user|wachmaster|Te cunosc de undeva
+user|wachmaster|The Ticket
+user|wachmaster|X Factor
+user|newtv11|Baieti de oras
+user|newtv11|Tatutu
+user|mandeaplay|Baieti de oras
+user|mandeaplay|Tatutu
+user|justwatch|Clanul
+user|justwatch|Baieti de oras
+user|justwatch|Lia, sotia sotului meu
+user|justwatch|Ana, mi-ai fost scrisa in ADN
+user|justwatch|Asia Express
+user|justwatch|Asia Express - Drumul Eroilor
+user|justwatch|Atletico Textila
+user|justwatch|Chefi Ia cutite
+user|justwatch|Generatia de Suflet
+user|justwatch|Insula Iubirii
+user|justwatch|Las Fierbinti
+user|justwatch|MasterChef
+user|justwatch|Power Couple
+user|justwatch|Regina
+user|justwatch|Romanii au talent
+user|justwatch|Sariti de pe fix
+user|justwatch|Survivor
+user|justwatch|Tatutu
+user|justwatch|Te cunosc de undeva
+user|justwatch|The Ticket
+user|justwatch|Vlad
+user|justwatch|X Factor
+user|emisiuni-TV-reluare|Baieti de oras
+user|emisiuni-TV-reluare|Ana, mi-ai fost scrisa in ADN
+user|emisiuni-TV-reluare|Asia Express
+user|emisiuni-TV-reluare|Asia Express - Drumul Eroilor
+user|emisiuni-TV-reluare|Insula Iubirii
+user|emisiuni-TV-reluare|Iubire cu parfum de lavanda
+user|emisiuni-TV-reluare|MasterChef
+user|emisiuni-TV-reluare|Mireasa
+user|emisiuni-TV-reluare|Sariti de pe fix
+user|emisiuni-TV-reluare|The Ticket
+user|assasinbit12|Baieti de oras
+user|assasinbit12|Ana, mi-ai fost scrisa in ADN
+user|assasinbit12|Asia Express
+user|assasinbit12|Asia Express - Drumul Eroilor
+user|assasinbit12|Insula Iubirii
+user|assasinbit12|Iubire cu parfum de lavanda
+user|lm682088|Baieti de oras
+user|lm682088|Lia, sotia sotului meu
+user|lm682088|Ana, mi-ai fost scrisa in ADN
+user|lm682088|Asia Express
+user|lm682088|Asia Express - Drumul Eroilor
+user|lm682088|Atletico Textila
+user|lm682088|Insula Iubirii
+user|lm682088|Iubire cu parfum de lavanda
+user|lm682088|Las Fierbinti
+user|lm682088|Power Couple
+user|lm682088|Romanii au talent
+user|lm682088|Sariti de pe fix
+user|lm682088|Survivor
+user|lm682088|Te cunosc de undeva
+user|lm682088|X Factor
+user|zadbuzz.42|Clanul
+user|zadbuzz.42|Baieti de oras
+user|zadbuzz.42|Sariti de pe fix
+user|zadbuzz.42|Te cunosc de undeva
+user|benazottuff-4246|Baieti de oras
+user|benazottuff-4246|Lia, sotia sotului meu
+user|benazottuff-4246|MasterChef
+user|benazottuff-4246|Survivor
+user|benazottuff-4246|Te cunosc de undeva
+user|ARABIDRAMAHD|Baieti de oras
+user|ARABIDRAMAHD|Power Couple
+user|ARABIDRAMAHD|Romanii au talent
+user|ARABIDRAMAHD|Te cunosc de undeva
+user|tranthidao26594|Baieti de oras
+user|harrieteldind2rHD|Baieti de oras
+user|harrieteldind2rHD|Power Couple
+user|Adelicepickering64jHD|Baieti de oras
+user|NEWHDVISION|Baieti de oras
+user|NEWHDVISION|Te cunosc de undeva
+user|NEWVISIONFULLHD|Romanii au talent
+user|dinulescu100|Baieti de oras
+user|dinulescu100|Ana, mi-ai fost scrisa in ADN
+user|dinulescu100|Asia Express
+user|dinulescu100|Asia Express - Drumul Eroilor
+user|dinulescu100|Iubire cu parfum de lavanda
+user|dinulescu100|MasterChef
+user|dinulescu100|Sariti de pe fix
+user|dinulescu100|The Ticket

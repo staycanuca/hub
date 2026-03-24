@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+<addon id="plugin.audio.radio_ro" name="Radio RO" version="1.2" provider-name="1x">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>audio</provides>
+  </extension>
+  <extension point="xbmc.addon.repository" name="Radio RO">
+        <info compressed="false">https://raw.githubusercontent.com/your-github-username/repository.example/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/your-github-username/repository.example/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/your-github-username/repository.example/master/zips/</datadir>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Romanian Radio</summary>
+    <description lang="en_GB">Listen to Romanian radio stations</description>
+    <disclaimer lang="en_GB"></disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license></license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+    <news></news>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
+    </assets>
+    <settings>resources/settings.xml</settings>
+  </extension>
+</addon>
+
 <addon id="plugin.program.unzipdata" name="Unzip Service" version="1.0.0" provider-name="Test">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -12,76 +44,34 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.dailymotion_ro" name="DailyMotion RO" version="2.4.4" provider-name="gujal">
-    <requires>
-        <import addon="xbmc.python" version="3.0.0"/>
-        <import addon="script.module.six" version="0.0.1"/>
-        <import addon="script.module.kodi-six" version="0.0.1"/>
-        <import addon="script.module.requests" version="2.4.3"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary lang="de_DE">Filme, TV, Musik, User-Clips und Live-Streams</summary>
-        <summary lang="en_GB">Movies, TV, Music, User-Clips, and Livestreams</summary>
-        <summary lang="fr_FR">Films, SÃ©ries TV, Musique, Clips, et Live</summary>
-        <description lang="de_DE">Dailymotion zieht 300 Millionen Nutzer aus der ganzen Welt an, die jeden Monat 3,5 Milliarden Videos auf ihrem Player ansehen.</description>
-        <description lang="en_GB">Dailymotion attracts 300 million users from around the world, who watch 3.5 billion videos on its player each month.</description>
-        <description lang="fr_FR">Dailymotion attire 300 millions dâ€™utilisateurs qui regardent 3,5 milliards de vidÃ©os sur son player chaque mois, Ã  travers le monde.</description>
-        <disclaimer lang="de_DE">Einige Teile dieses Addons sind in Ihrem Wohnsitzland mÃ¶glicherweise nicht legal. Bitte informieren Sie sich vor der Installation bei den Ã¶rtlichen Gesetzen.</disclaimer>
-        <disclaimer lang="en_GB">Some parts of this addon may not be legal in your country of residence - please check with your local laws before installing.</disclaimer>
-        <disclaimer lang="fr_FR">Certaines parties de cet addon peuvent ne pas Ãªtre lÃ©gales dans votre pays de rÃ©sidence - sâ€™il vous plaÃ®t vÃ©rifier avec vos lois locales avant dâ€™installer.</disclaimer>
-        <news>
-[B]Version 2.4.4 - 02 Nov 2024[/B]
-- Use videoinfotag instead of setinfo on Kodi 20+
-- Fix playback issues
-        </news>
-        <website>https://www.dailymotion.com</website>
-        <source>https://github.com/Gujal00/plugin.video.dailymotion_com</source>
-		<forum>https://forum.kodi.tv/showthread.php?tid=142626</forum>
-		<license>GPL-2.0-or-later</license>
-        <email>gujal at protonmail dot com</email>
-        <assets>
-            <icon>icon.png</icon>
-            <fanart>fanart.jpg</fanart>
-            <screenshot>resources/images/screenshot-01.jpg</screenshot>
-            <screenshot>resources/images/screenshot-02.jpg</screenshot>
-            <screenshot>resources/images/screenshot-03.jpg</screenshot>
-        </assets>
-    </extension>
-</addon>
-
-<addon id="plugin.video.dlvro" name="DaddyLive RO" version="0.2.7" provider-name="un si X">
+<addon id="plugin.video.archive.org" name="Internet Archive" version="1.0.0" provider-name="gujal">
   <requires>
-    <import addon="xbmc.python" version="3.0.0" />
-    <import addon="script.module.requests" />
-    <import addon="script.module.beautifulsoup4" />
-    <import addon="inputstream.ffmpegdirect" />
-    <import addon="script.module.pytz" />
-    <import addon="script.module.tzlocal" />
+    <import addon="xbmc.python" version="3.0.0"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
-    <provides>video</provides>
+    <provides>audio video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Internet Archive add-on</summary>
+    <description lang="en_GB">Watch and listen to media archived by Internet Archive</description>
+    <disclaimer lang="en_GB">This third party addon is not in any way commissioned or endorsed by Internet Archive</disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GPL-2.0</license>
+    <forum>https://forum.kodi.tv/showthread.php?tid=180623</forum>
+    <website>https://archive.org/</website>
+    <email>gujal at protonmail dot com</email>
     <assets>
       <icon>icon.png</icon>
       <fanart>fanart.jpg</fanart>
-      <screenshot>screen1.jpg</screenshot>
-      <screenshot>screen2.jpg</screenshot>
-      <screenshot>screen3.jpg</screenshot>
+      <screenshot>resources/images/screenshot-01.jpg</screenshot>
+      <screenshot>resources/images/screenshot-02.jpg</screenshot>
+      <screenshot>resources/images/screenshot-03.jpg</screenshot>
     </assets>
-    <summary lang="en_GB">The X</summary>
-	<description lang="en_GB">0.2.6 - Resolver fix. 0.2.5 - Added extra error handling. Force http to hopefully prevent ssl error. Some code cleanup.  v0.2.4 - Resolver fix. v0.2.3 - Updated to use new api. v0.2.2 - Changed favourites file path to prevent favourites deleting when addon updates. Added autoplay option in settings.  Added new api for channels from Daddylive which includes more channels! v0.2.1 - Fix some resolvers. Added extra players. v0.2.0 - Added favourite channels. Add/remove a channel via context menu. Added toggle timeshift on/off in settings. Timeshift enables pause and rewind but requires available storage. New code framework.</description>
-    <platform>all</platform>
-    <language>en</language>
-    <license>GPL-2.0-or-later</license>
   </extension>
 </addon>
 
-<addon id="plugin.video.hub" name="HUB" version="1.2.0" provider-name="1X&amp;Geamanu">
+<addon id="plugin.video.hub" name="HUB" version="1.3.0" provider-name="1X">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -106,7 +96,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.hublive" name="HubLive" version="1.0.3" provider-name="1X si Geamanu">
+<addon id="plugin.video.hublive" name="HubLive" version="1.4" provider-name="1X si Geamanu">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -131,7 +121,42 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.hubtube" name="HubTube" version="1.0.5" provider-name="1x">
+<addon id="plugin.video.hubstream" name="HubStream" version="1.2.4" provider-name="1X si o Caperucitaferoz">
+    <requires>
+        <import addon="script.module.six" />
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <description>HubStream:
+"SeÃ±or de sus ojos"
+"Unificador de las dos tierras"
+"SeÃ±or de las estrellas circumpolares"
+"El de los dos ojos"
+        </description>
+        <disclaimer>En HubStream no vais a encontrar ningÃºn tipo de contenido: ni pelÃ­culas, ni series ni eventos deportivos.</disclaimer>
+        <platform>all</platform>
+        <assets>
+              <icon>icon.png</icon>
+              <fanart>fanart.jpg</fanart>
+              <screenshot>resources/media/Captura1.png</screenshot>
+              <screenshot>resources/media/Captura2.png</screenshot>
+              <screenshot>resources/media/Captura3.png</screenshot>
+              <screenshot>resources/media/Captura4.png</screenshot>
+        </assets>
+        <news>
+            - AÃ±adido soporte para enlaces ass://
+        </news>
+        <forum>https://t.me/KodiManiac
+        https://t.me/acestream_spanish</forum>
+    </extension>
+</addon>
+
+<addon id="plugin.video.hubtube"
+       name="HubTube"
+       version="1.0.6"
+       provider-name="1X">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.25.1"/>
@@ -154,7 +179,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.indexer" name="Media Indexer" version="1.2.1" provider-name="1X &amp; Geamanu">
+<addon id="plugin.video.indexer" name="Media Indexer" version="1.3.0" provider-name="1X & Geamanu">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -182,31 +207,40 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.vavooto" name="VAVOO.TO" version="8.3.6r" provider-name="kasi,michaz">
-	<requires>
-		<import addon="script.module.requests"/>
-		<import addon="script.module.resolveurl"/>
-		<import addon="inputstream.adaptive"/>
-		<import addon="inputstream.ffmpegdirect" optional="true" />
-		<import addon="script.module.infotagger" optional="true" />
-		<!-- only for debug -->
-		<import addon="script.module.pydevd" optional="true"/>
-	</requires>
-	<extension point="xbmc.python.pluginsource" library="main.py">
-		<provides>video</provides>
-	</extension>
-	<extension point="xbmc.python.module" library="resources" />
-	<extension point="xbmc.addon.metadata">
-		<assets>
-			<icon>icon.png</icon>
-		</assets>
-	</extension>
+<addon id="plugin.video.rotv123" name="Rotv123" version="1.1.1" provider-name="1X,AS si Geamanu">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.service" library="service.py"/>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">Rotv123 Player</summary>
+        <summary lang="ro">Player Rotv123</summary>
+        <description lang="en">Watch Romanian TV channels from Rotv123.com</description>
+        <description lang="ro">UrmÄƒreÈ™te canalele de televiziune romÃ¢neÈ™ti de pe Rotv123.com</description>
+        <platform>all</platform>
+        <language>ro</language>
+        <license>GPL-2.0-or-later</license>
+        <forum>https://forum.kodi.tv/showthread.php?tid=123456</forum>
+        <website>https://rotv123.com</website>
+        <email>info@rotv123.com</email>
+        <source>https://github.com/yourusername/plugin.video.rotv123</source>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+            <screenshot>resources/screenshot-01.jpg</screenshot>
+            <screenshot>resources/screenshot-02.jpg</screenshot>
+            <screenshot>resources/screenshot-03.jpg</screenshot>
+        </assets>
+    </extension>
 </addon>
 
 <addon id="plugin.video.veziaici.net"
        name="VeziAici.net"
-       version="1.0.7"
-       provider-name="1 x Geamanu">
+       version="1.2.1"
+       provider-name="1 x Geamanu x MiniMi">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -217,6 +251,7 @@
              library="addon.py">
     <provides>video</provides>
   </extension>
+  <extension point="xbmc.service" library="service.py" />
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Watch Romanian shows and series from VeziAici.net</summary>
     <description lang="en">This addon allows you to browse and watch content from VeziAici.net, including Romanian shows and series.</description>
@@ -228,9 +263,9 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.vixmovie" name="VixMovies" version="1.1" provider-name="1x &amp; Geamanu">
+<addon id="plugin.video.vixmovie" name="VixMovie"  version="1.7" provider-name="1x,Geamanu,apoyotech">
   <requires>
-    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.25.1"/>
     <import addon="plugin.video.themoviedb.helper" />
   </requires>
@@ -250,7 +285,7 @@
   </extension>
 </addon>
 
-<addon id="repository.hub" name="Hub Repo" version="1.1.3" provider-name="1x">
+<addon id="repository.hub" name="Hub Repo" version="1.2.1" provider-name="1x">
     <extension point="xbmc.addon.repository" name="Hub Repo">
 		<dir>
 			<info compressed="false">https://raw.githubusercontent.com/staycanuca/hub/main/zip/addons.xml</info>

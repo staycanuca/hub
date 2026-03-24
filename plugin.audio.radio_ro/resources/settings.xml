@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings>
+    <category label="General">
+        <setting id="country_code" type="text" label="Country Code" default="RO"/>
+        <setting id="auto_fullscreen" type="bool" label="Auto-switch to Fullscreen on play" default="true"/>
+    </category>
+</settings>
