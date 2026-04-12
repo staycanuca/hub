@@ -7,12 +7,19 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build-db-main
+  cancel-in-progress: false
+
 jobs:
   build-db:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -39,7 +46,8 @@ jobs:
           git config --local user.name "GitHub Action"
           git add iptv_live.db iptv_movies.db iptv_series.db
           git commit -m "Auto-update IPTV Databases (live, movies, series) [skip ci]" || exit 0
-          git push
+          git pull --rebase origin main
+          git push origin main
 
       - name: Upload databases as artifacts
         uses: actions/upload-artifact@v4
