@@ -1330,7 +1330,7 @@
             "id": "server272",
             "name": "Server 2",
             "type": "stalker",
-            "portal_url": "http://700730.org:8080",
+            "portal_url": "http://700730.org:80",
             "macs": [
                 "00:1A:79:02:6F:67",
                 "00:1A:79:09:F3:00",
