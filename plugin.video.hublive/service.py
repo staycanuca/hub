@@ -1,9 +1,17 @@
+import os
+import sys
 import time
 from urllib.parse import urlencode
 
 import xbmc
 import xbmcaddon
 import xbmcgui
+
+# Add resources/lib to path
+_addon_path = xbmcaddon.Addon().getAddonInfo('path')
+_lib_path = os.path.join(_addon_path, 'resources', 'lib')
+if _lib_path not in sys.path:
+    sys.path.insert(0, _lib_path)
 
 from playback_state import clear_playback_state, load_playback_state, save_playback_state
 
@@ -40,7 +48,12 @@ def _normalize_mac(mac):
     return (mac or "").strip().lower()
 
 
-def _dedupe_macs(macs, limit=6):
+def _dedupe_macs(macs, limit=None):
+    if limit is None:
+        auth_attempts = _setting_int("auth_max_attempts", 6, minimum=1, maximum=12)
+        reconnects = _setting_int("live_max_reconnect_attempts", 3, minimum=0, maximum=10)
+        limit = max(auth_attempts * (reconnects + 1), auth_attempts)
+
     ordered = []
     seen = set()
     for mac in macs or []:
@@ -191,6 +204,13 @@ class LiveReconnectService:
 
         if self._is_launch_in_progress(state):
             _log("Ignoring stopped event during reconnect launch grace period")
+            return
+
+        if (
+            state.get("status") == "resolving"
+            and not state.get("playback_started")
+        ):
+            self._schedule_reconnect(state, "startup_stop")
             return
 
         if self._retry_on_stopped():

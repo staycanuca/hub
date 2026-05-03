@@ -11,10 +11,13 @@ from hublive_backend import json_dumps, json_loads, reload_servers_config
 
 
 def get_favorites_file(server):
-    return os.path.join(
-        xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo("profile")),
-        f"favorites_{server}.json",
-    )
+    try:
+        profile_path = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo("profile"))
+    except Exception:
+        profile_path = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo("profile"))
+    if not os.path.exists(profile_path):
+        os.makedirs(profile_path)
+    return os.path.join(profile_path, f"favorites_{server}.json")
 
 
 def load_favorites(server):

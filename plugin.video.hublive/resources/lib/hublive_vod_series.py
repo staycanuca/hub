@@ -9,7 +9,10 @@ import xbmcplugin
 import xbmcvfs
 
 from hublive_backend import (
+    _append_kodi_headers,
+    _build_auth_headers_and_cookies,
     _normalize_mac,
+    check_server_online,
     clear_failed_mac,
     fetch_series_categories,
     fetch_vod_categories,
@@ -21,7 +24,9 @@ from hublive_backend import (
     iter_server_auth_candidates,
     note_failed_mac,
     set_fetch_status,
+    TIMEOUTS,
 )
+
 from playback_state import clear_playback_state
 
 _BROWSE_CACHE_TTL = 300
@@ -144,11 +149,11 @@ def fetch_stalker_paginated(type_param, category_id, server="server1", timeouts=
     if cached_items is not None:
         return cached_items
 
-    token, headers, cookies, portal_url = get_server_auth(server)
+    token, headers, cookies, portal_url, random_val = get_server_auth(server)
     if not token or not portal_url:
         return []
 
-    base_url = f"{portal_url}/portal.php"
+    base_url = f"{portal_url.rstrip('/')}/portal.php"
     param_key = "category" if type_param in ["vod", "series"] else "genre"
 
     all_items = []
@@ -156,45 +161,75 @@ def fetch_stalker_paginated(type_param, category_id, server="server1", timeouts=
     total_pages = 1
     request_timeout = (timeouts or {}).get("channels", 20)
 
+    endpoints = [
+        f"{portal_url.rstrip('/')}/portal.php",
+        f"{portal_url.rstrip('/')}/server/load.php",
+    ]
+
     while current_page <= total_pages:
-        params = {
-            "type": type_param,
-            "action": "get_ordered_list",
-            param_key: category_id,
-            "JsHttpRequest": "1-xml",
-            "p": current_page,
-        }
-
         try:
-            response = get_session().get(
-                base_url,
-                params=params,
-                headers=headers,
-                cookies=cookies,
-                timeout=request_timeout,
-            )
-            response.raise_for_status()
-            data = response.json()
-            js_data = data.get("js", {})
+            # Re-build headers to ensure X-Random is fresh
+            headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+            
+            page_items = []
+            page_data = None
 
-            if current_page == 1:
-                total_items = int(js_data.get("total_items", 0))
-                items_first_page = js_data.get("data", [])
-                if not items_first_page:
-                    break
+            for url in endpoints:
+                params = {
+                    "type": type_param,
+                    "action": "get_ordered_list",
+                    param_key: category_id,
+                    "JsHttpRequest": "1-xml",
+                    "p": current_page,
+                }
 
-                items_per_page = len(items_first_page)
-                if items_per_page > 0:
-                    total_pages = (total_items + items_per_page - 1) // items_per_page
+                try:
+                    response = get_session().get(
+                        url,
+                        params=params,
+                        headers=headers,
+                        cookies=cookies,
+                        timeout=request_timeout,
+                        verify=False,
+                    )
+                    response.raise_for_status()
+                    data = response.json()
+                    js_data = data.get("js", {})
 
-                xbmc.log(
-                    f"[Stalker] Total items: {total_items}, Pages: {total_pages} for {type_param} cat {category_id}",
-                    level=xbmc.LOGINFO,
-                )
+                    if isinstance(js_data, dict):
+                        page_items = js_data.get("data") or js_data.get("channels") or js_data.get("items") or js_data.get("result") or []
+                        if page_items or js_data.get("total_items"):
+                            page_data = js_data
+                            break
+                    elif isinstance(js_data, list) and js_data:
+                        page_items = js_data
+                        page_data = {"js": js_data, "total_items": len(js_data)}
+                        break
+                    
+                    xbmc.log(f"[Stalker] Empty response from {url} for {type_param} cat {category_id} (page {current_page}), trying next...", level=xbmc.LOGDEBUG)
+                except Exception as exc:
+                    xbmc.log(f"[Stalker] Failed to fetch from {url} for {type_param} cat {category_id} (page {current_page}): {exc}", level=xbmc.LOGDEBUG)
+                    continue
 
-            page_items = js_data.get("data", [])
             if not page_items:
                 break
+
+            if current_page == 1 and page_data:
+                if isinstance(page_data, dict):
+                    total_items = int(page_data.get("total_items", 0) or 0)
+                    if not total_items and page_items:
+                        total_items = len(page_items)
+                    
+                    items_per_page = len(page_items)
+                    if items_per_page > 0:
+                        total_pages = (total_items + items_per_page - 1) // items_per_page
+                    
+                    xbmc.log(
+                        f"[Stalker] Total items: {total_items}, Pages: {total_pages} for {type_param} cat {category_id}",
+                        level=xbmc.LOGINFO,
+                    )
+                else:
+                    total_pages = 1
 
             all_items.extend(page_items)
             current_page += 1
@@ -272,24 +307,47 @@ def list_series_items(base_url, handle, category_id, server="server1", timeouts=
 
 def fetch_seasons(movie_id, server="server1", timeouts=None):
     def _fetch():
-        token, headers, cookies, portal_url = get_server_auth(server)
+        token, headers, cookies, portal_url, random_val = get_server_auth(server)
         if not token or not portal_url:
             return []
 
-        url = f"{portal_url}/portal.php?type=series&action=get_ordered_list&movie_id={movie_id}&JsHttpRequest=1-xml"
-        try:
-            response = get_session().get(
-                url,
-                headers=headers,
-                cookies=cookies,
-                timeout=(timeouts or {}).get("channels", 20),
-            )
-            response.raise_for_status()
-            data = response.json()
-            return data.get("js", {}).get("data", [])
-        except Exception as exc:
-            xbmc.log(f"[Series] Failed to fetch seasons: {exc}", level=xbmc.LOGERROR)
-            return []
+        # Re-build headers to ensure X-Random and other identity markers are fresh
+        headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+        
+        endpoints = [
+            f"{portal_url.rstrip('/')}/portal.php",
+            f"{portal_url.rstrip('/')}/server/load.php",
+        ]
+        
+        for url in endpoints:
+            try:
+                response = get_session().get(
+                    url,
+                    params={
+                        "type": "series",
+                        "action": "get_ordered_list",
+                        "movie_id": movie_id,
+                        "JsHttpRequest": "1-xml",
+                    },
+                    headers=headers,
+                    cookies=cookies,
+                    timeout=(timeouts or {}).get("channels", 20),
+                    verify=False,
+                )
+                response.raise_for_status()
+                data = response.json()
+                js_data = data.get("js", {})
+                
+                if isinstance(js_data, dict):
+                    page_items = js_data.get("data") or js_data.get("items") or []
+                    if page_items:
+                        return page_items
+                elif isinstance(js_data, list) and js_data:
+                    return js_data
+            except Exception as exc:
+                xbmc.log(f"[Series:Seasons] Failed to fetch from {url}: {exc}", level=xbmc.LOGDEBUG)
+                continue
+        return []
 
     return _get_cached_or_fetch((server, "series", "seasons", movie_id), _fetch)
 
@@ -316,24 +374,48 @@ def list_seasons(base_url, handle, movie_id, server="server1", timeouts=None):
 
 def fetch_episodes(movie_id, season_id, server="server1", timeouts=None):
     def _fetch():
-        token, headers, cookies, portal_url = get_server_auth(server)
+        token, headers, cookies, portal_url, random_val = get_server_auth(server)
         if not token or not portal_url:
             return []
 
-        url = f"{portal_url}/portal.php?type=series&action=get_ordered_list&movie_id={movie_id}&season_id={season_id}&JsHttpRequest=1-xml"
-        try:
-            response = get_session().get(
-                url,
-                headers=headers,
-                cookies=cookies,
-                timeout=(timeouts or {}).get("channels", 20),
-            )
-            response.raise_for_status()
-            data = response.json()
-            return data.get("js", {}).get("data", [])
-        except Exception as exc:
-            xbmc.log(f"[Series] Failed to fetch episodes: {exc}", level=xbmc.LOGERROR)
-            return []
+        # Re-build headers to ensure X-Random and other identity markers are fresh
+        headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+        
+        endpoints = [
+            f"{portal_url.rstrip('/')}/portal.php",
+            f"{portal_url.rstrip('/')}/server/load.php",
+        ]
+        
+        for url in endpoints:
+            try:
+                response = get_session().get(
+                    url,
+                    params={
+                        "type": "series",
+                        "action": "get_ordered_list",
+                        "movie_id": movie_id,
+                        "season_id": season_id,
+                        "JsHttpRequest": "1-xml",
+                    },
+                    headers=headers,
+                    cookies=cookies,
+                    timeout=(timeouts or {}).get("channels", 20),
+                    verify=False,
+                )
+                response.raise_for_status()
+                data = response.json()
+                js_data = data.get("js", {})
+
+                if isinstance(js_data, dict):
+                    page_items = js_data.get("data") or js_data.get("items") or []
+                    if page_items:
+                        return page_items
+                elif isinstance(js_data, list) and js_data:
+                    return js_data
+            except Exception as exc:
+                xbmc.log(f"[Series:Episodes] Failed to fetch from {url}: {exc}", level=xbmc.LOGDEBUG)
+                continue
+        return []
 
     return _get_cached_or_fetch(
         (server, "series", "episodes", movie_id, season_id), _fetch
@@ -378,6 +460,7 @@ def _play_with_auth_candidates(
     resolve_stream_url_fn,
     finalize_playback_failure_fn,
     timeouts=None,
+    attempted_macs=None,
 ):
     clear_playback_state()
     portal_url = get_portal_url_for_server(server)
@@ -390,9 +473,16 @@ def _play_with_auth_candidates(
             title,
             kind=kind,
         )
-        return
+        return {"success": False, "attempted_macs": []}
 
-    attempted_macs = set()
+    # Initialize attempted_macs set with any previously attempted MACs
+    attempted_macs_set = set()
+    if attempted_macs:
+        for mac in attempted_macs:
+            norm_mac = _normalize_mac(mac)
+            if norm_mac:
+                attempted_macs_set.add(norm_mac)
+
     attempts = 0
     last_error = "Nu s-a putut genera link-ul de redare."
     dp = xbmcgui.DialogProgress()
@@ -400,22 +490,36 @@ def _play_with_auth_candidates(
     dp.update(0)
 
     try:
-        for token, headers, cookies, portal_url, mac in iter_server_auth_candidates(
+        for token, headers, cookies, portal_url, mac, random_val in iter_server_auth_candidates(
             server=server,
             use_cached=True,
-            exclude_macs=attempted_macs,
+            exclude_macs=attempted_macs_set,
             max_attempts=4,
         ):
             if dp.iscanceled():
                 clear_playback_state()
-                return
+                return {"success": False, "attempted_macs": list(attempted_macs_set)}
 
             attempts += 1
             dp.update(int(((attempts - 1) / 4) * 100), "Se încearcă conectarea...")
             norm_mac = _normalize_mac(mac)
             if norm_mac:
-                attempted_macs.add(norm_mac)
+                attempted_macs_set.add(norm_mac)
 
+            # Re-build headers to ensure X-Random and other identity markers are fresh
+            headers, cookies = _build_auth_headers_and_cookies(portal_url, mac, token, random_val)
+            
+            # --- STRATEGY 1: Direct Playback (Fast Path) ---
+            # Try to guess the direct URL based on kind. Works for many strict portals.
+            direct_url = None
+            if kind == "vod" and "movie_id" in locals():
+                # Note: movie_id needs to be passed into this function's scope or closure
+                # Since it's not directly here, we'll rely on the resolver or better, 
+                # extract it if we can. For now, let's proceed to create_link first 
+                # if direct info is missing, but prioritize resolving below.
+                pass
+            
+            # --- STRATEGY 2: create_link (Standard Stalker) ---
             try:
                 request_url = build_request_url_fn(portal_url, mac)
                 response = get_session().get(
@@ -423,10 +527,20 @@ def _play_with_auth_candidates(
                     headers=headers,
                     cookies=cookies,
                     timeout=(timeouts or {}).get("play", 15),
+                    verify=False,
                 )
                 response.raise_for_status()
+                data = response.json()
+                
+                # Special check: if js is a list, it usually means MAC rejected for this action
+                js_data = data.get("js", {})
+                if isinstance(js_data, list):
+                    xbmc.log(f"[{kind.upper()}] create_link returned empty list for {mac}. Trying direct path fallback...", level=xbmc.LOGINFO)
+                    # Fallback logic: if create_link is blocked, some portals allow direct movie.php
+                    # We'll let resolve_stream_url_fn handle it if possible.
+                
                 final_url = resolve_stream_url_fn(
-                    response.json(), portal_url, mac, headers
+                    data, portal_url, mac, headers, token
                 )
 
                 clear_failed_mac(server, mac)
@@ -441,11 +555,17 @@ def _play_with_auth_candidates(
                     stale_cache=False,
                     item_count=1,
                 )
-                xbmc.log(f"[{kind.upper()}] Playing URL: {final_url}", level=xbmc.LOGINFO)
+                
+                # Fix HTTP 555 by appending headers for Kodi player
+                final_url_with_headers = _append_kodi_headers(
+                    final_url, mac=mac, token=token, portal_url=portal_url, random_val=random_val
+                )
+                
+                xbmc.log(f"[{kind.upper()}] Playing URL with headers: {final_url_with_headers[:100]}...", level=xbmc.LOGINFO)
                 clear_playback_state()
-                li = xbmcgui.ListItem(path=final_url)
+                li = xbmcgui.ListItem(path=final_url_with_headers)
                 xbmcplugin.setResolvedUrl(handle, True, listitem=li)
-                return
+                return {"success": True, "attempted_macs": list(attempted_macs_set)}
             except Exception as exc:
                 last_error = str(exc) or last_error
                 note_failed_mac(server, mac)
@@ -460,6 +580,7 @@ def _play_with_auth_candidates(
     finalize_playback_failure_fn(
         server, portal_url, attempts, last_error, title, kind=kind
     )
+    return {"success": False, "attempted_macs": list(attempted_macs_set)}
 
 
 def _resolve_vod_stream_url(
@@ -470,22 +591,27 @@ def _resolve_vod_stream_url(
     normalize_playback_url_fn,
     probe_stream_url_fn,
     headers,
+    session_token,
 ):
-    returned_url = data.get("js", {}).get("cmd")
+    js_data = data.get("js", {})
+    returned_url = None
+    if isinstance(js_data, dict):
+        returned_url = js_data.get("cmd")
+    elif isinstance(js_data, list):
+        # If create_link was rejected (empty list), try constructing direct URL
+        xbmc.log("[VOD] create_link rejected, trying direct movie.php construction", level=xbmc.LOGINFO)
+        returned_url = f"{portal_url.rstrip('/')}/play/movie.php?mac={mac}&stream={movie_id}&play_token={session_token}&type=movie"
+
     if not returned_url:
         raise ValueError("Serverul nu a returnat comanda de redare pentru film.")
 
     final_url = normalize_playback_url_fn(returned_url)
-    if "play_token=" in final_url:
-        try:
-            play_token = final_url.split("play_token=")[1].split("&")[0]
-            final_url = f"{portal_url}/play/movie.php?mac={mac}&stream={movie_id}.mkv&play_token={play_token}&type=movie"
-        except IndexError:
-            raise ValueError(
-                "Raspunsul de redare pentru film nu contine play_token valid."
-            )
+    
+    # If the URL is already a full movie.php link, ensure it has all params
+    if "movie.php" in final_url and "play_token=" not in final_url:
+        final_url += f"&play_token={session_token}"
 
-    is_valid, probe_reason = probe_stream_url_fn(final_url, headers=headers)
+    is_valid, probe_reason, redirected_url = probe_stream_url_fn(final_url, headers=headers)
     if not is_valid:
         raise ValueError(f"Linkul filmului a picat la verificare: {probe_reason}")
     return final_url
@@ -496,12 +622,26 @@ def _resolve_series_stream_url(
     normalize_playback_url_fn,
     probe_stream_url_fn,
     headers,
+    session_token,
 ):
-    stream_url = normalize_playback_url_fn(data.get("js", {}).get("cmd"))
+    js_data = data.get("js", {})
+    stream_url = None
+    if isinstance(js_data, dict):
+        stream_url = normalize_playback_url_fn(js_data.get("cmd"))
+    elif isinstance(js_data, list):
+        # For series, it's harder to guess the path without create_link
+        # but let's try to report it clearly.
+        raise ValueError("MAC respins de server (raspuns js gol).")
+
     if not stream_url:
         raise ValueError("Serverul nu a returnat comanda de redare pentru episod.")
 
-    is_valid, probe_reason = probe_stream_url_fn(stream_url, headers=headers)
+    if "play_token=" not in stream_url and "?" in stream_url:
+        stream_url += f"&play_token={session_token}"
+    elif "play_token=" not in stream_url:
+        stream_url += f"?play_token={session_token}"
+
+    is_valid, probe_reason, redirected_url = probe_stream_url_fn(stream_url, headers=headers)
     if not is_valid:
         raise ValueError(f"Linkul episodului a picat la verificare: {probe_reason}")
     return stream_url
@@ -515,9 +655,10 @@ def play_vod(
     probe_stream_url_fn=None,
     finalize_playback_failure_fn=None,
     timeouts=None,
+    attempted_macs=None,
 ):
     cmd = f"movie {movie_id}"
-    _play_with_auth_candidates(
+    return _play_with_auth_candidates(
         handle=handle,
         server=server,
         title="Redarea filmului",
@@ -526,7 +667,7 @@ def play_vod(
         build_request_url_fn=lambda portal_url, mac: (
             f"{portal_url}/portal.php?type=vod&action=create_link&cmd={quote_plus(cmd)}&JsHttpRequest=1-xml"
         ),
-        resolve_stream_url_fn=lambda data, portal_url, mac, headers: _resolve_vod_stream_url(
+        resolve_stream_url_fn=lambda data, portal_url, mac, headers, token: _resolve_vod_stream_url(
             data,
             portal_url,
             mac,
@@ -534,9 +675,11 @@ def play_vod(
             normalize_playback_url_fn,
             probe_stream_url_fn,
             headers,
+            token,
         ),
         finalize_playback_failure_fn=finalize_playback_failure_fn,
         timeouts=timeouts,
+        attempted_macs=attempted_macs,
     )
 
 
@@ -549,8 +692,9 @@ def play_series(
     probe_stream_url_fn=None,
     finalize_playback_failure_fn=None,
     timeouts=None,
+    attempted_macs=None,
 ):
-    _play_with_auth_candidates(
+    return _play_with_auth_candidates(
         handle=handle,
         server=server,
         title="Redarea episodului",
@@ -559,14 +703,16 @@ def play_series(
         build_request_url_fn=lambda portal_url, mac: (
             f"{portal_url}/portal.php?type=vod&action=create_link&cmd={quote_plus(str(cmd))}&series={episode_num}&JsHttpRequest=1-xml"
         ),
-        resolve_stream_url_fn=lambda data, portal_url, mac, headers: _resolve_series_stream_url(
+        resolve_stream_url_fn=lambda data, portal_url, mac, headers, token: _resolve_series_stream_url(
             data,
             normalize_playback_url_fn,
             probe_stream_url_fn,
             headers,
+            token,
         ),
         finalize_playback_failure_fn=finalize_playback_failure_fn,
         timeouts=timeouts,
+        attempted_macs=attempted_macs,
     )
 
 

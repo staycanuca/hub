@@ -100,6 +100,27 @@ def _set_cached_search_results(server, type_param, query, results):
     _persist_search_cache()
 
 
+def clear_search_cache(server=None):
+    if server is None:
+        _search_cache.clear()
+        cache_file = _get_search_cache_file()
+        try:
+            if os.path.exists(cache_file):
+                os.remove(cache_file)
+        except Exception as exc:
+            xbmc.log(
+                f"[SearchCache] Failed to clear search cache: {exc}",
+                level=xbmc.LOGWARNING,
+            )
+        return
+
+    for cache_key in list(_search_cache):
+        cache_server = cache_key[0] if cache_key else ""
+        if cache_server in (server, "mega_search"):
+            _search_cache.pop(cache_key, None)
+    _persist_search_cache()
+
+
 def _dedupe_search_results(items, search_type):
     unique_items = []
     seen = set()
@@ -313,7 +334,7 @@ def fetch_stalker_search(
         level=xbmc.LOGINFO,
     )
 
-    token, headers, cookies, portal_url = get_server_auth(server)
+    token, headers, cookies, portal_url, random_val = get_server_auth(server)
     if not token or not portal_url:
         xbmc.log(
             f"[Stalker] No auth for {server}, returning empty", level=xbmc.LOGWARNING
@@ -338,8 +359,10 @@ def fetch_stalker_search(
             params=params,
             headers=headers,
             cookies=cookies,
-            timeout=timeouts["channels"],
+            timeout=timeouts["play"],
+            verify=False,
         )
+
 
         if response.status_code != 200:
             xbmc.log(
@@ -463,8 +486,61 @@ def show_mega_search_results(
 
     servers_config = load_servers_config()
     available_servers = servers_config.get("servers", [])
+    available_servers_count = len(available_servers)
+    fetch_batch_size = max(1, int(fetch_batch_size or 1))
+    batch_start = max(0, int(batch_start or 0))
+
+    # Check if we have cached results for this exact search
+    cache_key = f"mega_{search_type}_{query}_{batch_start}_{skip_api_search}"
+    cached_data = _get_cached_search_results("mega_search", cache_key, query)
+    
+    if cached_data is not None:
+        # Extract results and metadata from cache
+        if isinstance(cached_data, dict) and "results" in cached_data:
+            cached_results = cached_data.get("results", [])
+            cached_servers_count = cached_data.get("servers_count", available_servers_count)
+            cached_batch_size = cached_data.get("batch_size", fetch_batch_size)
+            
+            xbmc.log(
+                f"[MegaSearch] Using cached results for '{query}' ({len(cached_results)} items)",
+                level=xbmc.LOGINFO,
+            )
+            # Render cached results directly
+            _render_mega_search_results(
+                base_url,
+                handle,
+                query,
+                search_type,
+                cached_results,
+                batch_start,
+                skip_api_search,
+                re_stream_id,
+                available_servers_count=cached_servers_count,
+                fetch_batch_size=cached_batch_size,
+            )
+            return
+        else:
+            # Old cache format (just results array), use current server info
+            xbmc.log(
+                f"[MegaSearch] Using cached results (old format) for '{query}' ({len(cached_data)} items)",
+                level=xbmc.LOGINFO,
+            )
+            _render_mega_search_results(
+                base_url,
+                handle,
+                query,
+                search_type,
+                cached_data,
+                batch_start,
+                skip_api_search,
+                re_stream_id,
+                available_servers_count=available_servers_count,
+                fetch_batch_size=fetch_batch_size,
+            )
+            return
+
     xbmc.log(
-        f"[MegaSearch] Found {len(available_servers)} servers: {[s.get('id') for s in available_servers]}",
+        f"[MegaSearch] Found {available_servers_count} servers: {[s.get('id') for s in available_servers]}",
         level=xbmc.LOGINFO,
     )
 
@@ -479,8 +555,6 @@ def show_mega_search_results(
     type_mapping = {"live": "itv", "vod": "vod", "series": "series"}
     stalker_type = type_mapping.get(search_type, "itv")
     all_results = []
-    fetch_batch_size = max(1, int(fetch_batch_size or 1))
-    batch_start = max(0, int(batch_start or 0))
 
     if not skip_api_search:
         dp = xbmcgui.DialogProgress()
@@ -616,9 +690,62 @@ def show_mega_search_results(
             dp.close()
         all_results = _dedupe_search_results(all_results, search_type)
 
+    # Cache the results with metadata before rendering
+    cache_data = {
+        "results": all_results,
+        "servers_count": available_servers_count,
+        "batch_size": fetch_batch_size,
+    }
+    _set_cached_search_results("mega_search", cache_key, query, cache_data)
+    
+    # Render the results
+    _render_mega_search_results(
+        base_url,
+        handle,
+        query,
+        search_type,
+        all_results,
+        batch_start,
+        skip_api_search,
+        re_stream_id,
+        next_batch_start=next_batch_start,
+        next_batch_count=next_batch_count,
+        available_servers_count=available_servers_count,
+        fetch_batch_size=fetch_batch_size,
+    )
+
+
+def _render_mega_search_results(
+    base_url,
+    handle,
+    query,
+    search_type,
+    all_results,
+    batch_start,
+    skip_api_search,
+    re_stream_id,
+    next_batch_start=None,
+    next_batch_count=None,
+    available_servers_count=None,
+    fetch_batch_size=None,
+):
+    """Render mega search results from cached or fresh data."""
+    
+    # Calculate next batch info if not provided (for cached results)
+    if next_batch_start is None and available_servers_count and fetch_batch_size:
+        batch_start = max(0, int(batch_start or 0))
+        fetch_batch_size = max(1, int(fetch_batch_size or 1))
+        next_batch_start = batch_start + fetch_batch_size
+        if next_batch_start < available_servers_count:
+            next_batch_count = min(
+                fetch_batch_size, available_servers_count - next_batch_start
+            )
+        else:
+            next_batch_count = 0
+    
     if not all_results:
         xbmc.log(f"[MegaSearch] No results found for '{query}'", level=xbmc.LOGINFO)
-        if search_type == "live" and next_batch_count > 0 and next_batch_start is not None:
+        if search_type == "live" and next_batch_count and next_batch_count > 0 and next_batch_start is not None:
             li = xbmcgui.ListItem(
                 label=(
                     f'[COLOR red]Nu s-a gasit nimic pentru "{query}" in lotul curent.[/COLOR]'
@@ -695,7 +822,7 @@ def show_mega_search_results(
             handle=handle, url=url, listitem=li, isFolder=is_folder
         )
 
-    if search_type == "live" and next_batch_count > 0 and next_batch_start is not None:
+    if search_type == "live" and next_batch_count and next_batch_count > 0 and next_batch_start is not None:
         next_li = xbmcgui.ListItem(
             label=(
                 f"[COLOR yellow]Continua cautarea in urmatoarele {next_batch_count} portaluri[/COLOR]"
@@ -784,34 +911,49 @@ def show_search_results(
         xbmcplugin.endOfDirectory(handle, succeeded=False)
         return
 
-    allowed_category_ids = _build_allowed_category_ids(
-        server,
-        main_mode,
-        fetch_server_categories_fn,
-        get_romanian_categories_fn,
-        get_sport_categories_fn,
-    )
+    # Check cache first
+    cache_key = f"live_{server}_{main_mode or 'all'}"
+    cached_channels = _get_cached_search_results(server, cache_key, query)
+    
+    if cached_channels is not None:
+        xbmc.log(
+            f"[Search] Using cached live results for '{query}' on {server} ({len(cached_channels)} items)",
+            level=xbmc.LOGINFO,
+        )
+        matching_channels = cached_channels
+    else:
+        # Perform search
+        allowed_category_ids = _build_allowed_category_ids(
+            server,
+            main_mode,
+            fetch_server_categories_fn,
+            get_romanian_categories_fn,
+            get_sport_categories_fn,
+        )
 
-    matching_channels = _filter_live_results_by_mode(
-        fetch_stalker_search_fn("itv", query, server), allowed_category_ids
-    )
-    if not matching_channels:
-        dp = xbmcgui.DialogProgress()
-        dp.create("Căutare", "Se verifică și lista locală de canale...")
-        try:
-            matching_channels = _search_live_channels_locally(
-                query,
-                server,
-                "",
-                load_channels_cache_fn,
-                load_cached_category_channels_fn,
-                channels_cache_ttl,
-                allowed_category_ids,
-            )
-        finally:
-            dp.close()
+        matching_channels = _filter_live_results_by_mode(
+            fetch_stalker_search_fn("itv", query, server), allowed_category_ids
+        )
+        if not matching_channels:
+            dp = xbmcgui.DialogProgress()
+            dp.create("Căutare", "Se verifică și lista locală de canale...")
+            try:
+                matching_channels = _search_live_channels_locally(
+                    query,
+                    server,
+                    "",
+                    load_channels_cache_fn,
+                    load_cached_category_channels_fn,
+                    channels_cache_ttl,
+                    allowed_category_ids,
+                )
+            finally:
+                dp.close()
 
-    matching_channels = _dedupe_search_results(matching_channels, "live")
+        matching_channels = _dedupe_search_results(matching_channels, "live")
+        
+        # Cache the results
+        _set_cached_search_results(server, cache_key, query, matching_channels)
 
     xbmcplugin.setPluginCategory(handle, f"Cautare: {query}")
     xbmcplugin.setContent(handle, "videos")
@@ -885,9 +1027,25 @@ def show_vod_search_results(base_url, handle, query, server, fetch_stalker_searc
         xbmcplugin.endOfDirectory(handle, succeeded=False)
         return
 
-    matching_items = _dedupe_search_results(
-        fetch_stalker_search_fn("vod", query, server), "vod"
-    )
+    # Check cache first
+    cache_key = f"vod_{server}"
+    cached_items = _get_cached_search_results(server, cache_key, query)
+    
+    if cached_items is not None:
+        xbmc.log(
+            f"[Search] Using cached VOD results for '{query}' on {server} ({len(cached_items)} items)",
+            level=xbmc.LOGINFO,
+        )
+        matching_items = cached_items
+    else:
+        # Perform search
+        matching_items = _dedupe_search_results(
+            fetch_stalker_search_fn("vod", query, server), "vod"
+        )
+        
+        # Cache the results
+        _set_cached_search_results(server, cache_key, query, matching_items)
+    
     xbmcplugin.setPluginCategory(handle, f"Cautare Filme: {query}")
     xbmcplugin.setContent(handle, "movies")
 
@@ -926,9 +1084,25 @@ def show_series_search_results(base_url, handle, query, server, fetch_stalker_se
         xbmcplugin.endOfDirectory(handle, succeeded=False)
         return
 
-    matching_items = _dedupe_search_results(
-        fetch_stalker_search_fn("series", query, server), "series"
-    )
+    # Check cache first
+    cache_key = f"series_{server}"
+    cached_items = _get_cached_search_results(server, cache_key, query)
+    
+    if cached_items is not None:
+        xbmc.log(
+            f"[Search] Using cached series results for '{query}' on {server} ({len(cached_items)} items)",
+            level=xbmc.LOGINFO,
+        )
+        matching_items = cached_items
+    else:
+        # Perform search
+        matching_items = _dedupe_search_results(
+            fetch_stalker_search_fn("series", query, server), "series"
+        )
+        
+        # Cache the results
+        _set_cached_search_results(server, cache_key, query, matching_items)
+    
     xbmcplugin.setPluginCategory(handle, f"Cautare Seriale: {query}")
     xbmcplugin.setContent(handle, "tvshows")
 

@@ -1,9 +1,18 @@
+import hashlib
 import json
 import os
 import random
 import re
 import threading
 import time
+
+try:
+    import urllib3
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+except ImportError:
+    pass
+except Exception:
+    pass
 from collections import OrderedDict
 from functools import lru_cache
 
@@ -13,6 +22,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcvfs
 from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from epg import EpgManager
 
@@ -64,7 +74,6 @@ def get_session():
         session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3",
-                "X-User-Agent": "Model: MAG250; Link: WiFi",
                 "Connection": "keep-alive",
                 "Accept-Encoding": "gzip, deflate",
             }
@@ -74,7 +83,7 @@ def get_session():
 
 
 TIMEOUTS = {
-    "handshake": 5,
+    "handshake": 10,
     "categories": 10,
     "channels": 20,
     "epg": 15,
@@ -82,6 +91,60 @@ TIMEOUTS = {
     "playprobe": 6,
     "play": 15,
 }
+
+
+def _append_kodi_headers(url, mac=None, token=None, portal_url=None, random_val="0"):
+    """
+    Append MAG headers and cookies to the URL for Kodi's player.
+    Kodi uses the '|' separator for headers. Values MUST be URL-encoded.
+    
+    For servers that use /play/live.php with play_token parameter,
+    no additional headers are needed as authentication is in the URL.
+    """
+    if not url:
+        return url
+    
+    # Strip existing options if any
+    clean_url = url.split("|")[0]
+    
+    # Check if URL already contains play_token parameter
+    # If so, the server handles authentication via URL params, not headers
+    if "/play/live.php" in clean_url and "play_token=" in clean_url:
+        xbmc.log(f"[Headers] URL contains play_token, returning clean URL without headers: {clean_url}", level=xbmc.LOGINFO)
+        return clean_url
+    
+    # Standard MAG User-Agent (matches tester script)
+    ua = "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3"
+    
+    from urllib.parse import quote
+    
+    # We use quote with no safe characters for maximum compatibility in header values
+    # Kodi's player requires spaces as %20 to avoid splitting the option string incorrectly.
+    headers = [f"User-Agent={quote(ua, safe='')}"]
+    
+    if token:
+        headers.append(f"Authorization={quote('Bearer ' + token, safe='')}")
+        
+    if random_val and str(random_val) != "0":
+        headers.append(f"X-Random={quote(str(random_val), safe='')}")
+    
+    cookies = []
+    if mac:
+        cookies.append(f"mac={mac}")
+    if token:
+        cookies.append(f"token={token}")
+        
+    if cookies:
+        cookie_str = "; ".join(cookies)
+        headers.append(f"Cookie={quote(cookie_str, safe='')}")
+        
+    if portal_url:
+        referer = f"{portal_url.rstrip('/')}/stalker_portal/c/index.html"
+        headers.append(f"Referer={quote(referer, safe='')}")
+        
+    res = f"{clean_url}|{'&'.join(headers)}"
+    xbmc.log(f"[Headers] Final URL for Kodi: {res[:120]}...", level=xbmc.LOGDEBUG)
+    return res
 
 
 def is_epg_enabled():
@@ -260,11 +323,12 @@ def get_epg_items(channel_key):
         return list(items) if items else []
 
 
-def set_server_auth(server, token, mac, timestamp=None):
+def set_server_auth(server, token, mac, random_value="0", timestamp=None):
     with _cache_lock:
         _auth_cache[server] = {
             "token": token,
             "mac": mac,
+            "random": random_value,
             "timestamp": timestamp if timestamp is not None else time.time(),
         }
         _auth_failure_cache.pop(server, None)
@@ -372,13 +436,19 @@ def _load_servers_config_internal(force_refresh=False):
                 f"[Config] Fetching servers.json from URL: {json_url}",
                 level=xbmc.LOGINFO,
             )
-            response = get_session().get(json_url.strip(), timeout=15)
+            response = get_session().get(json_url.strip(), timeout=15, verify=False)
             response.raise_for_status()
-            _servers_config = response.json()
-            _servers_config_timestamp = time.time()
-            _save_cached_servers_config(_servers_config)
-            xbmc.log("[Config] Loaded servers.json from remote URL", level=xbmc.LOGINFO)
-            return _servers_config
+            fetched_config = response.json()
+            if fetched_config:
+                if isinstance(fetched_config, list):
+                    fetched_config = {"servers": fetched_config}
+                
+                if isinstance(fetched_config, dict):
+                    _servers_config = fetched_config
+                    _servers_config_timestamp = time.time()
+                    _save_cached_servers_config(_servers_config)
+                    xbmc.log("[Config] Loaded servers.json from remote URL", level=xbmc.LOGINFO)
+                    return _servers_config
         except Exception as exc:
             xbmc.log(f"[Config] Failed to load from URL: {exc}", level=xbmc.LOGWARNING)
 
@@ -386,29 +456,31 @@ def _load_servers_config_internal(force_refresh=False):
     if cached_config:
         _servers_config = cached_config
         _servers_config_timestamp = cached_timestamp or time.time()
-        xbmc.log("[Config] Falling back to cached remote servers.json", level=xbmc.LOGINFO)
+        xbmc.log(f"[Config] Falling back to cached remote servers.json ({len(_servers_config.get('servers', []))} servers)", level=xbmc.LOGINFO)
         return _servers_config
 
     addon_path = _ADDON.getAddonInfo("path")
     servers_file = os.path.join(addon_path, "servers.json")
+    xbmc.log(f"[Config] Attempting to load local servers.json from {servers_file}", level=xbmc.LOGINFO)
 
     try:
-        with open(servers_file, "r", encoding="utf-8") as handle:
-            _servers_config = json_loads(handle)
-        _servers_config_timestamp = time.time()
-        xbmc.log("[Config] Loaded servers.json from local file", level=xbmc.LOGINFO)
-        return _servers_config
-    except FileNotFoundError:
-        xbmc.log(
-            f"[Config] servers.json not found at {servers_file}", level=xbmc.LOGWARNING
-        )
-        return _servers_config
-    except json.JSONDecodeError as exc:
-        xbmc.log(f"[Config] Invalid JSON in servers.json: {exc}", level=xbmc.LOGERROR)
-        return _servers_config
+        if os.path.exists(servers_file):
+            with open(servers_file, "r", encoding="utf-8") as handle:
+                local_config = json_loads(handle)
+                if local_config:
+                    if isinstance(local_config, list):
+                        local_config = {"servers": local_config}
+                    _servers_config = local_config
+                    _servers_config_timestamp = time.time()
+                    xbmc.log(f"[Config] Loaded servers.json from local file ({len(_servers_config.get('servers', []))} servers)", level=xbmc.LOGINFO)
+                    return _servers_config
+        else:
+            xbmc.log(f"[Config] local servers.json NOT FOUND at {servers_file}", level=xbmc.LOGWARNING)
     except Exception as exc:
-        xbmc.log(f"[Config] Error loading servers.json: {exc}", level=xbmc.LOGERROR)
-        return _servers_config
+        xbmc.log(f"[Config] Error loading local servers.json: {exc}", level=xbmc.LOGERROR)
+
+    xbmc.log(f"[Config] Returning empty server list (final fallback)", level=xbmc.LOGWARNING)
+    return _servers_config
 
 
 @lru_cache(maxsize=8)
@@ -474,7 +546,7 @@ def set_epg_current_server(server):
 
 
 def _normalize_mac(mac):
-    return (mac or "").strip().lower()
+    return (mac or "").strip().upper()
 
 
 def set_fetch_status(
@@ -661,30 +733,113 @@ def get_random_mac_from_file(server="server1", exclude_macs=None):
     return None
 
 
+def _build_device_identity(mac):
+    """Build device identity from MAC address (like reference script)."""
+    mac_upper = (mac or "").strip().upper()
+    serialnumber = hashlib.md5(mac_upper.encode()).hexdigest().upper()
+    sn = serialnumber[0:13]
+    device_id = hashlib.sha256(sn.encode()).hexdigest().upper()
+    device_id2 = hashlib.sha256(mac_upper.encode()).hexdigest().upper()
+    hw_version_2 = hashlib.sha1(mac_upper.encode()).hexdigest()
+
+    return {
+        "sn": sn,
+        "device_id": device_id,
+        "device_id2": device_id2,
+        "adid": hw_version_2,
+    }
+
+
+def _activate_session(portal_url, mac, token, random_value, server="server1"):
+    """
+    Activate the session by requesting the profile. 
+    Some portals require this step to fully authorize the token.
+    """
+    mac_upper = (mac or "").strip().upper()
+    identity = _build_device_identity(mac_upper)
+    sig = hashlib.sha256(str(random_value).encode()).hexdigest().upper()
+    
+    headers, cookies = _build_auth_headers_and_cookies(portal_url, mac_upper, token, random_value)
+
+    params = {
+        "type": "stb",
+        "action": "get_profile",
+        "hd": "1",
+        "ver": "ImageDescription: 0.2.18-r23-250; ImageDate: Wed Aug 29 10:49:53 EEST 2018; PORTAL version: 5.3.1; API Version: JS API version: 343; STB API version: 146; Player Engine version: 0x58c",
+        "num_banks": "2",
+        "sn": identity["sn"],
+        "stb_type": "MAG250",
+        "client_type": "STB",
+        "image_version": "218",
+        "video_out": "hdmi",
+        "device_id": identity["device_id2"],
+        "device_id2": identity["device_id2"],
+        "sig": sig,
+        "auth_second_step": "1",
+        "hw_version": "1.7-BD-00",
+        "not_valid_token": "0",
+        "timestamp": str(round(time.time())),
+        "api_sig": "262",
+        "prehash": "0",
+        "JsHttpRequest": "1-xml",
+    }
+
+    try:
+        response = get_session().get(
+            f"{portal_url}/portal.php",
+            params=params,
+            headers=headers,
+            cookies=cookies,
+            timeout=TIMEOUTS["handshake"],
+            verify=False,
+        )
+        response.raise_for_status()
+        xbmc.log(f"[Auth] Session activated for {server} ({portal_url})", level=xbmc.LOGINFO)
+        return True
+    except Exception as exc:
+        xbmc.log(f"[Auth] Session activation failed for {server}: {exc}", level=xbmc.LOGWARNING)
+        return False
+
+
 def handshake(portal_url, mac, server="server1"):
     session = requests.Session()
-    adapter = HTTPAdapter(pool_connections=1, pool_maxsize=1, max_retries=0)
+    retry = Retry(
+        total=3,
+        backoff_factor=0.3,
+        status_forcelist=[500, 502, 503, 504],
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(pool_connections=1, pool_maxsize=1, max_retries=retry)
     session.mount("http://", adapter)
     session.mount("https://", adapter)
     session.cookies.clear()
 
+    mac_upper = _normalize_mac(mac)
+    xbmc.log(f"[Handshake] Testing MAC {mac_upper} for {portal_url}", level=xbmc.LOGINFO)
+    
     from urllib.parse import urlparse
-
     parsed_url = urlparse(portal_url)
+
     headers = {
         "User-Agent": "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3",
-        "X-User-Agent": "Model: MAG250; Link: WiFi",
-        "Referer": f"{portal_url}/stalker_portal/c/index.html",
         "Host": parsed_url.netloc,
     }
-    cookies = {"mac": mac}
-    url = f"{portal_url}/portal.php"
-    params = {
-        "type": "stb",
-        "action": "handshake",
-        "token": "",
-        "JsHttpRequest": "1-xml",
+
+    identity = _build_device_identity(mac_upper)
+    cookies = {
+        "mac": mac_upper,
+        "stb_lang": "en",
+        "timezone": "America/Los_Angeles",
+        "sn": identity["sn"],
+        "device_id": identity["device_id"],
+        "device_id2": identity["device_id2"],
+        "adid": identity["adid"],
+        "hw_version": "1.7-BD-00",
     }
+
+    # Use fixed URL string to ensure parameter order, matching tester script
+    url = f"{portal_url.rstrip('/')}/portal.php?type=stb&action=handshake&JsHttpRequest=1-xml"
+    params = {"token": ""}
 
     try:
         response = session.get(
@@ -693,26 +848,39 @@ def handshake(portal_url, mac, server="server1"):
             headers=headers,
             cookies=cookies,
             timeout=TIMEOUTS["handshake"],
+            verify=False,
+            allow_redirects=True,
         )
         response.raise_for_status()
-        data = response.json()
+        try:
+            data = response.json()
+        except Exception as json_exc:
+            xbmc.log(
+                f"[Handshake] Failed to parse JSON response for {portal_url}. Status: {response.status_code}, Body: {response.text[:200]}",
+                level=xbmc.LOGWARNING,
+            )
+            return None, "0"
+
         if isinstance(data, dict):
             js_data = data.get("js", {})
             if isinstance(js_data, dict):
                 token = js_data.get("token")
+                random_value = js_data.get("random") or "0"
                 if token:
-                    return token
+                    # After handshake, we MUST activate the session with get_profile
+                    _activate_session(portal_url, mac_upper, token, random_value, server)
+                    return token, random_value
                 xbmc.log(
-                    f"[Handshake] No token in response. js data: {js_data}",
+                    f"[Handshake] No token in response for {portal_url}. js data: {js_data}",
                     level=xbmc.LOGWARNING,
                 )
-                return None
+                return None, "0"
             if isinstance(js_data, list):
                 xbmc.log(
                     f"[Handshake] Server returned error list: {js_data}",
                     level=xbmc.LOGWARNING,
                 )
-                return None
+                return None, "0"
             xbmc.log(
                 f"[Handshake] Unexpected js data type: {type(js_data)}",
                 level=xbmc.LOGWARNING,
@@ -720,14 +888,14 @@ def handshake(portal_url, mac, server="server1"):
             _note_auth_failure(
                 server, portal_url, f"unexpected_js_type:{type(js_data).__name__}"
             )
-            return None
+            return None, "0"
         if isinstance(data, list):
             xbmc.log(
                 f"[Handshake] Server returned error list at root level: {data}",
                 level=xbmc.LOGWARNING,
             )
             _note_auth_failure(server, portal_url, "root_error_list")
-            return None
+            return None, "0"
         xbmc.log(
             f"[Handshake] Unexpected response format: {type(data)}",
             level=xbmc.LOGWARNING,
@@ -735,7 +903,12 @@ def handshake(portal_url, mac, server="server1"):
         _note_auth_failure(
             server, portal_url, f"unexpected_response_type:{type(data).__name__}"
         )
-        return None
+        return None, "0"
+    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as exc:
+        # Don't note permanent auth failure for connection resets or timeouts
+        # This allows the iterator to try other MACs
+        xbmc.log(f"[Handshake] Connection failed for {mac_upper}: {exc}", level=xbmc.LOGWARNING)
+        return None, "0"
     except requests.exceptions.RequestException as exc:
         _note_auth_failure(server, portal_url, type(exc).__name__)
         with _cache_lock:
@@ -744,29 +917,44 @@ def handshake(portal_url, mac, server="server1"):
                 "timestamp": time.time(),
             }
         xbmc.log(f"[Handshake] Request failed: {exc}", level=xbmc.LOGERROR)
-        return None
+        return None, "0"
     except Exception as exc:
         _note_auth_failure(server, portal_url, type(exc).__name__)
         xbmc.log(f"[Handshake] Error: {exc}", level=xbmc.LOGERROR)
-        return None
+        return None, "0"
     finally:
         session.close()
 
 
-def _build_auth_headers_and_cookies(portal_url, mac, token):
+def _build_auth_headers_and_cookies(portal_url, mac, token, random_value="0"):
     from urllib.parse import urlparse
-
     parsed_url = urlparse(portal_url)
+    
+    mac_upper = (mac or "").strip().upper()
+    identity = _build_device_identity(mac_upper)
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 "
             "(KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3"
         ),
-        "X-User-Agent": "Model: MAG250; Link: WiFi",
-        "Referer": f"{portal_url}/stalker_portal/c/index.html",
+        "Authorization": f"Bearer {token}",
+        "Referer": f"{portal_url.rstrip('/')}/stalker_portal/c/index.html",
         "Host": parsed_url.netloc,
     }
-    cookies = {"mac": mac, "token": token}
+    if random_value and str(random_value) != "0":
+        headers["X-Random"] = str(random_value)
+
+    cookies = {
+        "mac": mac_upper,
+        "token": token,
+        "stb_lang": "en",
+        "timezone": "America/Los_Angeles",
+        "sn": identity["sn"],
+        "device_id": identity["device_id"],
+        "device_id2": identity["device_id2"],
+        "adid": identity["adid"],
+        "hw_version": "1.7-BD-00",
+    }
     return headers, cookies
 
 
@@ -828,9 +1016,9 @@ def iter_server_auth_candidates(
         and (not preferred_norm or _normalize_mac(cached["mac"]) == preferred_norm)
     ):
         headers, cookies = _build_auth_headers_and_cookies(
-            portal_url, cached["mac"], cached["token"]
+            portal_url, cached["mac"], cached["token"], cached.get("random", "0")
         )
-        yield cached["token"], headers, cookies, portal_url, cached["mac"]
+        yield cached["token"], headers, cookies, portal_url, cached["mac"], cached.get("random", "0")
         attempts_yielded += 1
         excluded.add(_normalize_mac(cached["mac"]))
 
@@ -842,7 +1030,10 @@ def iter_server_auth_candidates(
         return
 
     for mac in get_candidate_macs(server, exclude_macs=excluded, limit=remaining_attempts):
-        token = handshake(portal_url, mac, server)
+        if attempts_yielded > 0:
+            time.sleep(0.5)  # Gentle delay between handshakes
+        
+        token, random_val = handshake(portal_url, mac, server)
         if not token:
             note_failed_mac(server, mac)
             excluded.add(_normalize_mac(mac))
@@ -854,11 +1045,11 @@ def iter_server_auth_candidates(
                 return
             continue
 
-        set_server_auth(server, token, mac)
+        set_server_auth(server, token, mac, random_val)
         _clear_auth_failure(server)
         clear_failed_mac(server, mac)
-        headers, cookies = _build_auth_headers_and_cookies(portal_url, mac, token)
-        yield token, headers, cookies, portal_url, mac
+        headers, cookies = _build_auth_headers_and_cookies(portal_url, mac, token, random_val)
+        yield token, headers, cookies, portal_url, mac, random_val
         excluded.add(_normalize_mac(mac))
         attempts_yielded += 1
         if attempts_yielded >= max_attempts:
@@ -898,6 +1089,9 @@ def get_category_channels_cache_file(server_id, category_id):
     safe_category_id = str(category_id).strip().replace(os.sep, "_")
     if os.altsep:
         safe_category_id = safe_category_id.replace(os.altsep, "_")
+    # Sanitize invalid filename characters (Windows: < > : " / \ | ? *)
+    for char in ['<', '>', ':', '"', '/', '\\', '|', '?', '*']:
+        safe_category_id = safe_category_id.replace(char, "_")
     return os.path.join(
         get_server_cache_folder(), f"{server_id}_category_{safe_category_id}_channels.json"
     )
@@ -1213,18 +1407,18 @@ def load_cached_category_channels(server_id, allowed_category_ids=None, cache_tt
 def get_server_auth(server="server1", force_refresh=False, exclude_macs=None, max_attempts=None):
     portal_url = get_portal_url_for_server(server)
     if not portal_url:
-        return None, None, None, portal_url
+        return None, None, None, portal_url, "0"
 
-    for token, headers, cookies, portal_url, mac in iter_server_auth_candidates(
+    for token, headers, cookies, portal_url, mac, random_val in iter_server_auth_candidates(
         server=server,
         use_cached=not force_refresh,
         exclude_macs=exclude_macs,
         max_attempts=max_attempts,
     ):
         xbmc.log(f"[Auth] Using auth for {server} with MAC {mac}", level=xbmc.LOGDEBUG)
-        return token, headers, cookies, portal_url
+        return token, headers, cookies, portal_url, random_val
 
-    return None, None, None, portal_url
+    return None, None, None, portal_url, "0"
 
 
 def _fetch_stalker_list_with_retry(
@@ -1252,7 +1446,7 @@ def _fetch_stalker_list_with_retry(
     portal_online = None
     last_error = f"Could not load {request_name}."
 
-    for token, headers, cookies, portal_url, mac in iter_server_auth_candidates(
+    for token, headers, cookies, portal_url, mac, random_val in iter_server_auth_candidates(
         server=server,
         use_cached=True,
         exclude_macs=attempted_macs,
@@ -1264,7 +1458,8 @@ def _fetch_stalker_list_with_retry(
             attempted_macs.add(norm_mac)
 
         try:
-            data = request_fn(token, headers, cookies, portal_url)
+            # Update request_fn call to pass random_val
+            data = request_fn(token, headers, cookies, portal_url, random_val)
             items = parse_fn(data)
             if items:
                 clear_failed_mac(server, mac)
@@ -1342,50 +1537,69 @@ def _parse_live_categories_response(data):
     categories = []
     if isinstance(data, dict):
         js_data = data.get("js", {})
+        raw_list = []
         if isinstance(js_data, list):
-            for item in js_data:
-                cat_id = item.get("id")
-                cat_title = item.get("title", "")
-                if cat_id and cat_title:
+            raw_list = js_data
+        elif isinstance(js_data, dict):
+            raw_list = js_data.get("genres") or js_data.get("data") or js_data.get("items") or js_data.get("result") or []
+        
+        if isinstance(raw_list, list):
+            for item in raw_list:
+                if not isinstance(item, dict):
+                    continue
+                cat_id = item.get("id") or item.get("genre_id")
+                cat_title = item.get("title") or item.get("name") or item.get("genre_name", "")
+                if cat_id is not None and cat_title:
                     categories.append(
                         {
-                            "id": cat_id,
-                            "title": cat_title.strip(),
-                            "original_title": cat_title.strip(),
+                            "id": str(cat_id),
+                            "title": str(cat_title).strip(),
+                            "original_title": str(cat_title).strip(),
                         }
                     )
-        elif isinstance(js_data, dict):
-            genres = js_data.get("genres") or js_data.get("data") or []
-            if isinstance(genres, list):
-                for item in genres:
-                    cat_id = item.get("id")
-                    cat_title = item.get("title") or item.get("name", "")
-                    if cat_id and cat_title:
-                        categories.append(
-                            {
-                                "id": cat_id,
-                                "title": cat_title.strip(),
-                                "original_title": cat_title.strip(),
-                            }
-                        )
     return categories
 
 
-def _request_live_categories(token, headers, cookies, portal_url):
-    response = get_session().get(
-        f"{portal_url}/portal.php",
-        params={
-            "type": "itv",
-            "action": "get_genres",
-            "token": token,
-            "JsHttpRequest": "1-xml",
-        },
-        headers=headers,
-        cookies=cookies,
-        timeout=TIMEOUTS["categories"],
-    )
-    response.raise_for_status()
-    return response.json()
+def _request_live_categories(token, headers, cookies, portal_url, random_val="0"):
+    headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+    
+    # Strategy 1: /portal.php (Standard)
+    endpoints = [
+        f"{portal_url.rstrip('/')}/portal.php",
+        f"{portal_url.rstrip('/')}/server/load.php",
+    ]
+    
+    last_response = None
+    for url in endpoints:
+        try:
+            response = get_session().get(
+                url,
+                params={
+                    "type": "itv",
+                    "action": "get_genres",
+                    "JsHttpRequest": "1-xml",
+                },
+                headers=headers,
+                cookies=cookies,
+                timeout=TIMEOUTS["categories"],
+                verify=False,
+            )
+            response.raise_for_status()
+            data = response.json()
+            js_data = data.get("js", [])
+            
+            # If we got meaningful data, return it
+            if js_data and (isinstance(js_data, list) or (isinstance(js_data, dict) and js_data)):
+                xbmc.log(f"[Categories] Successfully fetched from {url}", level=xbmc.LOGDEBUG)
+                return data
+            
+            last_response = data
+            xbmc.log(f"[Categories] Empty response from {url}, trying next...", level=xbmc.LOGDEBUG)
+        except Exception as exc:
+            xbmc.log(f"[Categories] Failed to fetch from {url}: {exc}", level=xbmc.LOGDEBUG)
+            continue
+            
+    return last_response or {"js": []}
 
 
 def clean_category_title(title):
@@ -1426,63 +1640,110 @@ def _parse_all_channels_response(data):
     return channels
 
 
-def _request_all_channels(token, headers, cookies, portal_url):
-    response = get_session().get(
-        f"{portal_url}/portal.php",
-        params={
-            "type": "itv",
-            "action": "get_all_channels",
-            "token": token,
-            "JsHttpRequest": "1-xml",
-        },
-        headers=headers,
-        cookies=cookies,
-        timeout=TIMEOUTS["channels"],
-    )
-    response.raise_for_status()
-    return response.json()
+def _request_all_channels(token, headers, cookies, portal_url, random_val="0"):
+    headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+    endpoints = [
+        f"{portal_url.rstrip('/')}/portal.php",
+        f"{portal_url.rstrip('/')}/server/load.php",
+    ]
+    
+    last_response = None
+    for url in endpoints:
+        try:
+            response = get_session().get(
+                url,
+                params={
+                    "type": "itv",
+                    "action": "get_all_channels",
+                    "JsHttpRequest": "1-xml",
+                },
+                headers=headers,
+                cookies=cookies,
+                timeout=TIMEOUTS["channels"],
+                verify=False,
+            )
+            response.raise_for_status()
+            data = response.json()
+            js_data = data.get("js", [])
+            
+            if js_data and (isinstance(js_data, list) or (isinstance(js_data, dict) and js_data)):
+                xbmc.log(f"[Channels] Successfully fetched from {url}", level=xbmc.LOGDEBUG)
+                return data
+            
+            last_response = data
+            xbmc.log(f"[Channels] Empty response from {url}, trying next...", level=xbmc.LOGDEBUG)
+        except Exception as exc:
+            xbmc.log(f"[Channels] Failed to fetch from {url}: {exc}", level=xbmc.LOGDEBUG)
+            continue
+            
+    return last_response or {"js": []}
 
 
 def _request_channels_for_category(
-    token, headers, cookies, portal_url, category_id, page_size_hint=0
+    token, headers, cookies, portal_url, category_id, page_size_hint=0, random_val="0"
 ):
     all_items = []
     current_page = 1
     total_pages = 1
+    
+    endpoints = [
+        f"{portal_url.rstrip('/')}/portal.php",
+        f"{portal_url.rstrip('/')}/server/load.php",
+    ]
 
     while current_page <= total_pages:
-        response = get_session().get(
-            f"{portal_url}/portal.php",
-            params={
-                "type": "itv",
-                "action": "get_ordered_list",
-                "genre": category_id,
-                "p": current_page,
-                "JsHttpRequest": "1-xml",
-            },
-            headers=headers,
-            cookies=cookies,
-            timeout=TIMEOUTS["channels"],
-        )
-        response.raise_for_status()
-        data = response.json()
-        js_data = data.get("js", {})
+        # Re-build headers to ensure X-Random and other identity markers are fresh
+        headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+        
+        page_items = []
+        page_data = None
+        
+        for url in endpoints:
+            try:
+                response = get_session().get(
+                    url,
+                    params={
+                        "type": "itv",
+                        "action": "get_ordered_list",
+                        "genre": category_id,
+                        "p": current_page,
+                        "JsHttpRequest": "1-xml",
+                    },
+                    headers=headers,
+                    cookies=cookies,
+                    timeout=TIMEOUTS["channels"],
+                    verify=False,
+                )
+                response.raise_for_status()
+                data = response.json()
+                js_data = data.get("js", {})
 
-        if isinstance(js_data, dict):
-            page_items = js_data.get("data") or js_data.get("channels") or []
-            if current_page == 1:
-                total_items = int(js_data.get("total_items", 0) or 0)
-                items_per_page = page_size_hint or len(page_items)
-                if items_per_page > 0 and total_items > items_per_page:
-                    total_pages = (total_items + items_per_page - 1) // items_per_page
-        elif isinstance(js_data, list):
-            page_items = js_data
-            total_pages = 1
-        else:
-            page_items = []
+                if isinstance(js_data, dict):
+                    page_items = js_data.get("data") or js_data.get("channels") or js_data.get("items") or []
+                    if page_items:
+                        page_data = js_data
+                        break
+                elif isinstance(js_data, list) and js_data:
+                    page_items = js_data
+                    page_data = {"js": js_data, "total_items": len(js_data)}
+                    break
+                    
+                xbmc.log(f"[Channels:Genre] Empty response from {url} for page {current_page}, trying next...", level=xbmc.LOGDEBUG)
+            except Exception as exc:
+                xbmc.log(f"[Channels:Genre] Failed to fetch from {url} for page {current_page}: {exc}", level=xbmc.LOGDEBUG)
+                continue
 
         if not page_items:
             break
+
+        if current_page == 1 and page_data:
+            if isinstance(page_data, dict):
+                total_items = int(page_data.get("total_items", 0) or 0)
+                items_per_page = page_size_hint or len(page_items)
+                if items_per_page > 0 and total_items > items_per_page:
+                    total_pages = (total_items + items_per_page - 1) // items_per_page
+            else:
+                total_pages = 1
 
         all_items.extend(page_items)
         current_page += 1
@@ -1493,49 +1754,115 @@ def _request_channels_for_category(
 
 
 def _parse_simple_js_list_response(data):
+    results = []
     if isinstance(data, dict):
         js_data = data.get("js", [])
+        raw_list = []
         if isinstance(js_data, list):
-            return js_data
-        if isinstance(js_data, dict):
-            return js_data.get("data") or js_data.get("categories") or []
+            raw_list = js_data
+        elif isinstance(js_data, dict):
+            raw_list = js_data.get("data") or js_data.get("categories") or js_data.get("items") or js_data.get("result") or []
+        
+        if isinstance(raw_list, list):
+            for item in raw_list:
+                if not isinstance(item, dict):
+                    continue
+                cat_id = item.get("id") or item.get("category_id")
+                cat_title = item.get("title") or item.get("name") or item.get("category_name", "")
+                if cat_id is not None and cat_title:
+                    results.append(
+                        {
+                            "id": str(cat_id),
+                            "title": str(cat_title).strip(),
+                        }
+                    )
     elif isinstance(data, list):
-        return data
-    return []
+        # Handle root level list
+        for item in data:
+            if isinstance(item, dict):
+                cat_id = item.get("id") or item.get("category_id")
+                cat_title = item.get("title") or item.get("name") or ""
+                if cat_id is not None and cat_title:
+                    results.append({"id": str(cat_id), "title": str(cat_title).strip()})
+    return results
 
 
-def _request_vod_categories(token, headers, cookies, portal_url):
-    response = get_session().get(
-        f"{portal_url}/portal.php",
-        params={
-            "type": "vod",
-            "action": "get_categories",
-            "token": token,
-            "JsHttpRequest": "1-xml",
-        },
-        headers=headers,
-        cookies=cookies,
-        timeout=TIMEOUTS["categories"],
-    )
-    response.raise_for_status()
-    return response.json()
+def _request_vod_categories(token, headers, cookies, portal_url, random_val="0"):
+    headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+    endpoints = [
+        f"{portal_url.rstrip('/')}/portal.php",
+        f"{portal_url.rstrip('/')}/server/load.php",
+    ]
+    
+    last_response = None
+    for url in endpoints:
+        try:
+            response = get_session().get(
+                url,
+                params={
+                    "type": "vod",
+                    "action": "get_categories",
+                    "JsHttpRequest": "1-xml",
+                },
+                headers=headers,
+                cookies=cookies,
+                timeout=TIMEOUTS["categories"],
+                verify=False,
+            )
+            response.raise_for_status()
+            data = response.json()
+            js_data = data.get("js", [])
+            
+            if js_data and (isinstance(js_data, list) or (isinstance(js_data, dict) and js_data)):
+                xbmc.log(f"[VOD:Categories] Successfully fetched from {url}", level=xbmc.LOGDEBUG)
+                return data
+            
+            last_response = data
+            xbmc.log(f"[VOD:Categories] Empty response from {url}, trying next...", level=xbmc.LOGDEBUG)
+        except Exception as exc:
+            xbmc.log(f"[VOD:Categories] Failed to fetch from {url}: {exc}", level=xbmc.LOGDEBUG)
+            continue
+            
+    return last_response or {"js": []}
 
 
-def _request_series_categories(token, headers, cookies, portal_url):
-    response = get_session().get(
-        f"{portal_url}/portal.php",
-        params={
-            "type": "series",
-            "action": "get_categories",
-            "token": token,
-            "JsHttpRequest": "1-xml",
-        },
-        headers=headers,
-        cookies=cookies,
-        timeout=TIMEOUTS["categories"],
-    )
-    response.raise_for_status()
-    return response.json()
+def _request_series_categories(token, headers, cookies, portal_url, random_val="0"):
+    headers, cookies = _build_auth_headers_and_cookies(portal_url, cookies.get("mac", ""), token, random_val)
+    endpoints = [
+        f"{portal_url.rstrip('/')}/portal.php",
+        f"{portal_url.rstrip('/')}/server/load.php",
+    ]
+    
+    last_response = None
+    for url in endpoints:
+        try:
+            response = get_session().get(
+                url,
+                params={
+                    "type": "series",
+                    "action": "get_categories",
+                    "JsHttpRequest": "1-xml",
+                },
+                headers=headers,
+                cookies=cookies,
+                timeout=TIMEOUTS["categories"],
+                verify=False,
+            )
+            response.raise_for_status()
+            data = response.json()
+            js_data = data.get("js", [])
+            
+            if js_data and (isinstance(js_data, list) or (isinstance(js_data, dict) and js_data)):
+                xbmc.log(f"[Series:Categories] Successfully fetched from {url}", level=xbmc.LOGDEBUG)
+                return data
+            
+            last_response = data
+            xbmc.log(f"[Series:Categories] Empty response from {url}, trying next...", level=xbmc.LOGDEBUG)
+        except Exception as exc:
+            xbmc.log(f"[Series:Categories] Failed to fetch from {url}: {exc}", level=xbmc.LOGDEBUG)
+            continue
+            
+    return last_response or {"js": []}
 
 
 def fetch_server_categories(server="server1", force_refresh=False):
@@ -1871,8 +2198,8 @@ def fetch_channels_by_category_from_server(category_id, server="server1"):
                 server,
                 "channels",
                 f"channel list for category {category_id}",
-                lambda token, headers, cookies, portal_url: _request_channels_for_category(
-                    token, headers, cookies, portal_url, category_id
+                lambda token, headers, cookies, portal_url, random_val: _request_channels_for_category(
+                    token, headers, cookies, portal_url, category_id, random_val=random_val
                 ),
                 _parse_all_channels_response,
             )
@@ -1985,7 +2312,7 @@ def epg_token_provider(server=None):
     if server is None:
         server = _epg_current_server
 
-    token, headers, cookies, _ = get_server_auth(server)
+    token, headers, cookies, _, random_val = get_server_auth(server)
     if not token:
         xbmc.log("[EPG] Failed to get token via get_server_auth", level=xbmc.LOGWARNING)
         return None, {}, {}
@@ -2013,6 +2340,14 @@ def get_epg_manager():
     global epg_manager
 
     if not is_epg_enabled():
+        # If EPG is disabled, stop any existing manager
+        if epg_manager is not None:
+            try:
+                epg_manager.stop()
+                xbmc.log("[EPG] Stopped EPG manager (EPG disabled)", level=xbmc.LOGINFO)
+            except Exception as exc:
+                xbmc.log(f"[EPG] Error stopping manager: {exc}", level=xbmc.LOGWARNING)
+            epg_manager = None
         return None
 
     if epg_manager is not None and not getattr(epg_manager, "_stop", False):
@@ -2074,6 +2409,7 @@ def check_server_online(portal_url, timeout=3):
                 headers=mag_headers,
                 timeout=timeout,
                 allow_redirects=True,
+                verify=False,
             )
             with _cache_lock:
                 _portal_online_cache[portal_url] = {
@@ -2092,6 +2428,7 @@ def check_server_online(portal_url, timeout=3):
                 headers=mag_headers,
                 timeout=timeout,
                 allow_redirects=True,
+                verify=False,
             )
             with _cache_lock:
                 _portal_online_cache[portal_url] = {

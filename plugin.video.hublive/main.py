@@ -17,10 +17,16 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
+# Add resources/lib to path
+_addon_path = xbmcaddon.Addon().getAddonInfo('path')
+_lib_path = os.path.join(_addon_path, 'resources', 'lib')
+if _lib_path not in sys.path:
+    sys.path.insert(0, _lib_path)
 
 from epg import format_epg_tooltip
 from hublive_backend import (
     _CHANNELS_CACHE_TTL,
+    _append_kodi_headers,
     _build_auth_headers_and_cookies,
     _selected_mac_override,
     _normalize_mac,
@@ -71,6 +77,7 @@ from hublive_favorites import (
     remove_from_favorites,
 )
 from hublive_search import (
+    clear_search_cache,
     fetch_stalker_search as search_fetch_stalker_search,
     mega_search_input as search_mega_search_input,
     mega_search_menu as render_mega_search_menu,
@@ -113,26 +120,8 @@ TIMEOUTS = {
     "play": 15,
 }
 
-_portal_response_cache = {}
-_PORTAL_CACHE_TTL = 300  # 5 minutes
-
-
-def get_cached_response(key):
-    """Get cached API response if still valid."""
-    if key in _portal_response_cache:
-        cached = _portal_response_cache[key]
-        if time.time() - cached["timestamp"] < _PORTAL_CACHE_TTL:
-            return cached["data"]
-    return None
-
-
-def set_cached_response(key, data):
-    """Cache API response."""
-    _portal_response_cache[key] = {"timestamp": time.time(), "data": data}
-
-
 # Plugin version
-PLUGIN_VERSION = "1.4.5"
+PLUGIN_VERSION = "1.4.6"
 MIN_KODI_VERSION = "19.0"
 MIN_PYTHON_VERSION = (3, 6)
 
@@ -580,7 +569,7 @@ def _probe_stream_url(stream_url, headers=None, timeout=None, allow_body_read=Tr
     """Perform a lightweight probe before handing the URL to Kodi."""
     probe_url, option_headers = _split_kodi_url_options(stream_url)
     if not probe_url:
-        return False, "Playback URL is empty."
+        return False, "Playback URL is empty.", None
 
     probe_headers = {
         "User-Agent": get_session().headers.get("User-Agent", ""),
@@ -604,11 +593,14 @@ def _probe_stream_url(stream_url, headers=None, timeout=None, allow_body_read=Tr
             timeout=timeout or TIMEOUTS["playprobe"],
             allow_redirects=True,
             stream=True,
+            verify=False,
         )
 
         status_code = response.status_code
+        final_url = response.url
+        
         if status_code >= 400:
-            return False, f"HTTP {status_code}"
+            return False, f"HTTP {status_code}", final_url
 
         content_type = (response.headers.get("Content-Type") or "").lower()
         if allow_body_read and "text/html" in content_type:
@@ -623,11 +615,11 @@ def _probe_stream_url(stream_url, headers=None, timeout=None, allow_body_read=Tr
                 marker in sample_text
                 for marker in ("<html", "forbidden", "denied", "expired", "error")
             ):
-                return False, f"Unexpected HTML response ({status_code})"
+                return False, f"Unexpected HTML response ({status_code})", final_url
 
-        return True, f"HTTP {status_code}"
+        return True, f"HTTP {status_code}", final_url
     except requests.exceptions.RequestException as exc:
-        return False, str(exc)
+        return False, str(exc), None
     finally:
         if response is not None:
             response.close()
@@ -651,7 +643,13 @@ def _parse_attempted_macs_param(attempted_macs):
     return parsed
 
 
-def _trim_attempted_macs(macs, limit=6):
+def _trim_attempted_macs(macs, limit=None):
+    if limit is None:
+        limit = max(
+            get_auth_max_attempts() * (get_live_max_reconnect_attempts() + 1),
+            get_auth_max_attempts(),
+        )
+
     trimmed = []
     seen = set()
     for mac in macs or []:
@@ -799,16 +797,34 @@ def _handle_exhausted_mac_options(
     reconnect_count=0,
     url_template=None,
 ):
+    auth_max_attempts = get_auth_max_attempts()
     remaining_candidates = get_candidate_macs(
-        server, exclude_macs=list(attempted_macs), limit=1
+        server, exclude_macs=list(attempted_macs), limit=auth_max_attempts
     )
-    if not remaining_candidates:
+    remaining_count = len(remaining_candidates)
+
+    if not remaining_count:
+        selection = xbmcgui.Dialog().select(
+            "Nu mai sunt MAC-uri disponibile",
+            [
+                "Mergi la meniul principal",
+                "Renunță",
+            ],
+        )
+        if selection == 0:
+            clear_playback_state(session_id)
+            _navigate_to_main_menu()
+            return True
+        if selection == 1:
+            clear_playback_state(session_id)
+            return True
         return False
 
+    next_count = min(auth_max_attempts, remaining_count)
     selection = xbmcgui.Dialog().select(
-        "Nu s-au găsit MAC-uri viabile",
+        f"Nu s-au găsit MAC-uri viabile ({len(attempted_macs)} încercate)",
         [
-            "Încearcă un nou set de MAC-uri",
+            f"Încearcă următoarele {next_count} MAC-uri",
             "Mergi la meniul principal",
             "Renunță",
         ],
@@ -832,6 +848,52 @@ def _handle_exhausted_mac_options(
         _navigate_to_main_menu()
         return True
 
+    if selection == 2:
+        clear_playback_state(session_id)
+        return True
+
+    return False
+
+
+def _handle_exhausted_vod_series_options(
+    server,
+    attempted_macs,
+    kind="vod",
+    movie_id=None,
+    cmd=None,
+    episode_num=None,
+):
+    """Handle exhausted MAC options for VOD and Series playback."""
+    remaining_candidates = get_candidate_macs(
+        server, exclude_macs=list(attempted_macs), limit=1
+    )
+    if not remaining_candidates:
+        return False
+
+    content_type = "filme" if kind == "vod" else "seriale"
+    selection = xbmcgui.Dialog().select(
+        f"Nu s-au găsit MAC-uri viabile pentru {content_type}",
+        [
+            "Încearcă un nou set de MAC-uri",
+            "Mergi la meniul principal",
+            "Renunță",
+        ],
+    )
+
+    if selection == 0:
+        # Retry with new MACs
+        attempted_macs_str = ",".join(sorted(attempted_macs))
+        if kind == "vod":
+            play_vod(movie_id, server=server, attempted_macs=attempted_macs_str)
+        else:  # series
+            play_series(cmd, episode_num, server=server, attempted_macs=attempted_macs_str)
+        return True
+
+    if selection == 1:
+        clear_playback_state()
+        _navigate_to_main_menu()
+        return True
+
     return False
 
 
@@ -847,10 +909,11 @@ def _record_live_playback_success(
     session_id,
     url_template=None,
     cache_token=None,
+    random_val="0",
 ):
     clear_failed_mac(server, random_mac)
     if cache_token:
-        set_server_auth(server, cache_token, random_mac)
+        set_server_auth(server, cache_token, random_mac, random_value=random_val)
     set_fetch_status(
         "playback",
         server,
@@ -873,7 +936,14 @@ def _record_live_playback_success(
         reconnect_count=reconnect_count,
         session_id=session_id,
     )
-    play_item = xbmcgui.ListItem(path=resolved_url)
+    
+    # Fix HTTP 555 by appending headers for Kodi player
+    portal_url = get_portal_url_for_server(server)
+    url_with_headers = _append_kodi_headers(
+        resolved_url, mac=random_mac, token=cache_token, portal_url=portal_url, random_val=random_val
+    )
+    
+    play_item = xbmcgui.ListItem(path=url_with_headers)
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=play_item)
     return session_id
 
@@ -974,6 +1044,7 @@ def _run_live_playback_attempts(
                     session_id=session_id,
                     url_template=url_template,
                     cache_token=result.get("cache_token"),
+                    random_val=result.get("random", "0"),
                 )
 
             last_error = result.get("error") or last_error
@@ -1004,8 +1075,11 @@ def _run_live_playback_attempts(
     return None
 
 
-def play_vod(movie_id, server="server1"):
-    render_play_vod(
+def play_vod(movie_id, server="server1", attempted_macs=""):
+    """Play VOD with MAC retry support."""
+    attempted_macs_list = attempted_macs.split(",") if attempted_macs else []
+    
+    result = render_play_vod(
         _HANDLE,
         movie_id,
         server=server,
@@ -1013,11 +1087,26 @@ def play_vod(movie_id, server="server1"):
         probe_stream_url_fn=_probe_stream_url,
         finalize_playback_failure_fn=_finalize_playback_failure,
         timeouts=TIMEOUTS,
+        attempted_macs=attempted_macs_list,
     )
+    
+    # If playback failed and we have the attempted MACs, offer retry options
+    if result and isinstance(result, dict) and not result.get("success"):
+        attempted = result.get("attempted_macs", [])
+        if attempted:
+            _handle_exhausted_vod_series_options(
+                server=server,
+                movie_id=movie_id,
+                attempted_macs=attempted,
+                kind="vod",
+            )
 
 
-def play_series(cmd, episode_num, server="server1"):
-    render_play_series(
+def play_series(cmd, episode_num, server="server1", attempted_macs=""):
+    """Play series episode with MAC retry support."""
+    attempted_macs_list = attempted_macs.split(",") if attempted_macs else []
+    
+    result = render_play_series(
         _HANDLE,
         cmd,
         episode_num,
@@ -1026,7 +1115,20 @@ def play_series(cmd, episode_num, server="server1"):
         probe_stream_url_fn=_probe_stream_url,
         finalize_playback_failure_fn=_finalize_playback_failure,
         timeouts=TIMEOUTS,
+        attempted_macs=attempted_macs_list,
     )
+    
+    # If playback failed and we have the attempted MACs, offer retry options
+    if result and isinstance(result, dict) and not result.get("success"):
+        attempted = result.get("attempted_macs", [])
+        if attempted:
+            _handle_exhausted_vod_series_options(
+                server=server,
+                cmd=cmd,
+                episode_num=episode_num,
+                attempted_macs=attempted,
+                kind="series",
+            )
 
 
 def list_vod_categories(server="server1"):
@@ -1124,8 +1226,18 @@ def list_categories(channels, server="server1", main_mode=None):
         )
         epg_button_url = f"{_BASE_URL}?mode=get_full_epg&server={server}&main_mode={main_mode if main_mode else ''}"
         xbmcplugin.addDirectoryItem(
-            handle=_HANDLE, url=epg_button_url, listitem=epg_button, isFolder=True
+            handle=_HANDLE, url=epg_button_url, listitem=epg_button, isFolder=False
         )
+
+    # Add "Refresh Cache" button
+    refresh_button = xbmcgui.ListItem(label="[COLOR cyan]Reîmprospătează Lista[/COLOR]")
+    refresh_button.setArt(
+        {"icon": "DefaultAddonService.png", "thumb": "DefaultAddonService.png"}
+    )
+    refresh_button_url = f"{_BASE_URL}?mode=refresh_cache&server={server}&main_mode={main_mode if main_mode else ''}"
+    xbmcplugin.addDirectoryItem(
+        handle=_HANDLE, url=refresh_button_url, listitem=refresh_button, isFolder=False
+    )
 
     # Always use server categories (mandatory with JSON config)
     server_cat_list = []
@@ -1648,7 +1760,7 @@ def get_full_epg():
 
         # Check progress
         channels_with_epg = sum(
-            1 for ch in all_channels if epg_contains(ch["stream_id"])
+            1 for ch in all_channels if epg_contains(str(ch.get("id", "")))
         )
 
         # Update progress dialog (30% to 95%)
@@ -1680,7 +1792,7 @@ def get_full_epg():
     save_epg_cache()
 
     # Final stats
-    final_count = sum(1 for ch in all_channels if epg_contains(ch["stream_id"]))
+    final_count = sum(1 for ch in all_channels if epg_contains(str(ch.get("id", ""))))
     final_coverage = int((final_count / total_channels) * 100)
 
     progress.update(
@@ -1852,7 +1964,7 @@ def play_stream(
 
                 def _server2_attempt_executor(attempt_entry, attempts, attempted_macs):
                     random_mac = attempt_entry["mac"]
-                    session_token = handshake(
+                    session_token, random_val = handshake(
                         server2_portal_url, random_mac, server=server
                     )
                     if not session_token:
@@ -1869,7 +1981,7 @@ def play_stream(
                         }
 
                     headers, cookies = _build_auth_headers_and_cookies(
-                        server2_portal_url, random_mac, session_token
+                        server2_portal_url, random_mac, session_token, random_val
                     )
                     create_link_url = f"{server2_portal_url}/portal.php?action=create_link&type=itv&cmd={actual_stream_id}&JsHttpRequest=1-xml"
 
@@ -1879,6 +1991,7 @@ def play_stream(
                             headers=headers,
                             cookies=cookies,
                             timeout=TIMEOUTS["playlink"],
+                            verify=False,
                         )
                         response.raise_for_status()
                         link_data = response.json()
@@ -1890,11 +2003,9 @@ def play_stream(
                         final_url = url_line.replace("MACPH", random_mac).replace(
                             "TOKENPH", play_token
                         )
-                        final_url_with_ua = (
-                            f"{final_url}|User-Agent={quote_plus(headers['User-Agent'])}"
-                        )
-                        is_valid, probe_reason = _probe_stream_url(
-                            final_url_with_ua,
+                        
+                        is_valid, probe_reason, redirected_url = _probe_stream_url(
+                            final_url,
                             headers=headers,
                             allow_body_read=False,
                         )
@@ -1904,8 +2015,9 @@ def play_stream(
                             )
                         return {
                             "success": True,
-                            "resolved_url": final_url_with_ua,
+                            "resolved_url": final_url,
                             "cache_token": session_token,
+                            "random": random_val,
                         }
                     except Exception as e:
                         last_error = str(e) or "Niciun stream valid găsit."
@@ -1934,7 +2046,7 @@ def play_stream(
                     url_template=url_template,
                     total_attempts=auth_max_attempts,
                     progress_total=len(candidate_macs),
-                    allow_retry_prompt=not autoplay_reconnect,
+                    allow_retry_prompt=True,
                 )
                 return
             else:
@@ -1955,7 +2067,7 @@ def play_stream(
             return
 
     def _server1_attempt_provider(attempted_macs):
-        for token, headers, cookies, portal_url, random_mac in iter_server_auth_candidates(
+        for token, headers, cookies, portal_url, random_mac, random_val in iter_server_auth_candidates(
             server=server,
             use_cached=True,
             exclude_macs=list(attempted_macs),
@@ -1967,6 +2079,7 @@ def play_stream(
                 "cookies": cookies,
                 "portal_url": portal_url,
                 "mac": random_mac,
+                "random": random_val,
             }
 
     def _server1_attempt_executor(attempt_entry, attempts, attempted_macs):
@@ -1974,12 +2087,17 @@ def play_stream(
         cookies = attempt_entry["cookies"]
         portal_url = attempt_entry["portal_url"]
         random_mac = attempt_entry["mac"]
+        token = attempt_entry["token"]
+        random_val = attempt_entry["random"]
+        
         xbmc.log(
             f"[Server1] Attempt {attempts}/{auth_max_attempts} with MAC: {random_mac}",
             level=xbmc.LOGINFO,
         )
 
-        create_link_url = f"{portal_url}/portal.php?type=itv&action=create_link&cmd={stream_id}&JsHttpRequest=1-xml"
+        # Use create_link first. The handshake token authenticates the portal
+        # request; the stream URL needs a per-stream play_token from create_link.
+        create_link_url = f"{portal_url.rstrip('/')}/portal.php?type=itv&action=create_link&cmd={stream_id}&JsHttpRequest=1-xml"
 
         try:
             response = get_session().get(
@@ -1987,6 +2105,7 @@ def play_stream(
                 headers=headers,
                 cookies=cookies,
                 timeout=TIMEOUTS["playlink"],
+                verify=False,
             )
             response.raise_for_status()
             link_data = response.json()
@@ -1994,33 +2113,76 @@ def play_stream(
             play_token = _extract_play_token(
                 returned_cmd, "Raspunsul nu contine play_token valid."
             )
-            final_url = f"{portal_url}/play/live.php?mac={random_mac}&stream={stream_id}&extension=ts&play_token={play_token}"
-            is_valid, probe_reason = _probe_stream_url(
+            final_url = f"{portal_url.rstrip('/')}/play/live.php?mac={random_mac}&stream={stream_id}&extension=ts&play_token={play_token}"
+
+            is_valid, probe_reason, redirected_url = _probe_stream_url(
                 final_url,
                 headers=headers,
                 allow_body_read=False,
             )
             if not is_valid:
                 raise ValueError(
-                    f"Linkul final a picat la verificare: {probe_reason}"
+                    f"create_link a returnat URL invalid pentru Kodi: {probe_reason}"
                 )
 
             xbmc.log(
-                f"[Server1] Successfully playing with MAC: {random_mac}",
+                f"[Server1] Successfully created play URL via create_link with MAC: {random_mac}",
                 level=xbmc.LOGINFO,
             )
-            return {"success": True, "resolved_url": final_url}
+            return {
+                "success": True,
+                "resolved_url": redirected_url or final_url,
+                "cache_token": token,
+                "random": random_val,
+            }
 
         except Exception as e:
-            last_error = str(e) or "Niciun stream valid găsit."
-            _handle_live_attempt_failure(
-                server, random_mac, attempts, last_error, "Server1"
+            xbmc.log(
+                f"[Server1] create_link failed for MAC {random_mac}: {e}",
+                level=xbmc.LOGDEBUG,
             )
-            return {
-                "success": False,
-                "error": last_error,
-                "break": not check_server_online(portal_url),
-            }
+
+        fallback_urls = [
+            (
+                f"{portal_url.rstrip('/')}/play/live.php?mac={random_mac}&stream={stream_id}&extension=ts",
+                "direct no token",
+            ),
+            (
+                f"{portal_url.rstrip('/')}/play/live.php?mac={random_mac}&stream={stream_id}&extension=ts&play_token={token}",
+                "direct session token",
+            ),
+        ]
+        last_error = "Niciun stream valid găsit."
+        for test_url, label in fallback_urls:
+            is_valid, probe_reason, redirected_url = _probe_stream_url(
+                test_url,
+                headers=headers,
+                allow_body_read=False,
+            )
+            if is_valid:
+                xbmc.log(
+                    f"[Server1] Direct playback valid ({label}) for MAC: {random_mac}",
+                    level=xbmc.LOGINFO,
+                )
+                return {
+                    "success": True,
+                    "resolved_url": redirected_url or test_url,
+                    "cache_token": token,
+                    "random": random_val,
+                }
+
+            last_error = f"{label}: {probe_reason}"
+            xbmc.log(
+                f"[Server1] Direct playback failed ({label}, {probe_reason}) for MAC: {random_mac}",
+                level=xbmc.LOGDEBUG,
+            )
+
+        _handle_live_attempt_failure(server, random_mac, attempts, last_error, "Server1")
+        return {
+            "success": False,
+            "error": last_error,
+            "break": not check_server_online(portal_url),
+        }
 
     _run_live_playback_attempts(
         server=server,
@@ -2033,7 +2195,7 @@ def play_stream(
         attempt_executor=_server1_attempt_executor,
         url_template=url_template,
         total_attempts=auth_max_attempts,
-        allow_retry_prompt=not autoplay_reconnect,
+        allow_retry_prompt=True,
     )
 
 
@@ -2184,6 +2346,8 @@ def router(params):
         if mode == "clear_all_cache":
             xbmc.log("[Router] Processing clear_all_cache mode", level=xbmc.LOGINFO)
             clear_all_cache_for_all_servers()
+            clear_vod_series_cache()
+            clear_search_cache()
             xbmc.executebuiltin("Container.Refresh")
             return
 
@@ -2413,19 +2577,33 @@ def router(params):
             )
         elif mode == "get_full_epg":
             get_full_epg()
+        elif mode == "refresh_cache":
+            # Refresh cache for current server
+            server = params.get("server", "server1")
+            main_mode = params.get("main_mode")
+            
+            # Clear cache for this server
+            clear_all_cache(server)
+            clear_vod_series_cache(server=server)
+            clear_search_cache(server=server)
+            
+            # Show notification
+            xbmcgui.Dialog().notification(
+                "Cache Reîmprospătat",
+                f"Cache-ul pentru {server} a fost șters",
+                xbmcgui.NOTIFICATION_INFO,
+                2000
+            )
+            
+            # Refresh the container to reload the list
+            xbmc.executebuiltin("Container.Refresh")
         elif mode == "change_mac":
             change_mac(params.get("category"), server=server)
         elif mode == "clear_cache":
             clear_all_cache(server=server if server else "server1")
             clear_vod_series_cache(server=server if server else "server1")
+            clear_search_cache(server=server if server else "server1")
             xbmc.executebuiltin("Container.Refresh")
-        elif mode == "clear_all_cache":
-            xbmc.log("[Router] Processing clear_all_cache mode", level=xbmc.LOGINFO)
-            clear_all_cache_for_all_servers()
-            clear_vod_series_cache()
-            xbmc.executebuiltin("Container.Refresh")
-        elif mode == "favorites":
-            list_favorites(_BASE_URL, _HANDLE, server=server if server else "server1")
 
     except KeyError as e:
         xbmc.log(
