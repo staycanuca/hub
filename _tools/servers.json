@@ -2564,7 +2564,7 @@
             "id": "server41",
             "name": "Server 41",
             "type": "stalker",
-            "portal_url": "http://a47.streamtrx.xyz80",
+            "portal_url": "http://a47.streamtrx.xyz:80",
             "macs": [
                 "00:1A:79:B6:28:58",
                 "00:1A:79:79:9E:45",
