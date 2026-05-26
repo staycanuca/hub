@@ -1,23 +1,14 @@
-"""Optimized video URL resolvers for various hosting platforms."""
+"""Optimized video URL resolvers for ok.ru and vk.com."""
 
 import re
 import json
 import urllib.parse
 import time
-import html
 import requests
-import xbmc
 import xbmcgui
-from resources.lib.utils import (
-    HEADERS,
-    js_unpack,
-    log,
-    log_debug,
-    log_error,
-    log_warning,
-)
+from resources.lib.utils import log, log_debug, log_error, log_warning, HEADERS
 
-# Simple cache for resolved URLs: {url_key: (timestamp, stream_info)}
+# Simple cache for resolved URLs: {url: (timestamp, stream_info)}
 _RESOLVER_CACHE = {}
 _CACHE_TTL = 300  # Cache URLs for 5 minutes
 
@@ -41,43 +32,212 @@ class StreamInfo:
         return self.manifest_type == "mp4" or ".mp4" in self.url
 
 
-def extract_ok_ru_url_optimized(url, referer=None):
+def extract_vidmoly_url(url):
     """
-    Optimized extractor for ok.ru videos utilizing mobile headers.
-    This approach bypasses complex desktop protections and retrieves streams directly.
+    Optimized extractor for vidmoly.net/vidmoly.me videos.
+    Extracts the direct m3u8 stream URL from the embed page.
     """
-    # Fix missing '?' before query parameters (e.g. nochat=1)
-    if ("nochat=" in url or "autoplay=" in url) and "?" not in url:
-        url = re.sub(r'(\d+)(nochat=\d+|autoplay=\d+)', r'\1?\2', url)
+    try:
+        from urllib.parse import urlparse
+        
+        parsed = urlparse(url)
+        domain = f"{parsed.scheme}://{parsed.netloc}/"
+        
+        headers = {
+            'Referer': domain,
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
+        }
+        
+        response = requests.get(url, headers=headers, timeout=15)
+        if response.status_code != 200:
+            log_warning(f"[vidmoly] HTTP {response.status_code}")
+            return None
+        
+        html = response.text
+        
+        # Extract video URL from: file: 'https://...m3u8...'
+        match = re.search(r"file:\s*['\"]([^'\"]+)['\"]", html)
+        if not match:
+            log_warning("[vidmoly] Could not find file: pattern in page")
+            return None
+        
+        video_url = match.group(1)
+        log(f"[vidmoly] Extracted: {video_url[:100]}")
+        
+        # Build the stream URL with required headers
+        stream_headers = f"Referer={domain}&User-Agent={headers['User-Agent']}"
+        full_url = f"{video_url}|{stream_headers}"
+        
+        # Determine manifest type
+        if '.m3u8' in video_url:
+            return StreamInfo(full_url, manifest_type="hls")
+        elif '.mp4' in video_url:
+            return StreamInfo(full_url, manifest_type="mp4")
+        else:
+            return StreamInfo(full_url, manifest_type="hls")
     
-    log(f"[ok.ru] Extracting from (Mobile API): {url}")
+    except Exception as e:
+        log_warning(f"[vidmoly] Error: {e}")
+        return None
 
-    # Check cache
+
+def extract_filemoon_url(url):
+    """
+    Optimized extractor for Filemoon-based hosts (filemoon.sx, byselapuix.com, etc).
+    Uses API + AES-GCM decryption to extract the stream URL.
+    Credits: https://github.com/Gujal00/ResolveURL
+    """
+    try:
+        import json
+        import base64
+        from urllib.parse import urlparse
+        
+        parsed = urlparse(url)
+        domain = f"{parsed.scheme}://{parsed.netloc}"
+        
+        headers = {
+            'Accept': '*/*',
+            'Referer': domain,
+            'X-Embed-Parent': url,
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36',
+        }
+        
+        def b64_url_decode(v):
+            v = v.replace('-', '+').replace('_', '/')
+            return base64.b64decode(v + '=' * (-len(v) % 4))
+        
+        # Extract video code from URL
+        code_match = re.search(r'/e/([^/]+)', url)
+        if not code_match:
+            # Try alternate pattern
+            code_match = re.search(r'/([a-z0-9]{12})', url)
+        if not code_match:
+            log_warning("[filemoon] Could not extract video code from URL")
+            return None
+        
+        code = code_match.group(1)
+        log(f"[filemoon] Video code: {code}")
+        
+        # Step 1: Get embed details to find the actual domain
+        try:
+            details_resp = requests.get(
+                f'{domain}/api/videos/{code}/embed/details',
+                headers=headers, timeout=15
+            ).json()
+            
+            embed_url = details_resp.get('embed_frame_url', '')
+            if embed_url:
+                embed_parsed = urlparse(embed_url)
+                domain = f'https://{embed_parsed.netloc}'
+                log(f"[filemoon] Embed domain: {domain}")
+        except Exception as e:
+            log(f"[filemoon] Details API failed ({e}), using original domain")
+        
+        # Step 2: Get encrypted playback data
+        playback_resp = requests.get(
+            f'{domain}/api/videos/{code}/embed/playback',
+            headers=headers, timeout=15
+        ).json()
+        
+        encryption_info = playback_resp.get('playback')
+        if not encryption_info:
+            log_warning("[filemoon] No playback data in response")
+            return None
+        
+        ciphertext_b64 = encryption_info.get('payload')
+        key_parts = encryption_info.get('key_parts')
+        iv_b64 = encryption_info.get('iv')
+        
+        if not all([ciphertext_b64, key_parts, iv_b64]):
+            log_warning("[filemoon] Missing encryption parameters")
+            return None
+        
+        # Step 3: Decrypt with AES-GCM
+        try:
+            from Crypto.Cipher import AES
+        except ImportError:
+            try:
+                from Cryptodome.Cipher import AES
+            except ImportError:
+                log_warning("[filemoon] PyCryptodome not available, cannot decrypt")
+                return None
+        
+        ciphertext = b64_url_decode(ciphertext_b64)
+        key = b''.join(b64_url_decode(p) for p in key_parts)
+        iv = b64_url_decode(iv_b64)
+        
+        # Split ciphertext and auth tag (last 16 bytes)
+        ciphertext_data = ciphertext[:-16]
+        tag = ciphertext[-16:]
+        
+        cipher = AES.new(key, AES.MODE_GCM, nonce=iv)
+        plaintext = cipher.decrypt_and_verify(ciphertext_data, tag)
+        
+        # Step 4: Parse decrypted JSON to get sources
+        streaming_info = json.loads(plaintext)
+        sources = streaming_info.get('sources', [])
+        
+        if not sources:
+            log_warning("[filemoon] No sources in decrypted data")
+            return None
+        
+        video_url = sources[0].get('url', '')
+        if not video_url:
+            log_warning("[filemoon] Empty URL in sources")
+            return None
+        
+        log(f"[filemoon] Decrypted stream: {video_url[:100]}")
+        
+        # Build stream with headers
+        stream_headers = f"Referer={domain}/&User-Agent={headers['User-Agent']}"
+        full_url = f"{video_url}|{stream_headers}"
+        
+        if '.m3u8' in video_url:
+            return StreamInfo(full_url, manifest_type="hls")
+        elif '.mp4' in video_url:
+            return StreamInfo(full_url, manifest_type="mp4")
+        else:
+            return StreamInfo(full_url, manifest_type="hls")
+    
+    except Exception as e:
+        log_warning(f"[filemoon] Error: {e}")
+        return None
+
+
+def extract_ok_ru_url_optimized(url):
+    """
+    Optimized extractor for ok.ru videos.
+    Returns StreamInfo object with proper headers and cookies.
+    """
+    log(f"[ok.ru] Extracting from: {url}")
+
+    # Check cache first
     global _RESOLVER_CACHE
     now = time.time()
-    cache_key = f"okru_mob_{url}_{referer}"
+    cache_key = f"okru_{url}"
     if cache_key in _RESOLVER_CACHE:
         timestamp, cached = _RESOLVER_CACHE[cache_key]
         if now - timestamp < _CACHE_TTL:
+            log("[ok.ru] Using cached result")
             return cached
 
-    # Crucial: Use a mobile User-Agent to force simple JSON response
-    mobile_ua = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
-    
     session = requests.Session()
-    session.headers.update({
-        'User-Agent': mobile_ua,
-        'Referer': referer or 'https://ok.ru/',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9'
-    })
+    session.headers.update(HEADERS)
 
     try:
-        response = session.get(url, timeout=15)
+        # Step 1: Get the embed page with cookies
+        response = session.get(url, timeout=20)
         response.raise_for_status()
         webpage = response.text
 
-        # Using regex to find player data
+        # Check for errors
+        if "vp_video_stub_txt" in webpage:
+            error = re.search(r'class="vp_video_stub_txt"[^>]*>([^<]+)<', webpage)
+            if error:
+                log_error(f"[ok.ru] Video error: {error.group(1)}")
+                return None
+
+        # Step 2: Extract player data
         player_match = re.search(
             r'data-options=(?P<quote>["\'])(?P<player>{.+?})(?P=quote)',
             webpage,
@@ -85,396 +245,563 @@ def extract_ok_ru_url_optimized(url, referer=None):
         )
 
         if not player_match:
+            log_warning("[ok.ru] No player data found")
             return None
 
         player_data = json.loads(player_match.group("player").replace("&quot;", '"'))
         flashvars = player_data.get("flashvars", {})
-        metadata = flashvars.get("metadata")
-        
-        if metadata and isinstance(metadata, str):
-            try:
-                metadata = json.loads(metadata)
-            except:
-                metadata = None
 
-        if not metadata or "movie" not in metadata:
-            # Try metadataUrl (POST)
+        # Step 3: Get metadata
+        metadata = flashvars.get("metadata")
+        if metadata and isinstance(metadata, str):
+            metadata = json.loads(metadata)
+        elif not metadata:
+            # Fetch from metadataUrl
             metadata_url = flashvars.get("metadataUrl")
             if metadata_url:
                 metadata_url = urllib.parse.unquote(metadata_url)
-                post_data = {"st.location": flashvars.get("location", "")}
-                meta_resp = session.post(metadata_url, data=post_data, timeout=15)
-                if meta_resp.status_code == 200:
-                    metadata = meta_resp.json()
+                data = {}
+                if flashvars.get("location"):
+                    data["st.location"] = flashvars["location"]
+
+                meta_response = session.post(
+                    metadata_url, data=urllib.parse.urlencode(data), timeout=15
+                )
+                metadata = meta_response.json()
 
         if not metadata or "movie" not in metadata:
+            log_warning("[ok.ru] No metadata found")
             return None
 
         movie = metadata["movie"]
-        
-        # VK Embed Handoff (Hybrid links)
-        vk_movie = metadata.get("vkMovie")
-        provider = metadata.get("provider", "")
-        vk_url = None
-        
-        if vk_movie and isinstance(vk_movie, (dict, str)):
-            if isinstance(vk_movie, dict):
-                oid = vk_movie.get("oid") or vk_movie.get("owner_id")
-                vid = vk_movie.get("vid") or vk_movie.get("video_id")
-                vh = vk_movie.get("hash", "")
-                if oid and vid:
-                    vk_url = f"https://vk.com/video_ext.php?oid={oid}&id={vid}" + (f"&hash={vh}" if vh else "")
-            elif isinstance(vk_movie, str) and "vk.com" in vk_movie:
-                vk_url = vk_movie
-        
-        if not vk_url and provider in ["USER_VK", "UPLOADED_ODKL"]:
-            content_id = movie.get("contentId")
-            if content_id and content_id.isdigit() and len(content_id) > 10:
-                vk_url = f"https://vk.com/video{content_id}"
 
-        if vk_url:
-            log(f"[ok.ru] Routing to VK: {vk_url}")
-            return extract_vk_url_optimized(vk_url, referer=referer)
+        # Debug: log available metadata keys
+        log_debug(f"[ok.ru] Metadata keys: {list(metadata.keys())}")
+        log_debug(
+            f"[ok.ru] Movie keys: {list(movie.keys()) if isinstance(movie, dict) else 'N/A'}"
+        )
 
-        # Extraction logic for native OK streams
+        # Check if HLS is in movie object instead
+        if isinstance(movie, dict):
+            for field in ["hlsManifestUrl", "ondemandHls", "hls", "hlsManifest"]:
+                if field in movie and movie[field]:
+                    log_debug(f"[ok.ru] Found HLS in movie.{field}")
+
+        # Handle YouTube embeds
+        if metadata.get("provider") == "USER_YOUTUBE":
+            youtube_url = movie.get("contentId")
+            if youtube_url:
+                return StreamInfo(youtube_url, manifest_type="mp4")
+            return None
+
+        # Step 4: Collect all available formats
         formats = []
-        # Check HLS
-        hls_url = metadata.get("hlsManifestUrl") or movie.get("hlsManifestUrl") or metadata.get("hlsMasterPlaylistUrl")
+
+        # HLS manifest - try ALL possible field names (preferred for streaming)
+        hls_fields = [
+            "hlsManifestUrl",
+            "ondemandHls",
+            "hls",
+            "hlsManifest",
+            "masterHls",
+            "playlistHls",
+        ]
+        hls_url = None
+        for field in hls_fields:
+            if field in metadata and metadata[field]:
+                hls_url = metadata[field]
+                log_debug(f"[ok.ru] Found HLS in field '{field}': {hls_url[:60]}...")
+                break
+
         if hls_url:
-            formats.append({"url": hls_url.replace("\\/", "/"), "type": "hls", "priority": 100})
-            
-        # Check MP4s
-        videos = metadata.get("videos") or movie.get("videos") or []
-        for v in videos:
-            v_url = v.get("url")
-            if v_url:
-                name = v.get("name", "unknown")
-                priority = 80 if name == "hd" else (70 if name == "sd" else 50)
-                formats.append({"url": v_url.replace("\\/", "/"), "type": "mp4", "priority": priority})
+            formats.append(
+                {
+                    "url": hls_url,
+                    "format_id": "hls",
+                    "priority": 100,  # Highest priority
+                    "manifest_type": "hls",
+                }
+            )
+
+        # DASH manifest
+        dash_fields = ["ondemandDash", "metadataWebmUrl", "dash", "dashManifest", "mpd"]
+        dash_url = None
+        for field in dash_fields:
+            if field in metadata and metadata[field]:
+                dash_url = metadata[field]
+                log_debug(f"[ok.ru] Found DASH in field '{field}'")
+                break
+
+        if dash_url:
+            formats.append(
+                {
+                    "url": dash_url,
+                    "format_id": "dash",
+                    "priority": 90,
+                    "manifest_type": "dash",
+                }
+            )
+
+        # Live HLS
+        live_hls = metadata.get("hlsMasterPlaylistUrl") or metadata.get("liveHls")
+        if live_hls:
+            formats.append(
+                {
+                    "url": live_hls,
+                    "format_id": "live-hls",
+                    "priority": 95,
+                    "manifest_type": "hls",
+                }
+            )
+
+        # DASH manifest
+        dash_url = metadata.get("ondemandDash") or metadata.get("metadataWebmUrl")
+        if dash_url:
+            formats.append(
+                {
+                    "url": dash_url,
+                    "format_id": "dash",
+                    "priority": 90,
+                    "manifest_type": "dash",
+                }
+            )
+
+        # Live HLS
+        live_hls = metadata.get("hlsMasterPlaylistUrl")
+        if live_hls:
+            formats.append(
+                {
+                    "url": live_hls,
+                    "format_id": "live-hls",
+                    "priority": 95,
+                    "manifest_type": "hls",
+                }
+            )
+
+        # Direct MP4 files (fallback)
+        for video in metadata.get("videos", []):
+            video_url = video.get("url")
+            if video_url:
+                quality = video.get("name", "unknown")
+                width = video.get("width", 0)
+                height = video.get("height", 0)
+                # Higher resolution = higher priority within MP4s
+                priority = 50 + (width or height or 0) // 100
+                formats.append(
+                    {
+                        "url": video_url,
+                        "format_id": f"mp4-{quality}",
+                        "priority": priority,
+                        "manifest_type": "mp4",
+                    }
+                )
 
         if not formats:
-            return None
-
-        formats.sort(key=lambda x: x["priority"], reverse=True)
-        best = formats[0]
-        
-        result = StreamInfo(
-            url=best["url"],
-            headers={"User-Agent": mobile_ua, "Referer": referer or "https://ok.ru/", "Origin": "https://ok.ru"},
-            cookies=session.cookies.get_dict(),
-            manifest_type=best["type"]
-        )
-        _RESOLVER_CACHE[cache_key] = (now, result)
-        return result
-
-    except Exception as e:
-        log_error(f"[ok.ru] Error: {e}")
-        return None
-
-
-def extract_vk_url_optimized(url, referer=None):
-    """Optimized extractor for VK videos."""
-    log(f"[vk.com] Extracting from: {url}")
-    
-    global _RESOLVER_CACHE
-    now = time.time()
-    cache_key = f"vk_{url}_{referer}"
-    if cache_key in _RESOLVER_CACHE:
-        timestamp, cached = _RESOLVER_CACHE[cache_key]
-        if now - timestamp < _CACHE_TTL:
-            return cached
-
-    # Basic ID extraction
-    id_match = re.search(r'video(-?\d+_\d+|\d{10,})', url)
-    video_id = id_match.group(1) if id_match else None
-    
-    if video_id and video_id.isdigit() and len(video_id) == 14:
-        # Hybrid OK/VK IDs (14 digits) often need to be split
-        video_id = f"{video_id[:9]}_{video_id[9:]}"
-        log(f"[vk.com] Normalized naked ID to: {video_id}")
-
-    if not video_id:
-        parsed = urllib.parse.urlparse(url)
-        params = urllib.parse.parse_qs(parsed.query)
-        oid = params.get("oid", [None])[0]
-        vid = params.get("id", [None])[0]
-        if oid and vid: video_id = f"{oid}_{vid}"
-
-    if not video_id:
-        return None
-
-    domain = "vkvideo.ru" if "vkvideo.ru" in url else "vk.com"
-    session = requests.Session()
-    session.headers.update(HEADERS)
-    if referer: session.headers["Referer"] = referer
-
-    try:
-        api_url = f"https://{domain}/al_video.php"
-        post_data = {"act": "show", "al": "1", "video": video_id}
-        # Add hash if present in URL
-        h_match = re.search(r'hash=([a-z0-9]+)', url)
-        if h_match: post_data["hash"] = h_match.group(1)
-
-        resp = session.post(api_url, data=post_data, timeout=20)
-        text = resp.text
-
-        formats = []
-        # Find HLS
-        hls_match = re.search(r'["\'](https?://[^\s"\'<>!]+?\.m3u8[^\s"\'<>!]*?)["\']', text)
-        if hls_match:
-            formats.append({"url": hls_match.group(1).replace("\\/", "/"), "type": "hls", "priority": 100})
-            
-        # Find MP4s
-        mp4_matches = re.findall(r'"url(\d+)"\s*:\s*"([^"]+)"', text)
-        for quality, v_url in mp4_matches:
-            q = int(quality)
-            formats.append({"url": v_url.replace("\\/", "/"), "type": "mp4", "priority": q // 10})
-
-        if not formats:
-            # Try embed page direct search as fallback
-            embed_url = None
-            if "video_ext.php" not in url:
-                if "_" in video_id:
-                    oid, vid = video_id.split('_')
-                    embed_url = f"https://{domain}/video_ext.php?oid={oid}&id={vid}"
-                    if h_match: embed_url += f"&hash={h_match.group(1)}"
+            if metadata.get("paymentInfo"):
+                log_warning("[ok.ru] Video requires payment")
             else:
-                embed_url = url
-            
-            if embed_url:
-                log(f"[vk.com] Falling back to embed page: {embed_url}")
-                e_resp = session.get(embed_url, timeout=15)
-                hls_match = re.search(r'["\'](https?://[^\s"\'<>!]+?\.m3u8[^\s"\'<>!]*?)["\']', e_resp.text)
-                if hls_match:
-                    formats.append({"url": hls_match.group(1).replace("\\/", "/"), "type": "hls", "priority": 100})
-
-        if not formats:
+                log_warning("[ok.ru] No formats found")
             return None
 
+        # Sort by priority (highest first)
         formats.sort(key=lambda x: x["priority"], reverse=True)
-        best = formats[0]
-        
+        best_format = formats[0]
+
+        log(f"[ok.ru] Selected format: {best_format['format_id']}")
+        log_debug(f"[ok.ru] URL: {best_format['url'][:100]}...")
+
+        # Step 5: Prepare headers and cookies for playback
+        # ok.ru requires specific headers for CDN access
+        stream_headers = {
+            "User-Agent": HEADERS["User-Agent"],
+            "Referer": "https://ok.ru/",
+            "Origin": "https://ok.ru",
+            "Accept": "*/*",
+            "Accept-Language": "en-US,en;q=0.9",
+            "DNT": "1",
+        }
+
+        # Get cookies from session as dict
+        cookies_dict = dict(session.cookies)
+
         result = StreamInfo(
-            url=best["url"],
-            headers={"User-Agent": HEADERS["User-Agent"], "Referer": f"https://{domain}/", "Origin": f"https://{domain}"},
-            cookies=session.cookies.get_dict(),
-            manifest_type=best["type"]
+            url=best_format["url"],
+            headers=stream_headers,
+            cookies=cookies_dict,
+            manifest_type=best_format["manifest_type"],
         )
+
+        # Cache the result
         _RESOLVER_CACHE[cache_key] = (now, result)
+
         return result
+
     except Exception as e:
-        log_error(f"[vk.com] Error: {e}")
+        log_error(f"[ok.ru] Extraction error: {e}")
+        import traceback
+
+        log_debug(f"[ok.ru] Traceback: {traceback.format_exc()}")
         return None
 
 
-def extract_mail_ru_url_optimized(url, referer=None):
-    """Optimized extractor for my.mail.ru."""
-    log(f"[mail.ru] Extracting from: {url}")
-    session = requests.Session()
-    session.headers.update(HEADERS)
-    if referer: session.headers["Referer"] = referer
-    
-    try:
-        resp = session.get(url, timeout=15)
-        meta_match = re.search(r'"metadataUrl"\s*:\s*"([^"]+)"', resp.text)
-        if meta_match:
-            meta_url = meta_match.group(1)
-            if meta_url.startswith('//'): meta_url = 'https:' + meta_url
-            meta_resp = session.get(meta_url, timeout=10)
-            data = meta_resp.json()
-            videos = data.get("videos", [])
-            formats = []
-            for v in videos:
-                v_url = v.get("url")
-                if v_url:
-                    key = v.get("key", "0")
-                    priority = int(key.replace("p", "")) if key.replace("p", "").isdigit() else 0
-                    formats.append({"url": v_url, "type": "mp4", "priority": priority})
-            
-            if formats:
-                formats.sort(key=lambda x: x["priority"], reverse=True)
-                return StreamInfo(formats[0]["url"], headers={"User-Agent": HEADERS["User-Agent"], "Referer": "https://my.mail.ru/"})
-    except: pass
-    return None
+def extract_vk_url_optimized(url):
+    """
+    Optimized extractor for vk.com/vkvideo.ru videos.
+    Based on Streamlink's VK plugin - handles WAF cookie protection.
+    Returns StreamInfo object with proper headers.
+    """
+    log(f"[vk.com] Extracting from: {url}")
+    from hashlib import md5
+    from urllib.parse import urlparse, parse_qs, urlencode
 
+    # Extract video ID
+    parsed = urllib.parse.urlparse(url)
+    params = urllib.parse.parse_qs(parsed.query)
 
-def extract_filemoon_url_optimized(url, referer=None):
-    """Optimized extractor for Filemoon."""
-    try:
-        resp = requests.get(url, headers={"User-Agent": HEADERS["User-Agent"], "Referer": referer or "https://filemoon.to/"}, timeout=15)
-        packed = re.search(r"(eval\(function\(p,a,c,k,e,.*?\)\s*;?)", resp.text, re.DOTALL)
-        if packed:
-            unpacked = js_unpack(packed.group(1))
-            file_match = re.search(r'file\s*:\s*["\']([^"\']+\.m3u8[^"\']*)["\']', unpacked)
-            if file_match:
-                video_url = file_match.group(1).replace("\\/", "/")
-                parsed = urllib.parse.urlparse(url)
-                origin = f"{parsed.scheme}://{parsed.netloc}"
-                return StreamInfo(video_url, headers={"User-Agent": HEADERS["User-Agent"], "Referer": origin + "/", "Origin": origin}, manifest_type="hls")
-    except: pass
-    return None
+    oid = params.get("oid", [None])[0]
+    video_id = params.get("id", [None])[0]
 
-
-def extract_bysebuho_url(url, referer=None):
-    """Extractor for Bysebuho."""
-    try:
-        resp = requests.get(url, headers={"User-Agent": HEADERS["User-Agent"], "Referer": referer or "https://bysebuho.com/"}, timeout=15)
-        packed = re.search(r"(eval\(function\(p,a,c,k,e,.*?\)\s*;?)", resp.text, re.DOTALL)
-        if packed:
-            unpacked = js_unpack(packed.group(1))
-            file_match = re.search(r'file\s*:\s*["\']([^"\']+\.m3u8[^"\']*)["\']', unpacked)
-            if file_match:
-                return StreamInfo(file_match.group(1).replace("\\/", "/"), headers={"User-Agent": HEADERS["User-Agent"], "Referer": url}, manifest_type="hls")
-    except: pass
-    return None
-
-
-def extract_hqq_url(url, referer=None):
-    """Extractor for HQQ/Netu/Waaw/TVPenet."""
-    try:
-        resp = requests.get(url, headers={"User-Agent": HEADERS["User-Agent"], "Referer": referer or "https://hqq.ac/"}, timeout=15)
-        # Look for direct HLS or packed
-        match = re.search(r'["\'](https?://[^\s"\'<>!]+?\.m3u8[^\s"\'<>!]*?)["\']', resp.text)
+    if not oid or not video_id:
+        match = re.search(r"video(-?\d+)_(\d+)", url)
         if match:
-            return StreamInfo(match.group(1).replace("\\/", "/"), headers={"User-Agent": HEADERS["User-Agent"], "Referer": url}, manifest_type="hls")
-    except: pass
-    return None
+            oid = match.group(1)
+            video_id = match.group(2)
 
+    if not oid or not video_id:
+        log_warning("[vk.com] Could not extract video ID")
+        return None
 
-def extract_rumble_url(url):
-    """Extractor for Rumble."""
+    video_id_full = f"{oid}_{video_id}"
+    log(f"[vk.com] Video ID: {video_id_full}")
+
+    # Determine host
+    host = "vk.com"
+    if "vkvideo.ru" in url:
+        host = "vkvideo.ru"
+
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+    })
+
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=15)
-        cdn_match = re.search(r'["\'](https?://[^\s"\'<>!]+?(?:1a-1791\.com|rumble\.com)/video/[^\s"\'<>!]+?\.(?:m3u8|mp4|tarr)[^\s"\'<>!]*?)["\']', resp.text)
-        if cdn_match:
-            video_url = cdn_match.group(1).replace("\\/", "/")
-            m_type = "hls" if ".m3u8" in video_url or "tarr" in video_url else "mp4"
-            return StreamInfo(video_url, manifest_type=m_type)
-    except: pass
-    return None
+        # Step 1: Get WAF cookie (Streamlink approach)
+        base_url = f"https://{host}/"
+        log(f"[vk.com] Getting WAF cookie from {base_url}")
+
+        resp = session.get(base_url, timeout=15, allow_redirects=False)
+
+        # Handle WAF redirect if present
+        if resp.headers.get("x-waf-redirect") == "1":
+            hash_cookie = resp.cookies.get("hash429", "")
+            if hash_cookie:
+                key = md5(hash_cookie.encode("utf-8")).hexdigest()
+                redirect_url = resp.headers.get("Location", "")
+                if redirect_url:
+                    separator = "&" if "?" in redirect_url else "?"
+                    redirect_url = f"{redirect_url}{separator}key={key}"
+                    log(f"[vk.com] Following WAF redirect with key")
+                    session.get(redirect_url, timeout=15)
+        elif resp.status_code in (301, 302):
+            session.get(resp.headers.get("Location", base_url), timeout=15)
+
+        # Step 2: POST to al_video.php (same as Streamlink)
+        api_url = f"https://{host}/al_video.php?act=show"
+        post_headers = {
+            "Referer": f"https://{host}/",
+            "X-Requested-With": "XMLHttpRequest",
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+
+        post_data = {
+            "act": "show",
+            "al": "1",
+            "video": video_id_full,
+        }
+
+        log(f"[vk.com] Calling API: {api_url}")
+        response = session.post(api_url, data=post_data, headers=post_headers, timeout=20)
+        response_text = response.text
+
+        # Step 3: Parse response (Streamlink payload format)
+        if response_text.startswith("<!--"):
+            response_text = response_text[4:]
+
+        try:
+            js_data = json.loads(response_text)
+        except json.JSONDecodeError:
+            log_warning("[vk.com] Invalid JSON response")
+            return None
+
+        # Navigate payload structure: payload[-1][-1] -> player.params[0]
+        payload = js_data.get("payload", [])
+        player_params = None
+
+        # Try Streamlink's approach: payload[-1][-1]
+        try:
+            last_payload = payload[-1]
+            if isinstance(last_payload, list):
+                last_item = last_payload[-1]
+                if isinstance(last_item, dict):
+                    player_params = last_item.get("player", {}).get("params", [None])[0]
+                elif isinstance(last_item, str):
+                    log_warning("[vk.com] Video is inaccessible (string response)")
+                    return None
+        except (IndexError, TypeError):
+            pass
+
+        # Fallback: search through all payload items
+        if not player_params:
+            for item in payload:
+                if isinstance(item, list):
+                    for sub_item in item:
+                        if isinstance(sub_item, dict) and "player" in sub_item:
+                            player_params = sub_item.get("player", {}).get("params", [None])[0]
+                            if player_params:
+                                break
+                    if player_params:
+                        break
+
+        if not player_params:
+            log_warning("[vk.com] Could not find player params in payload")
+            return None
+
+        # Step 4: Extract stream URL (priority: HLS > DASH > MP4)
+        # NOTE: Restrict to 720p max for international access (1080p+ blocked outside Russia)
+        stream_url = None
+        manifest_type = None
+
+        # HLS (best for Kodi) - 720p should work internationally
+        for key in ["hls_live", "hls_ondemand", "hls"]:
+            if player_params.get(key):
+                stream_url = player_params[key]
+                manifest_type = "hls"
+                log(f"[vk.com] Found HLS: {key}")
+                break
+
+        # DASH
+        if not stream_url:
+            for key in ["dash_live", "dash_ondemand"]:
+                if player_params.get(key):
+                    stream_url = player_params[key]
+                    manifest_type = "dash"
+                    log(f"[vk.com] Found DASH: {key}")
+                    break
+
+        # Direct MP4 (fallback - pick 720p or lower for international access)
+        if not stream_url:
+            mp4_urls = {}
+            for key, value in player_params.items():
+                if key.startswith("url") and isinstance(value, str) and value:
+                    try:
+                        quality = int(key[3:])
+                        mp4_urls[quality] = value
+                    except ValueError:
+                        continue
+
+            if mp4_urls:
+                # Pick 720p or the highest available under 720p
+                preferred_qualities = [720, 480, 360, 240]
+                chosen_quality = None
+                for q in preferred_qualities:
+                    if q in mp4_urls:
+                        chosen_quality = q
+                        break
+                
+                if not chosen_quality:
+                    # If no preferred quality, pick lowest available
+                    chosen_quality = min(mp4_urls.keys())
+                
+                stream_url = mp4_urls[chosen_quality]
+                manifest_type = "mp4"
+                log(f"[vk.com] Found MP4 {chosen_quality}p (restricted to 720p max for international)")
+
+        if not stream_url:
+            log_warning("[vk.com] No stream URL found in player params")
+            return None
+
+        # Step 5: Build result with headers
+        stream_headers = {
+            "User-Agent": session.headers["User-Agent"],
+            "Referer": f"https://{host}/",
+            "Origin": f"https://{host}",
+        }
+
+        # Append headers in pipe format for Kodi
+        header_str = "&".join(f"{k}={v}" for k, v in stream_headers.items())
+        full_url = f"{stream_url}|{header_str}"
+
+        result = StreamInfo(
+            url=full_url,
+            headers=stream_headers,
+            cookies=dict(session.cookies),
+            manifest_type=manifest_type,
+        )
+
+        log(f"[vk.com] Success: {manifest_type} stream resolved")
+        return result
+
+    except requests.exceptions.ConnectionError as e:
+        log_error(f"[vk.com] Connection error (VK may be blocking your IP): {e}")
+        return None
+    except Exception as e:
+        log_error(f"[vk.com] Extraction error: {e}")
+        import traceback
+        log_debug(f"[vk.com] Traceback: {traceback.format_exc()}")
+        return None
 
 
-def create_listitem_with_stream(stream_info, title=None):
-    """Creates Kodi ListItem with correct headers, preventing duplication."""
-    if not stream_info: return None
-    
-    list_item = xbmcgui.ListItem(title or "Video")
-    list_item.setInfo("video", {"title": title or "Video"})
+def create_listitem_with_stream(stream_info, title="Video"):
+    """
+    Create a properly configured xbmcgui.ListItem for the stream.
+    This handles all the InputStream Adaptive configuration.
+    """
+    import xbmc
 
-    base_url = stream_info.url
-    url_headers = {}
+    list_item = xbmcgui.ListItem()
+    list_item.setInfo("video", {"title": title})
 
-    # 1. Cleanly separate base URL from any existing pipe-appended headers
-    if "|" in base_url:
-        parts = base_url.split("|", 1)
-        base_url = parts[0]
-        header_str = parts[1]
-        for param in header_str.split("&"):
-            if "=" in param:
-                k, v = param.split("=", 1)
-                url_headers[urllib.parse.unquote(k)] = urllib.parse.unquote(v)
-
-    # 2. Unquote the base URL if necessary
-    if not (base_url.startswith("https://") or base_url.startswith("http://")):
-        base_url = urllib.parse.unquote(base_url)
-
-    # 3. Determine if we use InputStream Adaptive
-    is_strict_cdn = any(domain in base_url for domain in ["vk.com", "vkvideo.ru", "vkuser.net", "ok.ru", "okcdn.ru", "mail.ru", "hqq", "netu", "waaw", "tvpenet", "cfglobalcdn.com", "rumble.com", "1a-1791.com"])
-    
-    import xbmcaddon
-    addon = xbmcaddon.Addon()
-    use_isa = addon.getSetting("player_method") == "1"
-    force_isa = use_isa and is_strict_cdn
-
-    # 4. Merge headers from stream_info
-    if stream_info.headers:
-        for k, v in stream_info.headers.items():
-            url_headers[k] = v
-
-    if (stream_info.is_hls() or stream_info.is_dash()) and not is_strict_cdn or force_isa:
+    # Check if we need InputStream Adaptive
+    if stream_info.is_hls() or stream_info.is_dash():
         list_item.setProperty("inputstream", "inputstream.adaptive")
-        if not stream_info.is_mp4():
-             list_item.setProperty("inputstream.adaptive.manifest_type", stream_info.manifest_type)
-             
-        if any(x in base_url for x in ["vkuser.net", "okcdn.ru", "cfglobalcdn.com"]) and base_url.startswith("https://"):
-             base_url = base_url.replace("https://", "http://", 1)
 
-        if "cfglobalcdn.com" in base_url and "/secip/" in base_url and "/silverlight/" not in base_url:
-             base_url = base_url.replace("/secip/", "/silverlight/secip/", 1)
+        # IMPORTANT: Don't set deprecated manifest_type - let ISA auto-detect
+        # This fixes "Unsupported protocol" errors
 
-        if url_headers:
-            for k, v in url_headers.items():
-                list_item.setProperty(f"inputstream.adaptive.stream_headers", f"{k}={urllib.parse.quote(v)}")
-        
-        headers_keys = [k.lower() for k in url_headers.keys()]
-        if is_strict_cdn and "referer" not in headers_keys:
-             ref = "https://ok.ru/" if any(x in base_url for x in ["ok.ru", "okcdn.ru"]) else "https://vk.com/"
-             if "hqq" in base_url or "tvpenet" in base_url or "cfglobalcdn.com" in base_url:
-                 ref = "https://hqq.ac/"
-             list_item.setProperty(f"inputstream.adaptive.stream_headers", f"Referer={urllib.parse.quote(ref)}")
+        # Build headers string properly
+        headers_list = []
 
-        list_item.setPath(base_url)
-        log_debug(f"[stream] ISA path set: {base_url[:100]}...")
+        # Add standard headers
+        if stream_info.headers:
+            for k, v in stream_info.headers.items():
+                headers_list.append(f"{k}={urllib.parse.quote(v)}")
+
+        # Add cookies if available
+        if stream_info.cookies:
+            cookie_string = "; ".join(
+                [f"{k}={v}" for k, v in stream_info.cookies.items()]
+            )
+            headers_list.append(f"Cookie={urllib.parse.quote(cookie_string)}")
+
+        # Set stream headers for segment requests
+        if headers_list:
+            header_string = "&".join(headers_list)
+            list_item.setProperty("inputstream.adaptive.stream_headers", header_string)
+            log_debug(f"[stream] Headers set: {header_string[:100]}...")
+
+        # Set manifest headers too (needed for HLS manifest fetching)
+        if headers_list:
+            header_string = "&".join(headers_list)
+            list_item.setProperty(
+                "inputstream.adaptive.manifest_headers", header_string
+            )
+
+        # Enable automatic stream selection
+        list_item.setProperty("inputstream.adaptive.stream_selection_type", "adaptive")
+
+        # IMPORTANT: For HLS, we need to pass the URL differently
+        # The URL itself might have special chars that cause "Unsupported protocol"
+        # Let's clean it up if needed
+        clean_url = stream_info.url
+        if clean_url.startswith("https://") or clean_url.startswith("http://"):
+            # URL is fine, use as-is
+            pass
+        else:
+            # Try to fix the URL
+            clean_url = urllib.parse.unquote(clean_url)
+
+        # Set the path with proper protocol
+        list_item.setPath(clean_url)
+        log_debug(f"[stream] Final URL: {clean_url[:100]}...")
 
     else:
-        # Internal FFmpeg player with headers
+        # For direct MP4 files
+        # Add cache-busting and better buffering
         list_item.setProperty("VideoPlayer.UseFastSeek", "true")
-        
-        if any(x in base_url for x in ["vkuser.net", "okcdn.ru", "cfglobalcdn.com"]) and base_url.startswith("https://"):
-             base_url = base_url.replace("https://", "http://", 1)
-             
-        if "cfglobalcdn.com" in base_url and "/secip/" in base_url and "/silverlight/" not in base_url:
-             base_url = base_url.replace("/secip/", "/silverlight/secip/", 1)
-        
-        if "?" not in base_url and any(x in base_url for x in ["expires=", "cmd=", "slave[]=", "nochat=", "autoplay=", "id="]):
-             base_url = re.sub(r'(\.[a-z]{2,4}/)(expires=|cmd=|nochat=|autoplay=|slave\[\]=|id=)', r'\1?\2', base_url)
 
-        if "?" in base_url:
-            base_url += "&timeout=30000000&rw_timeout=30000000"
+        if stream_info.headers:
+            header_string = "|".join(
+                [f"{k}={v}" for k, v in stream_info.headers.items()]
+            )
+            list_item.setPath(f"{stream_info.url}|{header_string}")
         else:
-            base_url += "?timeout=30000000&rw_timeout=30000000"
-
-        if not url_headers.get("User-Agent"): url_headers["User-Agent"] = HEADERS["User-Agent"]
-        
-        if is_strict_cdn and not url_headers.get("Referer"):
-            if any(x in base_url for x in ["vkuser.net", "vk.com", "vkvideo.ru"]):
-                url_headers["Referer"] = "https://vk.com/"
-            elif any(x in base_url for x in ["ok.ru", "okcdn.ru"]):
-                url_headers["Referer"] = "https://ok.ru/"
-            elif any(x in base_url for x in ["hqq", "tvpenet", "cfglobalcdn.com"]):
-                url_headers["Referer"] = "https://hqq.ac/"
-
-        header_str = urllib.parse.urlencode(url_headers)
-        final_path = f"{base_url}|{header_str}"
-        
-        if stream_info.cookies:
-            cookie_str = "; ".join([f"{k}={v}" for k, v in stream_info.cookies.items()])
-            final_path += "&Cookie=" + urllib.parse.quote(cookie_str)
-            
-        list_item.setPath(final_path)
-        log_debug(f"[stream] FFmpeg path set: {final_path[:150]}...")
+            list_item.setPath(stream_info.url)
 
     return list_item
 
 
 def resolve_url_wrapper(url, referer=None):
-    """Main entry point for optimized resolution."""
-    log(f"Resolving: {url.split('/')[2]}")
-    
-    if "ok.ru" in url or "odnoklassniki.ru" in url:
-        return extract_ok_ru_url_optimized(url, referer=referer)
-    if any(x in url for x in ["vk.com", "vkvideo.ru", "vk.me"]):
-        return extract_vk_url_optimized(url, referer=referer)
-    if "my.mail.ru" in url:
-        return extract_mail_ru_url_optimized(url, referer=referer)
-    if "filemoon" in url:
-        return extract_filemoon_url_optimized(url, referer=referer)
-    if "bysebuho" in url:
-        return extract_bysebuho_url(url, referer=referer)
-    if any(x in url for x in ["hqq", "netu", "waaw", "tvpenet", "cfglobalcdn.com"]):
-        return extract_hqq_url(url, referer=referer)
-    if "rumble.com" in url:
-        return extract_rumble_url(url)
-        
-    m_type = "hls" if ".m3u8" in url else ("dash" if ".mpd" in url else "mp4")
-    return StreamInfo(url, manifest_type=m_type)
+    """
+    Main URL resolver wrapper that returns StreamInfo objects for optimized playback.
+    Falls back to string URLs for other resolvers.
+    Uses caching to avoid re-resolving the same URL.
+    """
+    global _RESOLVER_CACHE
+
+    log(f"Resolving URL: {url.split('/')[2]}")
+
+    # Check cache first
+    now = time.time()
+    if url in _RESOLVER_CACHE:
+        timestamp, cached_result = _RESOLVER_CACHE[url]
+        if now - timestamp < _CACHE_TTL:
+            log(f"[resolver] Using cached result for {url.split('/')[2]}")
+            return cached_result
+        else:
+            # Expired, remove from cache
+            del _RESOLVER_CACHE[url]
+
+    result = None
+
+    # Check for ok.ru
+    if any(domain in url for domain in ["ok.ru", "odnoklassniki.ru"]):
+        result = extract_ok_ru_url_optimized(url)
+        if result:
+            log(f"[ok.ru] Resolved to {result.manifest_type}")
+        else:
+            log_warning("[ok.ru] Optimized resolver failed")
+
+    # Check for VidMoly
+    elif any(domain in url for domain in ["vidmoly.net", "vidmoly.me", "vidmoly.to"]):
+        result = extract_vidmoly_url(url)
+        if result:
+            log(f"[vidmoly] Resolved to {result.manifest_type}")
+        else:
+            log_warning("[vidmoly] Optimized resolver failed")
+
+    # Check for Filemoon-based hosts
+    elif any(domain in url for domain in ["filemoon.sx", "filemoon.to", "filemoon.in",
+                                           "byselapuix.com", "kerapoxy.cc", "moonmov.to"]):
+        result = extract_filemoon_url(url)
+        if result:
+            log(f"[filemoon] Resolved to {result.manifest_type}")
+        else:
+            log_warning("[filemoon] Optimized resolver failed")
+
+    # VK resolver - using Streamlink-based approach with WAF cookie handling
+    # Check for VK
+    elif any(domain in url for domain in ["vk.com", "vkvideo.ru", "vkontakte.ru"]):
+        result = extract_vk_url_optimized(url)
+        if result:
+            log(f"[vk.com] Resolved to {result.manifest_type}")
+        else:
+            log_warning("[vk.com] Optimized resolver failed")
+
+    # For other URLs, try to return a simple StreamInfo only for direct video URLs
+    elif url.endswith(".m3u8"):
+        result = StreamInfo(url, manifest_type="hls")
+    elif url.endswith(".mpd"):
+        result = StreamInfo(url, manifest_type="dash")
+    elif url.endswith(".mp4"):
+        result = StreamInfo(url, manifest_type="mp4")
+    else:
+        # Unknown domain - return None so __init__.py can try ResolveURL
+        result = None
+
+    # Cache the result
+    if result:
+        _RESOLVER_CACHE[url] = (now, result)
+
+    return result
