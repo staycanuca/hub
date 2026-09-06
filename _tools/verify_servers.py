@@ -1,17 +1,33 @@
 import json
-import hashlib
 import os
-import re
 import sys
 import time
-import urllib3
-from functools import lru_cache
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
+from typing import Optional
 
 import requests
+import urllib3
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-TIMEOUT = 15
+SERVERS_URL = os.environ.get(
+    "SERVERS_URL",
+    "https://raw.githubusercontent.com/staycanuca/hub/refs/heads/main/_tools/servers.json",
+)
+OUTPUT_FILE = os.environ.get("OUTPUT_FILE", "servers.json")
+GITHUB_OUTPUT = os.environ.get("GITHUB_OUTPUT")
+
+CONNECT_TIMEOUT = float(os.environ.get("CONNECT_TIMEOUT", "3"))
+READ_TIMEOUT = float(os.environ.get("READ_TIMEOUT", "7"))
+MAX_WORKERS = max(1, int(os.environ.get("MAX_WORKERS", "8")))
+VERIFY_TLS = os.environ.get("VERIFY_TLS", "false").lower() in {"1", "true", "yes", "on"}
+KEEP_UNREACHABLE = os.environ.get("KEEP_UNREACHABLE", "true").lower() in {
+    "1", "true", "yes", "on"
+}
+
 DEFAULT_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 "
@@ -21,486 +37,217 @@ DEFAULT_HEADERS = {
     "Accept": "*/*",
     "Connection": "keep-alive",
 }
+
 PORTAL_PATHS = (
+    "",
+    "c/",
     "portal.php",
     "server/load.php",
+    "stalker_portal/c/",
     "stalker_portal/server/load.php",
 )
-EMPTY_VALUES = {"", "0", "null", "none", "unknown", "n/a"}
-NEGATIVE_MARKERS = (
-    "access denied",
-    "authorization failed",
-    "invalid mac",
-    "mac not found",
-    "device not found",
-    "stb denied",
-    "blocked",
-    "disabled",
-    "expired",
-    "denied",
-    "not exists",
-    "not found",
-)
-
-SERVERS_URL = os.environ.get(
-    "SERVERS_URL",
-    "https://raw.githubusercontent.com/staycanuca/hub/refs/heads/main/_tools/servers.json",
-)
-OUTPUT_FILE = os.environ.get("OUTPUT_FILE", "servers.json")
-GITHUB_OUTPUT = os.environ.get("GITHUB_OUTPUT")
 
 
-def build_session():
+@dataclass
+class PortalResult:
+    ok: bool
+    status_code: Optional[int] = None
+    checked_url: Optional[str] = None
+    error: Optional[str] = None
+    elapsed: float = 0.0
+
+
+def build_session() -> requests.Session:
+    retry = Retry(
+        total=1,
+        connect=1,
+        read=0,
+        status=1,
+        backoff_factor=0.2,
+        status_forcelist=(429, 500, 502, 503, 504),
+        allowed_methods=frozenset({"GET", "HEAD"}),
+        raise_on_status=False,
+    )
+
+    adapter = HTTPAdapter(
+        max_retries=retry,
+        pool_connections=MAX_WORKERS * 2,
+        pool_maxsize=MAX_WORKERS * 2,
+    )
+
     session = requests.Session()
     session.headers.update(DEFAULT_HEADERS)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
     return session
 
 
-def normalize_mac(mac):
-    if not isinstance(mac, str):
-        return None
+def candidate_urls(base_url: str):
+    base = base_url.rstrip("/")
+    seen = set()
 
-    hex_value = re.sub(r"[^0-9A-Fa-f]", "", mac)
-    if len(hex_value) != 12:
-        return None
-
-    return ":".join(hex_value[index : index + 2] for index in range(0, 12, 2)).upper()
-
-
-def is_meaningful(value):
-    if value is None:
-        return False
-    if isinstance(value, (list, tuple, dict, set)):
-        return bool(value)
-
-    text = str(value).strip()
-    return bool(text) and text.lower() not in EMPTY_VALUES
+    for suffix in PORTAL_PATHS:
+        url = base if not suffix else f"{base}/{suffix}"
+        if url not in seen:
+            seen.add(url)
+            yield url
 
 
-def has_negative_text(value):
-    if not is_meaningful(value):
-        return False
+def check_portal(portal_url: str) -> PortalResult:
+    started = time.monotonic()
+    last_error = None
+    last_status = None
 
-    lowered = str(value).strip().lower()
-    return any(marker in lowered for marker in NEGATIVE_MARKERS)
+    with build_session() as session:
+        for url in candidate_urls(portal_url):
+            try:
+                response = session.get(
+                    url,
+                    timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+                    verify=VERIFY_TLS,
+                    allow_redirects=True,
+                    stream=True,
+                )
+                last_status = response.status_code
 
+                # We only need HTTP reachability, not the entire response body.
+                response.close()
 
-def parse_json_response(response):
-    text = response.text.strip()
-    if not text:
-        return None
+                if 200 <= response.status_code < 400:
+                    return PortalResult(
+                        ok=True,
+                        status_code=response.status_code,
+                        checked_url=url,
+                        elapsed=time.monotonic() - started,
+                    )
 
-    try:
-        return response.json()
-    except ValueError:
-        start = text.find("{")
-        end = text.rfind("}")
-        if start == -1 or end == -1 or end <= start:
-            return None
-        try:
-            return json.loads(text[start : end + 1])
-        except ValueError:
-            return None
+            except requests.RequestException as exc:
+                last_error = f"{type(exc).__name__}: {exc}"
 
-
-def extract_payload(data):
-    if not isinstance(data, dict):
-        return {}
-
-    payload = data.get("js")
-    return payload if isinstance(payload, dict) else {}
-
-
-def has_explicit_error(data, response_text=""):
-    if not isinstance(data, dict):
-        return has_negative_text(response_text)
-
-    payload = data.get("js")
-    if payload is None:
-        return True
-
-    if isinstance(payload, str):
-        return has_negative_text(payload)
-
-    if not isinstance(payload, dict):
-        return False
-
-    for key in ("error", "error_msg", "msg", "message", "reason"):
-        if has_negative_text(payload.get(key)):
-            return True
-
-    for key in ("blocked", "expired", "disabled"):
-        value = payload.get(key)
-        if isinstance(value, bool) and value:
-            return True
-        if isinstance(value, (int, float)) and value not in (0,):
-            return True
-        if isinstance(value, str) and value.strip().lower() in {
-            "1",
-            "true",
-            "yes",
-            "blocked",
-            "expired",
-            "disabled",
-        }:
-            return True
-
-    status = payload.get("status")
-    if isinstance(status, str) and status.strip().lower() in {
-        "blocked",
-        "disabled",
-        "expired",
-        "denied",
-        "error",
-        "fail",
-    }:
-        return True
-
-    return False
-
-
-def build_endpoint(base_url, portal_path):
-    base_url = base_url.rstrip("/")
-    if base_url.lower().endswith(portal_path.lower()):
-        return base_url
-    return f"{base_url}/{portal_path}"
-
-
-@lru_cache(maxsize=256)
-def detect_portal_paths(base_url):
-    base_url = base_url.rstrip("/")
-    preferred = []
-
-    version_urls = (
-        (f"{base_url}/c/version.js", "portal.php"),
-        (f"{base_url}/stalker_portal/c/version.js", "stalker_portal/server/load.php"),
+    return PortalResult(
+        ok=False,
+        status_code=last_status,
+        error=last_error,
+        elapsed=time.monotonic() - started,
     )
 
-    for version_url, portal_path in version_urls:
-        try:
-            response = requests.get(
-                version_url,
-                headers=DEFAULT_HEADERS,
-                timeout=TIMEOUT,
-                verify=False,
-            )
-            if response.status_code == 200:
-                preferred.append(portal_path)
-        except requests.RequestException:
-            continue
 
-    if "/stalker_portal" in base_url.lower():
-        preferred.append("server/load.php")
+def verify_server(index: int, server: dict):
+    name = server.get("name") or f"server-{index + 1}"
+    portal_url = str(server.get("portal_url") or "").strip()
 
-    ordered_paths = []
-    for portal_path in [*preferred, *PORTAL_PATHS]:
-        if portal_path not in ordered_paths:
-            ordered_paths.append(portal_path)
-
-    return tuple(ordered_paths)
-
-
-def portal_request(session, endpoint, action, cookies, extra_headers=None, **params):
-    request_headers = {}
-    if extra_headers:
-        request_headers.update(extra_headers)
-
-    try:
-        response = session.get(
-            endpoint,
-            params={
-                "type": "stb",
-                "action": action,
-                "JsHttpRequest": "1-xml",
-                **params,
-            },
-            cookies=cookies,
-            headers=request_headers or None,
-            timeout=TIMEOUT,
-            verify=False,
-        )
-    except requests.RequestException:
-        return None, None
-
-    if response.status_code != 200 or not response.text.strip():
-        return None, response
-
-    return parse_json_response(response), response
-
-
-def build_device_identity(mac):
-    serialnumber = hashlib.md5(mac.encode()).hexdigest().upper()
-    sn = serialnumber[0:13]
-    device_id = hashlib.sha256(sn.encode()).hexdigest().upper()
-    device_id2 = hashlib.sha256(mac.encode()).hexdigest().upper()
-    hw_version_2 = hashlib.sha1(mac.encode()).hexdigest()
-
-    return {
-        "sn": sn,
-        "device_id": device_id,
-        "device_id2": device_id2,
-        "adid": hw_version_2,
-    }
-
-
-def build_cookies(mac, identity):
-    return {
-        "adid": identity["adid"],
-        "debug": "1",
-        "device_id2": identity["device_id2"],
-        "device_id": identity["device_id"],
-        "hw_version": "1.7-BD-00",
-        "mac": mac,
-        "sn": identity["sn"],
-        "stb_lang": "en",
-        "timezone": "America/Los_Angeles",
-    }
-
-
-def has_profile_evidence(profile_payload, mac):
-    if not isinstance(profile_payload, dict) or not profile_payload:
-        return False
-
-    score = 0
-
-    if normalize_mac(profile_payload.get("mac")) == mac:
-        score += 2
-    if is_meaningful(profile_payload.get("id")):
-        score += 2
-    if is_meaningful(profile_payload.get("name")):
-        score += 1
-    if is_meaningful(profile_payload.get("ls")):
-        score += 1
-    if is_meaningful(profile_payload.get("login")):
-        score += 1
-
-    stb_type = profile_payload.get("stb_type")
-    if is_meaningful(stb_type) and str(stb_type).upper().startswith("MAG"):
-        score += 1
-
-    return score >= 3
-
-
-def has_account_evidence(account_payload):
-    if not isinstance(account_payload, dict) or not account_payload:
-        return False
-
-    for field in (
-        "ls",
-        "login",
-        "phone",
-        "fname",
-        "tariff_plan",
-        "account_balance",
-        "expire_billing_date",
-        "end_date",
-        "max_online",
-    ):
-        if is_meaningful(account_payload.get(field)):
-            return True
-
-    return False
-
-
-def check_portal(session, url):
-    url = url.rstrip("/")
-    probe_urls = [url, f"{url}/c/", f"{url}/stalker_portal/c/"]
-
-    for portal_path in detect_portal_paths(url):
-        probe_urls.append(build_endpoint(url, portal_path))
-
-    seen = set()
-    for probe_url in probe_urls:
-        if probe_url in seen:
-            continue
-        seen.add(probe_url)
-
-        try:
-            response = session.get(
-                probe_url,
-                timeout=TIMEOUT,
-                verify=False,
-                allow_redirects=True,
-            )
-        except requests.RequestException:
-            continue
-
-        if 200 <= response.status_code < 400:
-            return True
-
-    return False
-
-
-def check_mac(session, portal_url, mac):
-    normalized_mac = normalize_mac(mac)
-    if not normalized_mac:
-        return False
-
-    identity = build_device_identity(normalized_mac)
-    cookies = build_cookies(normalized_mac, identity)
-
-    for portal_path in detect_portal_paths(portal_url):
-        endpoint = build_endpoint(portal_url, portal_path)
-        handshake_data, handshake_response = portal_request(
-            session,
-            endpoint,
-            "handshake",
-            cookies,
-            token="",
-        )
-
-        if not handshake_data or has_explicit_error(
-            handshake_data,
-            handshake_response.text if handshake_response else "",
-        ):
-            continue
-
-        handshake_payload = extract_payload(handshake_data)
-        token = handshake_payload.get("token")
-        token_random = handshake_payload.get("random") or "0"
-        if not token:
-            continue
-
-        auth_headers = {"Authorization": f"Bearer {token}"}
-        if handshake_payload.get("random"):
-            auth_headers["X-Random"] = str(handshake_payload["random"])
-
-        sig = hashlib.sha256(str(token_random).encode()).hexdigest().upper()
-
-        profile_data, profile_response = portal_request(
-            session,
-            endpoint,
-            "get_profile",
-            cookies,
-            extra_headers=auth_headers,
-            hd="1",
-            ver=(
-                "ImageDescription: 0.2.18-r23-250; "
-                "ImageDate: Wed Aug 29 10:49:53 EEST 2018; PORTAL version: 5.3.1; "
-                "API Version: JS API version: 343; STB API version: 146; "
-                "Player Engine version: 0x58c"
-            ),
-            num_banks="2",
-            sn=identity["sn"],
-            stb_type="MAG250",
-            client_type="STB",
-            image_version="218",
-            video_out="hdmi",
-            device_id=identity["device_id2"],
-            device_id2=identity["device_id2"],
-            sig=sig,
-            auth_second_step="1",
-            hw_version="1.7-BD-00",
-            not_valid_token="0",
-            timestamp=str(round(time.time())),
-            api_sig="262",
-            prehash="0",
-        )
-
-        if not profile_data or has_explicit_error(
-            profile_data,
-            profile_response.text if profile_response else "",
-        ):
-            continue
-
-        profile_payload = extract_payload(profile_data)
-        if not has_profile_evidence(profile_payload, normalized_mac):
-            continue
-
-        account_payloads = []
-        for action in ("get_main_info", "get_account_info"):
-            extra_data, extra_response = portal_request(
-                session,
-                endpoint,
-                action,
-                cookies,
-                extra_headers=auth_headers,
-            )
-
-            if not extra_data:
-                continue
-            if has_explicit_error(extra_data, extra_response.text if extra_response else ""):
-                continue
-
-            account_payloads.append(extract_payload(extra_data))
-
-        if any(has_account_evidence(payload) for payload in account_payloads):
-            return True
-
-        if has_profile_evidence(profile_payload, normalized_mac):
-            return True
-
-    return False
-
-
-def verify_server(server):
-    portal_url = server.get("portal_url", "")
     if not portal_url:
-        return False, None
+        return index, server, PortalResult(ok=False, error="missing portal_url")
 
-    session = build_session()
-    portal_works = check_portal(session, portal_url)
-
-    valid_macs = []
-    seen_macs = set()
-
-    for raw_mac in server.get("macs", []):
-        normalized_mac = normalize_mac(raw_mac)
-        if not normalized_mac or normalized_mac in seen_macs:
-            continue
-
-        seen_macs.add(normalized_mac)
-        if check_mac(session, portal_url, normalized_mac):
-            valid_macs.append(normalized_mac)
-
-    if not valid_macs:
-        return portal_works, None
-
-    return portal_works, valid_macs
+    result = check_portal(portal_url)
+    return index, server, result
 
 
-def main():
-    print(f"Fetching servers from: {SERVERS_URL}")
+def fetch_input() -> dict:
+    with build_session() as session:
+        response = session.get(
+            SERVERS_URL,
+            timeout=(5, 20),
+            verify=VERIFY_TLS,
+        )
+        response.raise_for_status()
+        return response.json()
 
-    response = requests.get(SERVERS_URL, timeout=30)
-    response.raise_for_status()
-    data = response.json()
+
+def main() -> bool:
+    print(f"Fetching servers from: {SERVERS_URL}", flush=True)
+    data = fetch_input()
 
     servers = data.get("servers", [])
-    valid_servers = []
+    if not isinstance(servers, list):
+        raise ValueError("'servers' must be a list")
 
-    print(f"Verificare {len(servers)} servere...")
+    print(
+        f"Checking {len(servers)} portals "
+        f"(workers={MAX_WORKERS}, timeout={CONNECT_TIMEOUT}/{READ_TIMEOUT}s, "
+        f"keep_unreachable={KEEP_UNREACHABLE})...",
+        flush=True,
+    )
 
-    for server in servers:
-        print(f"Verificare server: {server.get('name')} - {server.get('portal_url')}")
+    results = [None] * len(servers)
 
-        portal_works, valid_macs = verify_server(server)
-        print(f"  Portal: {'OK' if portal_works else 'FAIL'}")
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = {
+            executor.submit(verify_server, index, server): index
+            for index, server in enumerate(servers)
+        }
 
-        if valid_macs is None:
-            print("  -> Server invalid sau toate MAC-urile nefunctionale - STERS")
-            continue
+        for future in as_completed(futures):
+            index = futures[future]
+            try:
+                _, server, result = future.result()
+            except Exception as exc:
+                server = servers[index]
+                result = PortalResult(
+                    ok=False,
+                    error=f"{type(exc).__name__}: {exc}",
+                )
 
-        server["macs"] = valid_macs
-        valid_servers.append(server)
-        print(f"  -> Server OK, {len(valid_macs)} MAC-uri valide")
+            results[index] = (server, result)
 
-    data["servers"] = valid_servers
+            name = server.get("name") or f"server-{index + 1}"
+            portal_url = server.get("portal_url", "")
+            if result.ok:
+                print(
+                    f"[OK]   {name} - {portal_url} "
+                    f"({result.status_code}, {result.elapsed:.1f}s)",
+                    flush=True,
+                )
+            else:
+                reason = result.error or f"HTTP {result.status_code}"
+                print(
+                    f"[FAIL] {name} - {portal_url} "
+                    f"({reason}, {result.elapsed:.1f}s)",
+                    flush=True,
+                )
 
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(data, f, indent=4)
+    reachable = []
+    unreachable = []
 
-    print(f"\nTerminat: {len(valid_servers)}/{len(servers)} servere ramase")
+    for server, result in results:
+        if result.ok:
+            reachable.append(server)
+        else:
+            unreachable.append(server)
+
+    # Safety/reliability default:
+    # do not delete entries merely because they had one transient network failure.
+    if KEEP_UNREACHABLE:
+        data["servers"] = servers
+    else:
+        data["servers"] = reachable
+
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+        f.write("\n")
+
+    print(
+        f"\nFinished: {len(reachable)}/{len(servers)} portals reachable; "
+        f"{len(unreachable)} unreachable.",
+        flush=True,
+    )
 
     if GITHUB_OUTPUT:
-        with open(GITHUB_OUTPUT, "a") as f:
-            f.write(f"valid_servers={len(valid_servers)}\n")
+        with open(GITHUB_OUTPUT, "a", encoding="utf-8") as f:
+            f.write(f"reachable_servers={len(reachable)}\n")
+            f.write(f"unreachable_servers={len(unreachable)}\n")
             f.write(f"total_servers={len(servers)}\n")
-            f.write(f"valid_macs={sum(len(s['macs']) for s in valid_servers)}\n")
 
-    return len(valid_servers) > 0
+    # Network failures should not make the whole workflow fail.
+    # Input/download/JSON errors still raise and fail the job.
+    return True
 
 
 if __name__ == "__main__":
-    success = main()
+    try:
+        success = main()
+    except Exception as exc:
+        print(f"Fatal error: {type(exc).__name__}: {exc}", file=sys.stderr, flush=True)
+        sys.exit(1)
+
     sys.exit(0 if success else 1)
