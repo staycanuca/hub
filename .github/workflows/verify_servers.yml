@@ -41,9 +41,14 @@ jobs:
 
       - name: Run server verification
         env:
-          SERVERS_URL: https://raw.githubusercontent.com/staycanuca/hub/refs/heads/main/_tools/servers.json
-          OUTPUT_FILE: servers.json
-          PYTHONUNBUFFERED: "1"
+            SERVERS_URL: https://raw.githubusercontent.com/staycanuca/hub/refs/heads/main/_tools/servers.json
+            OUTPUT_FILE: servers.json
+            MAX_WORKERS: "8"
+            CONNECT_TIMEOUT: "3"
+            READ_TIMEOUT: "7"
+            KEEP_UNREACHABLE: "true"
+            VERIFY_TLS: "false"
+            PYTHONUNBUFFERED: "1"
         run: python -u _tools/verify_servers.py
 
       - name: Check for changes
