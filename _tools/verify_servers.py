@@ -1,4 +1,6 @@
+#!/usr/bin/env python3
 import json
+import logging
 import os
 import sys
 import time
@@ -27,6 +29,8 @@ VERIFY_TLS = os.environ.get("VERIFY_TLS", "false").lower() in {"1", "true", "yes
 KEEP_UNREACHABLE = os.environ.get("KEEP_UNREACHABLE", "true").lower() in {
     "1", "true", "yes", "on"
 }
+RETRIES = int(os.environ.get("RETRIES", "1"))
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 
 DEFAULT_HEADERS = {
     "User-Agent": (
@@ -47,6 +51,8 @@ PORTAL_PATHS = (
     "stalker_portal/server/load.php",
 )
 
+logger = logging.getLogger(__name__)
+
 
 @dataclass
 class PortalResult:
@@ -58,11 +64,12 @@ class PortalResult:
 
 
 def build_session() -> requests.Session:
+    # Configure retries (connect/read/status) with small backoff
     retry = Retry(
-        total=1,
-        connect=1,
+        total=RETRIES,
+        connect=RETRIES,
         read=0,
-        status=1,
+        status=RETRIES,
         backoff_factor=0.2,
         status_forcelist=(429, 500, 502, 503, 504),
         allowed_methods=frozenset({"GET", "HEAD"}),
@@ -93,36 +100,62 @@ def candidate_urls(base_url: str):
             yield url
 
 
-def check_portal(portal_url: str) -> PortalResult:
+def check_portal(session: requests.Session, portal_url: str) -> PortalResult:
     started = time.monotonic()
     last_error = None
     last_status = None
 
-    with build_session() as session:
-        for url in candidate_urls(portal_url):
+    # Try candidate URLs; prefer HEAD (lightweight), fallback to GET
+    for url in candidate_urls(portal_url):
+        try:
+            # First try HEAD to avoid downloading content
             try:
-                response = session.get(
+                head_resp = session.head(
+                    url,
+                    timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+                    verify=VERIFY_TLS,
+                    allow_redirects=True,
+                )
+                last_status = head_resp.status_code
+                # treat 200-399 as success
+                if 200 <= head_resp.status_code < 400:
+                    return PortalResult(
+                        ok=True,
+                        status_code=head_resp.status_code,
+                        checked_url=url,
+                        elapsed=time.monotonic() - started,
+                    )
+                # Some servers reply 405 Method Not Allowed for HEAD; try GET below
+                if head_resp.status_code in (405,):
+                    pass
+            except requests.RequestException as exc:
+                # HEAD may fail for some servers — we will attempt GET next
+                last_error = f"{type(exc).__name__}: {exc}"
+
+            # Now try GET but avoid downloading whole body: stream=True and close immediately
+            try:
+                resp = session.get(
                     url,
                     timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
                     verify=VERIFY_TLS,
                     allow_redirects=True,
                     stream=True,
                 )
-                last_status = response.status_code
-
-                # We only need HTTP reachability, not the entire response body.
-                response.close()
-
-                if 200 <= response.status_code < 400:
+                last_status = resp.status_code
+                resp.close()
+                if 200 <= resp.status_code < 400:
                     return PortalResult(
                         ok=True,
-                        status_code=response.status_code,
+                        status_code=resp.status_code,
                         checked_url=url,
                         elapsed=time.monotonic() - started,
                     )
-
             except requests.RequestException as exc:
                 last_error = f"{type(exc).__name__}: {exc}"
+
+        except Exception as exc:
+            # Catch-all to avoid killing the whole run for one bad candidate
+            last_error = f"{type(exc).__name__}: {exc}"
 
     return PortalResult(
         ok=False,
@@ -132,48 +165,73 @@ def check_portal(portal_url: str) -> PortalResult:
     )
 
 
-def verify_server(index: int, server: dict):
+def verify_server(index: int, server: dict, session: requests.Session):
     name = server.get("name") or f"server-{index + 1}"
     portal_url = str(server.get("portal_url") or "").strip()
 
     if not portal_url:
         return index, server, PortalResult(ok=False, error="missing portal_url")
 
-    result = check_portal(portal_url)
+    result = check_portal(session, portal_url)
     return index, server, result
 
 
-def fetch_input() -> dict:
-    with build_session() as session:
-        response = session.get(
-            SERVERS_URL,
-            timeout=(5, 20),
-            verify=VERIFY_TLS,
-        )
-        response.raise_for_status()
-        return response.json()
+def fetch_input(session: requests.Session) -> dict:
+    # Support HTTP(S) or local file paths (file:// or plain path)
+    if SERVERS_URL.startswith(("http://", "https://")):
+        resp = session.get(SERVERS_URL, timeout=(5, 20), verify=VERIFY_TLS)
+        resp.raise_for_status()
+        try:
+            return resp.json()
+        except ValueError as exc:
+            raise ValueError(f"Failed to parse JSON from {SERVERS_URL}: {exc}")
+    else:
+        # treat SERVERS_URL as local path
+        path = SERVERS_URL
+        if path.startswith("file://"):
+            path = path[7:]
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Local servers file not found: {path}")
+        with open(path, "r", encoding="utf-8") as f:
+            try:
+                return json.load(f)
+            except ValueError as exc:
+                raise ValueError(f"Failed to parse JSON from {path}: {exc}")
 
 
 def main() -> bool:
-    print(f"Fetching servers from: {SERVERS_URL}", flush=True)
-    data = fetch_input()
+    logging.basicConfig(
+        level=getattr(logging, LOG_LEVEL, logging.INFO),
+        format="%(asctime)s %(levelname)-5s %(message)s",
+    )
+
+    logger.info("Fetching servers from: %s", SERVERS_URL)
+    session = build_session()
+
+    try:
+        data = fetch_input(session)
+    except Exception:
+        logger.exception("Failed to fetch/parse servers input")
+        raise
 
     servers = data.get("servers", [])
     if not isinstance(servers, list):
         raise ValueError("'servers' must be a list")
 
-    print(
-        f"Checking {len(servers)} portals "
-        f"(workers={MAX_WORKERS}, timeout={CONNECT_TIMEOUT}/{READ_TIMEOUT}s, "
-        f"keep_unreachable={KEEP_UNREACHABLE})...",
-        flush=True,
+    logger.info(
+        "Checking %d portals (workers=%d, timeout=%ss/%ss, keep_unreachable=%s)...",
+        len(servers),
+        MAX_WORKERS,
+        CONNECT_TIMEOUT,
+        READ_TIMEOUT,
+        KEEP_UNREACHABLE,
     )
 
     results = [None] * len(servers)
 
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         futures = {
-            executor.submit(verify_server, index, server): index
+            executor.submit(verify_server, index, server, session): index
             for index, server in enumerate(servers)
         }
 
@@ -193,18 +251,10 @@ def main() -> bool:
             name = server.get("name") or f"server-{index + 1}"
             portal_url = server.get("portal_url", "")
             if result.ok:
-                print(
-                    f"[OK]   {name} - {portal_url} "
-                    f"({result.status_code}, {result.elapsed:.1f}s)",
-                    flush=True,
-                )
+                logger.info("[OK]   %s - %s (%s, %.1fs)", name, portal_url, result.status_code, result.elapsed)
             else:
                 reason = result.error or f"HTTP {result.status_code}"
-                print(
-                    f"[FAIL] {name} - {portal_url} "
-                    f"({reason}, {result.elapsed:.1f}s)",
-                    flush=True,
-                )
+                logger.warning("[FAIL] %s - %s (%s, %.1fs)", name, portal_url, reason, result.elapsed)
 
     reachable = []
     unreachable = []
@@ -215,31 +265,38 @@ def main() -> bool:
         else:
             unreachable.append(server)
 
-    # Safety/reliability default:
-    # do not delete entries merely because they had one transient network failure.
     if KEEP_UNREACHABLE:
         data["servers"] = servers
     else:
         data["servers"] = reachable
 
+    # Write output file
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
         f.write("\n")
 
-    print(
-        f"\nFinished: {len(reachable)}/{len(servers)} portals reachable; "
-        f"{len(unreachable)} unreachable.",
-        flush=True,
+    logger.info(
+        "Finished: %d/%d portals reachable; %d unreachable.",
+        len(reachable),
+        len(servers),
+        len(unreachable),
     )
 
     if GITHUB_OUTPUT:
-        with open(GITHUB_OUTPUT, "a", encoding="utf-8") as f:
-            f.write(f"reachable_servers={len(reachable)}\n")
-            f.write(f"unreachable_servers={len(unreachable)}\n")
-            f.write(f"total_servers={len(servers)}\n")
+        try:
+            with open(GITHUB_OUTPUT, "a", encoding="utf-8") as f:
+                f.write(f"reachable_servers={len(reachable)}\n")
+                f.write(f"unreachable_servers={len(unreachable)}\n")
+                f.write(f"total_servers={len(servers)}\n")
+        except Exception:
+            logger.exception("Failed to write to GITHUB_OUTPUT file")
 
-    # Network failures should not make the whole workflow fail.
-    # Input/download/JSON errors still raise and fail the job.
+    # Close shared session
+    try:
+        session.close()
+    except Exception:
+        logger.debug("Error closing session", exc_info=True)
+
     return True
 
 
@@ -247,6 +304,8 @@ if __name__ == "__main__":
     try:
         success = main()
     except Exception as exc:
+        # Log full traceback to stderr for CI visibility
+        logger.exception("Fatal error")
         print(f"Fatal error: {type(exc).__name__}: {exc}", file=sys.stderr, flush=True)
         sys.exit(1)
 
